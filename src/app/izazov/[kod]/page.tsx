@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kod } = await params;
   const s = await sazetakIzazova(kod);
   if (!s) return { title: "Pošto?", robots: { index: false } };
-  const opis = `${s.ime}${s.zupanija ? ` (${s.zupanija})` : ""} kaže: ${s.mamac}. Ima ${s.ukupno}/500. A ti?`;
+  const opis = `${s.ime}${s.zupanija ? ` (${s.zupanija})` : ""} kaže: "${s.izjava}" A tvoje?`;
   return {
     title: `${s.ime} te izaziva na Pošto?`,
     description: opis,
@@ -65,7 +65,7 @@ export default async function Izazov({ params }: Props) {
             {s.ime}
             {s.zupanija ? ` (${s.zupanija})` : ""} te izaziva
           </b>
-          Ima {s.ukupno} od 500 bodova i kaže: {s.mamac}. Tko je bliže cijeni, uzima rundu.
+          Kaže: "{s.izjava}" Ima {s.ukupno} od {s.najvise} bodova. Tko je bliže cijeni, uzima rundu.
         </div>
         <StariRacun racun={javni} />
         <Igra
@@ -90,7 +90,7 @@ export default async function Izazov({ params }: Props) {
         <h1 className="naslov">{s.ime} te izaziva</h1>
         <p className="prica">
           {s.ime}
-          {s.zupanija ? ` (${s.zupanija})` : ""} ima {s.ukupno} od 500 bodova na računu "{s.naslov}".
+          {s.zupanija ? ` (${s.zupanija})` : ""} ima {s.ukupno} od {s.najvise} bodova na računu "{s.naslov}".
         </p>
       </section>
       {mojaIgra ? (

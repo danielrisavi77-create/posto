@@ -6,10 +6,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.POSTO_SITE_URL ?? "http://localhost:3000"),
   title: "Pošto?",
-  description: "Svaki dan jedan stari račun u kunama. Pogodi koliko iste stvari koštaju danas i izazovi drugu županiju.",
+  description: "Stari račun u kunama, tri cijene i presuda: iz koje su godine tvoje cijene? Jedan račun dnevno.",
   openGraph: {
     title: "Pošto?",
-    description: "Stari račun u kunama. Pošto je to danas?",
+    description: "Iz koje su godine tvoje cijene? Pogodi pošto je to danas.",
     locale: "hr_HR",
     type: "website",
   },

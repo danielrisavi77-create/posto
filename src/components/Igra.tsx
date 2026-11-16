@@ -152,7 +152,9 @@ export function Igra(p: Props) {
               </div>
             ))}
             <hr className="crta" />
-            <p className="sitno">Četiri stavke i jedno pitanje na poleđini. Za svaku kažeš koliko košta danas, u eurima.</p>
+            <p className="sitno">
+              {stare.length === 3 ? "Tri stavke" : `${stare.length} stavke`} i jedno pitanje na poleđini. Za svaku kažeš koliko košta danas, u eurima. Na kraju saznaš iz koje su godine tvoje cijene.
+            </p>
           </section>
         </div>
         <div className="traka-dolje">

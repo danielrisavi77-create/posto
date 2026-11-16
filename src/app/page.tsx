@@ -26,8 +26,8 @@ export default async function Pocetna() {
       <Vrh />
 
       <section className="na-stolu uvod">
-        <h1 className="naslov velik">Našao si stari račun u kunama. Pošto je to danas?</h1>
-        <p className="prica">Svaki dan jedan račun i pet cijena. Pogađaš koliko iste stvari koštaju danas, a bodovi idu tebi i tvojoj županiji.</p>
+        <h1 className="naslov velik">Iz koje su godine tvoje cijene?</h1>
+        <p className="prica">Pogodi koliko iste stvari koštaju danas i saznaj iz koje su godine tvoje cijene. Jedan račun dnevno, manje od minute.</p>
       </section>
 
       {gotovo ? (
@@ -57,9 +57,9 @@ export default async function Pocetna() {
         <section className="na-stolu kako" aria-label="Kako se igra">
           <h2 className="podnaslov">Kako se igra</h2>
           <ol className="upute">
-            <li>Na računu su četiri stvari sa starim cijenama u kunama, a peta je na poleđini.</li>
+            <li>Na računu su tri stvari sa starim cijenama u kunama, a četvrta je na poleđini.</li>
             <li>Za svaku povučeš klizač na cijenu koju misliš da ima danas.</li>
-            <li>Što si bliže, to više bodova. Jedan pokušaj dnevno, novi račun u ponoć.</li>
+            <li>Na kraju dobiješ presudu: iz koje su godine tvoje cijene. Jedan pokušaj dnevno, novi račun u ponoć.</li>
             <li>Jednom po računu možeš igrati duplu: dvostruki bodovi ako si unutar 15 % cijene, inače nula.</li>
           </ol>
         </section>

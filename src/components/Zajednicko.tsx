@@ -27,9 +27,9 @@ export function Papir({ children, stari, nakrivo, oznaka }: { children: React.Re
   );
 }
 
-/** Pronađeni kunski račun: prve četiri stavke (peto pitanje je na poleđini). */
+/** Pronađeni kunski račun: sve stavke osim zadnje (zadnje pitanje je na poleđini). */
 export function StariRacun({ racun }: { racun: JavniRacun }) {
-  const stavke = racun.set.slice(0, 4);
+  const stavke = racun.set.slice(0, -1);
   const ukupno = zbroj(stavke.map((a) => a.kn ?? 0));
   return (
     <Papir stari nakrivo oznaka="Pronađeni račun u kunama">

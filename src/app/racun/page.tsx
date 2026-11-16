@@ -7,7 +7,7 @@ import { Odbrojavanje } from "@/components/Odbrojavanje";
 import { Tablice } from "@/components/Tablice";
 import { Papir, Vrh } from "@/components/Zajednicko";
 import { adresaStranice } from "@/lib/adresa";
-import { EMOJI, eur, kune, osjecaj, post, razred, runda, tipKupca } from "@/lib/bodovanje";
+import { EMOJI, eur, kune, osjecaj, post, presuda, razred, runda } from "@/lib/bodovanje";
 import { danBroj, danaDoKrajaSezone, datumTekst, imeSezone, sekundiDoPonoci, sezona } from "@/lib/dan";
 import { derbi } from "@/lib/derbi";
 import { igracId, mamacIgre, protivnikIgre, usporedba } from "@/lib/igra";
@@ -40,8 +40,10 @@ export default async function RacunStranica() {
 
   const razredi = set.map((a, i) => razred(igra.pogodci[i], a.c));
   const o = osjecaj(racun.stavke.map((s) => s.st), racun.stavke.map((s) => s.c), igra.pogodci);
-  const tip = tipKupca(o);
-  const finTi = igra.pogodci[4] / fin.st - 1;
+  const sud = presuda(racun.stavke.map((s) => s.c), igra.pogodci);
+  const najvise_bodova = set.length * 100;
+  const zadnji = set.length - 1;
+  const finTi = igra.pogodci[zadnji] / fin.st - 1;
   const finStv = fin.c / fin.st - 1;
   const imaProcjena = set.some((s) => s.procjena);
 
@@ -68,8 +70,8 @@ export default async function RacunStranica() {
 
   const najvise = Math.max(o.ti, o.stvarno, finStv, racun.sluzbena?.p ?? 0, 0.01);
   const stupci: { kl: string; naziv: string; v: number }[] = [
-    { kl: "ti", naziv: "Po tebi (ove 4 stavke)", v: o.ti },
-    { kl: "st", naziv: "Stvarno (ove 4 stavke)", v: o.stvarno },
+    { kl: "ti", naziv: `Po tebi (ove ${racun.stavke.length} stavke)`, v: o.ti },
+    { kl: "st", naziv: `Stvarno (ove ${racun.stavke.length} stavke)`, v: o.stvarno },
     ...(racun.sluzbena ? [{ kl: "sl", naziv: racun.sluzbena.t, v: racun.sluzbena.p }] : []),
     { kl: "pl", naziv: `${fin.rijec ?? fin.ime} od ${fin.god}`, v: finStv },
   ];
@@ -77,15 +79,24 @@ export default async function RacunStranica() {
 
   const tekst =
     `Pošto? br. ${dan}, ${racun.naslov.toLowerCase()}\n` +
-    `${razredi.map((r) => EMOJI[r]).join("")} ${igra.ukupno}/500\n` +
-    `Kažem da je ${mamacIgre(igra)}. A ti?\n` +
-    `Tip kupca: ${tip.ime}\n` +
+    `${razredi.map((r) => EMOJI[r]).join("")} ${igra.ukupno}/${najvise_bodova}\n` +
+    `${sud.izjava} A tvoje?\n` +
+    `Kažem da je ${mamacIgre(igra)}.\n` +
     (igra.zupanija ? `${igra.zupanija}: ${mjestoZup}. u ligi županija\n` : "") +
     `Igraj protiv mene:`;
 
   return (
     <>
       <Vrh />
+      <section className="na-stolu presuda" aria-label="Presuda">
+        <span className="kat">Presuda blagajne</span>
+        <h1 className="naslov velik">{sud.naslov}</h1>
+        <p className="prica">{sud.opis}</p>
+        <p className="napomena">Godina je izračunata iz tvojih odgovora i opće razine cijena u Hrvatskoj (Eurostat). To je igra, ne mjera inflacije.</p>
+      </section>
+
+      <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} slika={`/izazov/${igra.kod}/slika`} napomena="Na slici nema današnjih cijena, pa nikome ne kvariš igru. Tko otvori link, igra dvoboj baš protiv tebe." />
+
       <Papir oznaka="Tvoj račun">
         <p className="glava">
           <b>POŠTO?</b>
@@ -122,7 +133,9 @@ export default async function RacunStranica() {
         <hr className="crta" />
         <div className="red ukupno">
           <span>UKUPNO BODOVA</span>
-          <span>{igra.ukupno} / 500</span>
+          <span>
+            {igra.ukupno} / {najvise_bodova}
+          </span>
         </div>
         <div className="red">
           <span>Dvoboj</span>
@@ -168,18 +181,11 @@ export default async function RacunStranica() {
           Košarica: {eur(o.staro)} nekad, {eur(o.novo)} danas, {eur(o.moje)} po tebi. {fin.rijec ?? fin.ime}: rekao si {post(finTi)}, stvarno {post(finStv)}.
         </span>
 
-        <div className="pecat">
-          <small>tip kupca</small>
-          {tip.ime}
-        </div>
-        <p style={{ textAlign: "center" }}>{tip.opis}</p>
         <span className="sitno">
-          Četiri stavke nisu statistička košarica: služe za usporedbu tvog osjećaja i cijena, ne kao mjera inflacije.
+          Nekoliko stavki nije statistička košarica: služe za usporedbu tvog osjećaja i cijena, ne kao mjera inflacije.
           {imaProcjena ? " Današnje cijene na ovom računu su procjene za rujan 2026. (DZS-ov prosjek uvećan za rast cijena skupine prema Eurostatu)." : ""}
         </span>
       </Papir>
-
-      <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} slika={`/izazov/${igra.kod}/slika`} napomena="Na slici nema današnjih cijena, pa nikome ne kvariš igru. Tko otvori link, igra dvoboj baš protiv tebe." />
 
       {!igra.nadimak || !igra.zupanija ? <KupacForma nadimak={igra.nadimak} zupanija={igra.zupanija} /> : null}
 

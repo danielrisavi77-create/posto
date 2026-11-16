@@ -9,11 +9,11 @@ export const VELICINA = { width: 1200, height: 630 };
 export const VELICINA_USPRAVNO = { width: 1080, height: 1350 };
 
 const BOJE: Record<Razred, string> = { g: "#1D7A46", y: "#F5B700", o: "#F47B20", r: "#C9142B" };
-const STOL = "#B9CBE6";
-const PAPIR = "#FCFBF7";
-const TISAK = "#2B2832";
-const KEMIJSKA = "#1B3FA6";
-const CRVENA = "#C9142B";
+const STOL = "#1C5A43";
+const PAPIR = "#FBF8EE";
+const TISAK = "#17251F";
+const KEMIJSKA = "#1D3F86";
+const CRVENA = "#9A2B3B";
 
 async function fontovi() {
   const ucitaj = (ime: string) => readFile(join(process.cwd(), "assets", "fonts", ime));
@@ -38,7 +38,7 @@ const F_TISAK = "Tisak, TisakExt";
 
 function Znak({ velicina }: { velicina: number }) {
   return (
-    <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: velicina, lineHeight: 1, color: CRVENA, background: "#FFDF3A", padding: `${velicina * 0.1}px ${velicina * 0.32}px ${velicina * 0.16}px`, borderRadius: 8, transform: "rotate(-3deg)" }}>
+    <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: velicina, lineHeight: 1, color: PAPIR, background: TISAK, padding: `${velicina * 0.1}px ${velicina * 0.32}px ${velicina * 0.16}px`, borderRadius: 8 }}>
       Pošto?
     </div>
   );
@@ -59,7 +59,7 @@ export async function slikaOpca(): Promise<ImageResponse> {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: STOL, padding: 40 }}>
-        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: PAPIR, padding: 48, color: TISAK, transform: "rotate(-1deg)" }}>
+        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: PAPIR, padding: 48, color: TISAK, }}>
           <div style={{ display: "flex" }}>
             <Znak velicina={84} />
           </div>
@@ -85,7 +85,9 @@ export type PodaciIzazova = {
   /** npr. "Krumpir: 1,20 €" (igračev odgovor, ne cijena) */
   mamac: string;
   stavke: { ime: string; razred: Razred; bodovi: number }[];
+  /** presuda u prvom licu */
   tip: string;
+  najvise: number;
 };
 
 /** Pregled linka izazova: vodoravno. */
@@ -93,17 +95,19 @@ export async function slikaIzazova(s: PodaciIzazova): Promise<ImageResponse> {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", background: STOL, padding: 40 }}>
-        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: PAPIR, padding: 44, color: TISAK, transform: "rotate(-1deg)" }}>
+        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: PAPIR, padding: 44, color: TISAK, }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <Znak velicina={76} />
-            <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: 112, lineHeight: 1 }}>{s.ukupno}/500</div>
+            <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: 112, lineHeight: 1 }}>
+              {s.ukupno}/{s.najvise}
+            </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontFamily: F_TISAK, fontSize: 34 }}>
               {s.zupanija ? `${s.ime} (${s.zupanija}) kaže:` : `${s.ime} kaže:`}
             </div>
-            <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: s.mamac.length > 26 ? 84 : 104, lineHeight: 1.05, color: KEMIJSKA }}>{s.mamac}</div>
-            <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: 64, lineHeight: 1, color: CRVENA }}>A ti? Pošto je to danas?</div>
+            <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: s.tip.length > 30 ? 80 : 100, lineHeight: 1.02, color: KEMIJSKA, textTransform: "uppercase" }}>{s.tip}</div>
+            <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: 68, lineHeight: 1.1, color: CRVENA }}>A tvoje? Pošto je to danas?</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <Kvadrati razredi={s.razredi} velicina={64} />
@@ -122,7 +126,7 @@ export async function slikaRacuna(s: PodaciIzazova): Promise<ImageResponse> {
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: STOL }}>
-        <div style={{ width: 900, display: "flex", flexDirection: "column", background: PAPIR, padding: "56px 56px 64px", color: TISAK, fontFamily: F_TISAK, fontSize: 38, transform: "rotate(-1.5deg)" }}>
+        <div style={{ width: 900, display: "flex", flexDirection: "column", background: PAPIR, padding: "56px 56px 64px", color: TISAK, fontFamily: F_TISAK, fontSize: 38, }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <Znak velicina={72} />
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", fontSize: 30 }}>
@@ -145,15 +149,14 @@ export async function slikaRacuna(s: PodaciIzazova): Promise<ImageResponse> {
           {crta()}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div style={{ display: "flex", fontSize: 40 }}>UKUPNO BODOVA</div>
-            <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: 92, lineHeight: 1 }}>{s.ukupno}/500</div>
+            <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: 92, lineHeight: 1 }}>
+              {s.ukupno}/{s.najvise}
+            </div>
           </div>
           {crta()}
-          <div style={{ display: "flex", fontSize: 32 }}>Kažem da je</div>
-          <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: s.mamac.length > 24 ? 80 : 100, lineHeight: 1.05, color: KEMIJSKA }}>{s.mamac}</div>
-          <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: 70, lineHeight: 1, color: CRVENA }}>A ti? Pošto je to danas?</div>
-          <div style={{ display: "flex", alignSelf: "center", marginTop: 34, fontFamily: F_NASLOV, fontSize: 58, lineHeight: 1, color: CRVENA, border: `7px solid ${CRVENA}`, borderRadius: 12, padding: "12px 30px 16px", transform: "rotate(-6deg)", textTransform: "uppercase" }}>
-            {s.tip}
-          </div>
+          <div style={{ display: "flex", fontFamily: F_NASLOV, fontSize: s.tip.length > 30 ? 84 : 104, lineHeight: 1.02, color: KEMIJSKA, textTransform: "uppercase" }}>{s.tip}</div>
+          <div style={{ display: "flex", fontSize: 32, marginTop: 18 }}>Kažem da je {s.mamac}.</div>
+          <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: 76, lineHeight: 1.1, color: CRVENA }}>A tvoje? Pošto je to danas?</div>
         </div>
       </div>
     ),

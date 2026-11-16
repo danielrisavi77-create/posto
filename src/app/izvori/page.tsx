@@ -32,7 +32,7 @@ export default function Izvori() {
           <p>Plaće po županijama su DZS-ovi podaci: godišnji prosjek za 2022. i prosjek za prva tri mjeseca 2026. Od 2024. DZS plaće prati iz drugog izvora podataka, pa usporedba nije savršena, ali je najbolja službena.</p>
 
           <h2>Što igra nije</h2>
-          <p>Četiri stavke na jednom računu nisu statistička košarica. Postoci na kraju računa pokazuju koliko se tvoj osjećaj za cijene razlikuje od podataka, a ne kolika je inflacija.</p>
+          <p>Nekoliko stavki na jednom računu nisu statistička košarica. Postoci na kraju računa pokazuju koliko se tvoj osjećaj za cijene razlikuje od podataka, a ne kolika je inflacija.</p>
 
           <p>
             Našao si grešku u cijeni? Javi nam, ispravit ćemo. <Link href="/privatnost">Kontakt je na stranici o privatnosti</Link>.

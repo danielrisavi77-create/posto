@@ -142,12 +142,31 @@ const RUCNI: Racun[] = [
 
 // Raspored: ručni računi (2016. i stariji) raspoređeni su među DZS-ove (prosinac 2022.), da tjedan ne bude jednoličan.
 // Novi računi dodaju se NA KRAJ popisa; postojeći redoslijed se ne dira.
-export const RACUNI: Racun[] = [
+/** Izvorni računi s četiri stavke. Ostaju dohvatljivi po oznaci zbog igara odigranih prije skraćivanja. */
+const PUNI: Racun[] = [
   RUCNI[0], ...RACUNI_DZS.slice(0, 6),
   RUCNI[1], ...RACUNI_DZS.slice(6, 13),
   RUCNI[2], ...RACUNI_DZS.slice(13, 20),
   RUCNI[3], ...RACUNI_DZS.slice(20),
 ];
+
+// Koliko je stavka "za svađu za stolom": usluge i izlasci prije namirnica, poznate namirnice prije ostalih.
+const ZANIMLJIVO: [RegExp, number][] = [
+  [/kafić|espresso|pizza|restoran|odrezak|pivo|vino|kino|kazališt|šišanje|teretana|bazen|masaža|pedikura|automobila|zidine|plitvič|hrt|stana|bojler|zubnog|krvna|tečaj|računa|dopunsko|kemijsko/, 3],
+  [/kruh|mlijeko|maslac|jaja|kava|čokolad|lješnjak|ulje|šećer|pile|krafna|čips|sir|banane|krumpir|keks|hrenovke|pašteta|vegeta|tuna/, 2],
+];
+function zanimljivost(s: Stavka): number {
+  const n = s.ime.toLowerCase();
+  return ZANIMLJIVO.find(([u]) => u.test(n))?.[1] ?? 1;
+}
+/** Tri najzanimljivije od četiri stavke, u izvornom redoslijedu. Igra s tri stavke i poleđinom traje ispod minute. */
+function skrati(r: Racun): Racun {
+  const izbor = r.stavke.map((s, i) => ({ s, i, z: zanimljivost(s) })).sort((a, b) => b.z - a.z || a.i - b.i).slice(0, 3).sort((a, b) => a.i - b.i);
+  // Nova oznaka: skraćeni račun je drugi račun, pa stare igre i dalje nalaze svoj izvornik s četiri stavke.
+  return { ...r, id: `${r.id}-3`, stavke: izbor.map((x) => x.s) };
+}
+
+export const RACUNI: Racun[] = PUNI.map(skrati);
 
 /** Račun koji NOVA igra dobiva na zadani dan. Dok nema više sadržaja, računi se vrte u krug.
  *  Za već započetu igru uvijek koristi racunIgre(): raspored se mijenja kad se doda sadržaj. */
@@ -158,7 +177,7 @@ export function racunZaDan(dan: number): Racun {
 
 /** Račun po kojem je igra stvarno odigrana (spremljena oznaka), neovisno o današnjem rasporedu. */
 export function racunIgre(igra: { dan: number; racun: string }): Racun {
-  return RACUNI.find((r) => r.id === igra.racun) ?? racunZaDan(igra.dan);
+  return RACUNI.find((r) => r.id === igra.racun) ?? PUNI.find((r) => r.id === igra.racun) ?? racunZaDan(igra.dan);
 }
 
 export function setRacuna(r: Racun): Stavka[] {

@@ -1,7 +1,7 @@
 // SAMO SERVER. Pravila igre: start, pogodak, otkrivanje, protivnik.
 import { cookies, headers } from "next/headers";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import { bodovi, eur, osjecaj, pogreska, razred, rng, runda, tipKupca, zaokruzi, type Razred } from "./bodovanje";
+import { bodovi, eur, pogreska, presuda, razred, rng, runda, zaokruzi, type Razred } from "./bodovanje";
 import { danBroj, sezona } from "./dan";
 import { pohrana, type Bot, type Igra } from "./pohrana";
 import { IZVORI, racunIgre, racunZaDan, setRacuna, type Izvor, type Stavka } from "./racuni";
@@ -285,7 +285,7 @@ export async function postaviKupca(zupanijaSirova: string, nadimakSirovi: string
 }
 
 /** Javni sažetak završene igre za stranicu izazova i sliku pregleda. Ne sadrži cijene ni pogotke. */
-export type Sazetak = { ime: string; zupanija: string; ukupno: number; razredi: Razred[]; dan: number; naslov: string; danasnji: boolean; racun: string; /** jedan odgovor izazivača, bez točne cijene: mamac za dvoboj */ mamac: string };
+export type Sazetak = { ime: string; zupanija: string; ukupno: number; razredi: Razred[]; dan: number; naslov: string; danasnji: boolean; racun: string; najvise: number; /** presuda u prvom licu, npr. "Moje cijene su iz 2019." */ izjava: string; /** jedan odgovor izazivača, bez točne cijene: mamac za dvoboj */ mamac: string };
 
 export async function sazetakIzazova(kod: string): Promise<Sazetak | null> {
   if (!KOD.test(kod)) return null;
@@ -296,7 +296,7 @@ export async function sazetakIzazova(kod: string): Promise<Sazetak | null> {
   return {
     ime: g.nadimak || "Anonimni kupac", zupanija: g.zupanija, ukupno: g.ukupno,
     razredi: set.map((a, i) => razred(g.pogodci[i], a.c)), dan: g.dan, naslov: racun.naslov, danasnji: g.dan === danBroj(), racun: racun.id,
-    mamac: mamacIgre(g),
+    mamac: mamacIgre(g), najvise: set.length * 100, izjava: presuda(racun.stavke.map((x) => x.c), g.pogodci).izjava,
   };
 }
 
@@ -323,11 +323,10 @@ export async function podaciZaSliku(kod: string) {
   if (!g || !g.gotovo) return null;
   const racun = racunIgre(g);
   const set = setRacuna(racun);
-  const o = osjecaj(racun.stavke.map((x) => x.st), racun.stavke.map((x) => x.c), g.pogodci);
   return {
     ime: g.nadimak || "Anonimni kupac", zupanija: g.zupanija, naslov: racun.naslov, dan: g.dan, ukupno: g.ukupno,
     razredi: set.map((a, i) => razred(g.pogodci[i], a.c)), mamac: mamacIgre(g),
     stavke: set.map((a, i) => ({ ime: a.ime, razred: razred(g.pogodci[i], a.c), bodovi: g.bodovi[i] })),
-    tip: tipKupca(o).ime,
+    tip: presuda(racun.stavke.map((x) => x.c), g.pogodci).izjava, najvise: set.length * 100,
   };
 }

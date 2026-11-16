@@ -29,7 +29,7 @@ const slika = (p, ime) => (SLIKE ? p.screenshot({ path: `${SLIKE}/${ime}.png`, f
 async function igraj(p, zupanija, nadimak, faktor, o = {}) {
   const pocni = await p.$("button.pocni");
   if (pocni) await pocni.click();
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     await p.waitForSelector("#klizac:not([disabled])");
     if (i === o.refreshNa) {
       await p.reload();
@@ -91,6 +91,8 @@ ok(/\+(49|50|51)\s%/.test(await tekst(a, ".rast")), "brzi skok postavlja cijenu 
   ok((await tekst(a, ".upis .ruka")) !== prije, "povlačenje mjerne trake mijenja cijenu");
 }
 await igraj(a, "Grad Zagreb", "Daniel", 0.4, { refreshNa: 2, slike: true, bezUpisa: true });
+ok(/Tvoje cijene su iz (\d{4}|prošlog stoljeća)\./.test(await tekst(a, ".presuda")), "račun počinje presudom o godini cijena");
+ok(/Moje cijene su iz .+ A tvoje\?/.test(await tekst(a, "pre.poruka")), "poruka za dijeljenje nosi presudu");
 ok(/Anonimni kupac/.test(await tekst(a, RACUN)) && !/Blagajna/.test(await tekst(a, RACUN)), "račun se može platiti bez županije i nadimka");
 await slika(a, "racun-prije-upisa");
 await a.select("#zupanija", "Grad Zagreb");
