@@ -53,7 +53,7 @@ export function Dijeli({ naslov, tekst, link, napomena, slika }: Props) {
       <h2 className="naslov">{naslov}</h2>
       {slika ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img className="slika-racuna" src={slika} alt="Slika tvog računa za dijeljenje, bez današnjih cijena" width={1080} height={1350} loading="lazy" />
+        <img className="slika-racuna" src={slika} alt="Slika tvog računa za dijeljenje, bez današnjih cijena" width={1080} height={1350} />
       ) : null}
       <pre className="poruka">{puno}</pre>
       <div className="dvije">
