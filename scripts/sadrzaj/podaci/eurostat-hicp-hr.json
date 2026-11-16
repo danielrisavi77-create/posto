@@ -1,0 +1,2779 @@
+{
+"izvor": "Eurostat, prc_hicp_minr (HICP, ECOICOP ver. 2), geo=HR, unit=I25",
+"azurirano": "2026-11-04T11:00:00+0100",
+"zadnji_mjesec": "2026-09",
+"indeksi": {
+"TOTAL": {
+"naziv": "Total",
+"2022-12": 88.54,
+"2023-12": 93.28,
+"2026-09": 105.42
+},
+"CP01": {
+"naziv": "Food and non-alcoholic beverages",
+"2022-12": 86.68,
+"2023-12": 92.42,
+"2026-09": 100.72
+},
+"CP011": {
+"naziv": "Food",
+"2022-12": 87.62,
+"2023-12": 93.45,
+"2026-09": 100.26
+},
+"CP0111": {
+"naziv": "Cereals and cereal products (ND)",
+"2022-12": 91.17,
+"2023-12": 97.01,
+"2026-09": 100.34
+},
+"CP01111": {
+"naziv": "Cereals (ND)",
+"2022-12": 98.14,
+"2023-12": 101.49,
+"2026-09": 99.35
+},
+"CP01112": {
+"naziv": "Flour of cereals (ND)",
+"2022-12": 89.47,
+"2023-12": 96.73,
+"2026-09": 100.47
+},
+"CP01113": {
+"naziv": "Bread and bakery products (ND)",
+"2022-12": 91.05,
+"2023-12": 96.72,
+"2026-09": 100.79
+},
+"CP011131": {
+"naziv": "Bread",
+"2022-12": 92.61,
+"2023-12": 97.99,
+"2026-09": 102.23
+},
+"CP011139": {
+"naziv": "Other bakery products",
+"2022-12": 87.85,
+"2023-12": 94.18,
+"2026-09": 98.47
+},
+"CP01114": {
+"naziv": "Breakfast cereals (ND)",
+"2022-12": 88.97,
+"2023-12": 101.61,
+"2026-09": 98.23
+},
+"CP01115": {
+"naziv": "Macaroni, noodles, couscous and similar pasta products (ND)",
+"2022-12": 95.04,
+"2023-12": 98.14,
+"2026-09": 98.37
+},
+"CP01119": {
+"naziv": "Other milled cereal and grain products (ND)",
+"2022-12": 83.18,
+"2023-12": 92.24,
+"2026-09": 99.58
+},
+"CP0112": {
+"naziv": "Live animals, and meat and other parts of slaughtered land animals (ND)",
+"2022-12": 84.86,
+"2023-12": 91.26,
+"2026-09": 101.98
+},
+"CP01122": {
+"naziv": "Meat, fresh, chilled or frozen (ND)",
+"2022-12": 84.72,
+"2023-12": 90.64,
+"2026-09": 102.36
+},
+"CP011221": {
+"naziv": "Meat of bovine animals, fresh, chilled or frozen",
+"2022-12": 75.4,
+"2023-12": 80.41,
+"2026-09": 106.83
+},
+"CP011222": {
+"naziv": "Meat of pigs, fresh, chilled or frozen",
+"2022-12": 85.1,
+"2023-12": 102.25,
+"2026-09": 96.43
+},
+"CP011223": {
+"naziv": "Meat of goats, lambs and sheep, fresh, chilled or frozen",
+"2022-12": 75.92,
+"2023-12": 85.35,
+"2026-09": 103.29
+},
+"CP011224": {
+"naziv": "Meat of poultry, fresh, chilled or frozen",
+"2022-12": 97.76,
+"2023-12": 95.89,
+"2026-09": 101.81
+},
+"CP011225": {
+"naziv": "Meat of hares and rabbits, fresh, chilled or frozen",
+"2022-12": 87.38,
+"2023-12": 88.29,
+"2026-09": 105.44
+},
+"CP01123": {
+"naziv": "Meat, dried, salted, in brine or smoked (ND)",
+"2022-12": 84.71,
+"2023-12": 94.01,
+"2026-09": 100.85
+},
+"CP01124": {
+"naziv": "Offal, blood and other parts of slaughtered animals, fresh, chilled or frozen, dried, salted, in brine or smoked (ND)",
+"2022-12": 97.6,
+"2023-12": 94.01,
+"2026-09": 100.47
+},
+"CP01125": {
+"naziv": "Preparations of meat, offal, blood and other parts of slaughtered animals (ND)",
+"2022-12": 84.75,
+"2023-12": 87.65,
+"2026-09": 102.8
+},
+"CP0113": {
+"naziv": "Fish and other seafood (ND)",
+"2022-12": 84.04,
+"2023-12": 87.91,
+"2026-09": 105.61
+},
+"CP01131": {
+"naziv": "Fish, live, fresh, chilled or frozen (ND)",
+"2022-12": 82.61,
+"2023-12": 86.94,
+"2026-09": 107.71
+},
+"CP01133": {
+"naziv": "Fish preparations (ND)",
+"2022-12": 84.9,
+"2023-12": 89.64,
+"2026-09": 103.12
+},
+"CP01134": {
+"naziv": "Other seafood, live, fresh, chilled or frozen (ND)",
+"2022-12": 92.2,
+"2023-12": 90.8,
+"2026-09": 98.02
+},
+"CP0114": {
+"naziv": "Milk, other dairy products and eggs (ND)",
+"2022-12": 96.35,
+"2023-12": 93.18,
+"2026-09": 98.62
+},
+"CP01141": {
+"naziv": "Raw and whole milk (ND)",
+"2022-12": 94.05,
+"2023-12": 93.37,
+"2026-09": 95.09
+},
+"CP01142": {
+"naziv": "Skimmed milk (ND)",
+"2022-12": 88.79,
+"2023-12": 87.81,
+"2026-09": 99.65
+},
+"CP01143": {
+"naziv": "Other milk and cream (ND)",
+"2022-12": 89.19,
+"2023-12": 89.46,
+"2026-09": 97.87
+},
+"CP01144": {
+"naziv": "Non-animal milk (ND)",
+"2022-12": 93.86,
+"2023-12": 99.97,
+"2026-09": 106.89
+},
+"CP01145": {
+"naziv": "Cheese (ND)",
+"2022-12": 96.47,
+"2023-12": 90.49,
+"2026-09": 98.56
+},
+"CP01146": {
+"naziv": "Yoghurt and similar products (ND)",
+"2022-12": 104.18,
+"2023-12": 99.56,
+"2026-09": 100.6
+},
+"CP01147": {
+"naziv": "Milk-based dessert and beverages (ND)",
+"2022-12": 87.22,
+"2023-12": 87.48,
+"2026-09": 98.74
+},
+"CP01148": {
+"naziv": "Eggs (ND)",
+"2022-12": 101.92,
+"2023-12": 97.6,
+"2026-09": 104.62
+},
+"CP0115": {
+"naziv": "Oils and fats (ND)",
+"2022-12": 94.38,
+"2023-12": 91.82,
+"2026-09": 96.89
+},
+"CP01151": {
+"naziv": "Vegetable oils (ND)",
+"2022-12": 90.82,
+"2023-12": 89.78,
+"2026-09": 98.61
+},
+"CP011513": {
+"naziv": "Olive oil",
+"2022-12": 66.99,
+"2023-12": 96.87,
+"2026-09": 94.01
+},
+"CP01152": {
+"naziv": "Butter and other oils and fats derived from milk (ND)",
+"2022-12": 112.05,
+"2023-12": 96.05,
+"2026-09": 89.22
+},
+"CP01153": {
+"naziv": "Margarine and similar preparations (ND)",
+"2022-12": 86.54,
+"2023-12": 88.88,
+"2026-09": 99.64
+},
+"CP01159": {
+"naziv": "Other animal oils and fats (ND)",
+"2022-12": 108.01,
+"2023-12": 115.76,
+"2026-09": 95.4
+},
+"CP0116": {
+"naziv": "Fruits and nuts (ND)",
+"2022-12": 81.36,
+"2023-12": 93.01,
+"2026-09": 96.75
+},
+"CP01161": {
+"naziv": "Dates, figs and tropical fruits, fresh (ND)",
+"2022-12": 98.42,
+"2023-12": 102.69,
+"2026-09": 97.18
+},
+"CP01162": {
+"naziv": "Citrus fruits, fresh (ND)",
+"2022-12": 80.7,
+"2023-12": 83.52,
+"2026-09": 96.38
+},
+"CP01163": {
+"naziv": "Stone fruits and pome fruits, fresh (ND)",
+"2022-12": 76.34,
+"2023-12": 93.11,
+"2026-09": 91.5
+},
+"CP01164": {
+"naziv": "Berries, fresh (ND)",
+"2022-12": 77.04,
+"2023-12": 95.88,
+"2026-09": 111.69
+},
+"CP01165": {
+"naziv": "Other fruits, fresh (ND)",
+"2022-12": 68.05,
+"2023-12": 91.98,
+"2026-09": 88.39
+},
+"CP01166": {
+"naziv": "Fruits, frozen (ND)",
+"2022-12": 77.43,
+"2023-12": 84.63,
+"2026-09": 117.31
+},
+"CP01167": {
+"naziv": "Fruits, dried and dehydrated (ND)",
+"2022-12": 78.22,
+"2023-12": 88.33,
+"2026-09": 105.34
+},
+"CP01168": {
+"naziv": "Nuts, in shell or shelled (ND)",
+"2022-12": 82.04,
+"2023-12": 86.68,
+"2026-09": 103.74
+},
+"CP01169": {
+"naziv": "Fruits and nuts, ground, and in other preparations (ND)",
+"2022-12": 93.39,
+"2023-12": 97.25,
+"2026-09": 102.13
+},
+"CP0117": {
+"naziv": "Vegetables, tubers, plantains, cooking bananas and pulses (ND)",
+"2022-12": 86.94,
+"2023-12": 102.38,
+"2026-09": 100.67
+},
+"CP01171": {
+"naziv": "Leafy or stem vegetables, fresh or chilled (ND)",
+"2022-12": 82.53,
+"2023-12": 105.46,
+"2026-09": 122.95
+},
+"CP01172": {
+"naziv": "Fruit-bearing vegetables, fresh or chilled (ND)",
+"2022-12": 92.73,
+"2023-12": 110.85,
+"2026-09": 89.21
+},
+"CP01174": {
+"naziv": "Other vegetables, fresh or chilled (ND)",
+"2022-12": 82.45,
+"2023-12": 103.78,
+"2026-09": 93.37
+},
+"CP01175": {
+"naziv": "Tubers, plantains and cooking bananas, fresh or chilled (ND)",
+"2022-12": 87.39,
+"2023-12": 104.32,
+"2026-09": 97.94
+},
+"CP011751": {
+"naziv": "Potatoes",
+"2022-12": 87.78,
+"2023-12": 104.11,
+"2026-09": 98.05
+},
+"CP01176": {
+"naziv": "Pulses (ND)",
+"2022-12": 98.97,
+"2023-12": 91.88,
+"2026-09": 95.5
+},
+"CP01178": {
+"naziv": "Vegetables, tubers, plantains and cooking bananas, frozen (ND)",
+"2022-12": 94.11,
+"2023-12": 102.3,
+"2026-09": 100.2
+},
+"CP01179": {
+"naziv": "Vegetables, tubers, plantains, cooking bananas and pulses, ground, and in other preparations (ND)",
+"2022-12": 87.7,
+"2023-12": 95.53,
+"2026-09": 98.12
+},
+"CP0118": {
+"naziv": "Sugar, confectionery and desserts (ND)",
+"2022-12": 79.8,
+"2023-12": 87.67,
+"2026-09": 98.04
+},
+"CP01181": {
+"naziv": "Cane sugar and beet sugar (ND)",
+"2022-12": 96.56,
+"2023-12": 109.68,
+"2026-09": 95.17
+},
+"CP01182": {
+"naziv": "Other sugars and sugar substitutes (ND)",
+"2022-12": 85.9,
+"2023-12": 93.84,
+"2026-09": 108.09
+},
+"CP01183": {
+"naziv": "Jams, marmalades, fruit jellies, purées and pastes, and honey (ND)",
+"2022-12": 90.6,
+"2023-12": 93.55,
+"2026-09": 98.61
+},
+"CP01184": {
+"naziv": "Nut purées, nut butters and nut pastes (ND)",
+"2022-12": 82.29,
+"2023-12": 86.25,
+"2026-09": 100.22
+},
+"CP01185": {
+"naziv": "Chocolate, cocoa and cocoa-based food products (ND)",
+"2022-12": 64.85,
+"2023-12": 70.61,
+"2026-09": 96.67
+},
+"CP01186": {
+"naziv": "Ice, ice cream and sorbets (ND)",
+"2022-12": 85.68,
+"2023-12": 94.48,
+"2026-09": 100.57
+},
+"CP01189": {
+"naziv": "Other sugar confectionery and desserts n.e.c. (ND)",
+"2022-12": 83.37,
+"2023-12": 96.56,
+"2026-09": 98.77
+},
+"CP0119": {
+"naziv": "Ready-made food and other food products (ND)",
+"2022-12": 89.49,
+"2023-12": 93.23,
+"2026-09": 102.29
+},
+"CP01191": {
+"naziv": "Ready-made food (ND)",
+"2022-12": 91.34,
+"2023-12": 93.98,
+"2026-09": 107.59
+},
+"CP01192": {
+"naziv": "Baby food (ND)",
+"2022-12": 92.2,
+"2023-12": 93.83,
+"2026-09": 100.95
+},
+"CP01193": {
+"naziv": "Salt, condiments and sauces (ND)",
+"2022-12": 87.6,
+"2023-12": 95.11,
+"2026-09": 99.39
+},
+"CP01194": {
+"naziv": "Spices, culinary herbs and seeds (ND)",
+"2022-12": 91.89,
+"2023-12": 90.63,
+"2026-09": 100.14
+},
+"CP01199": {
+"naziv": "Other food products n.e.c. (ND)",
+"2022-12": 84.72,
+"2023-12": 92.22,
+"2026-09": 98.07
+},
+"CP012": {
+"naziv": "Non-alcoholic beverages",
+"2022-12": 81.12,
+"2023-12": 86.32,
+"2026-09": 103.55
+},
+"CP0121": {
+"naziv": "Fruit and vegetable juices (ND)",
+"2022-12": 75.8,
+"2023-12": 82.57,
+"2026-09": 105.61
+},
+"CP01210": {
+"naziv": "Fruit and vegetable juices (ND)",
+"2022-12": 75.8,
+"2023-12": 82.57,
+"2026-09": 105.61
+},
+"CP0122": {
+"naziv": "Coffee and coffee substitutes (ND)",
+"2022-12": 76.12,
+"2023-12": 81.15,
+"2026-09": 103.3
+},
+"CP01220": {
+"naziv": "Coffee and coffee substitutes (ND)",
+"2022-12": 76.12,
+"2023-12": 81.15,
+"2026-09": 103.3
+},
+"CP0123": {
+"naziv": "Tea, maté and other plant-derived products for infusion (ND)",
+"2022-12": 76.89,
+"2023-12": 86.53,
+"2026-09": 101.71
+},
+"CP01230": {
+"naziv": "Tea, maté and other plant-derived products for infusion (ND)",
+"2022-12": 76.89,
+"2023-12": 86.53,
+"2026-09": 101.71
+},
+"CP0124": {
+"naziv": "Cocoa drinks (ND)",
+"2022-12": 57.87,
+"2023-12": 64.94,
+"2026-09": 101.97
+},
+"CP01240": {
+"naziv": "Cocoa drinks (ND)",
+"2022-12": 57.87,
+"2023-12": 64.94,
+"2026-09": 101.97
+},
+"CP0125": {
+"naziv": "Water (ND)",
+"2022-12": 85.55,
+"2023-12": 88.26,
+"2026-09": 102.74
+},
+"CP01250": {
+"naziv": "Water (ND)",
+"2022-12": 85.55,
+"2023-12": 88.26,
+"2026-09": 102.74
+},
+"CP0126": {
+"naziv": "Soft drinks (ND)",
+"2022-12": 84.48,
+"2023-12": 92.52,
+"2026-09": 103.99
+},
+"CP01260": {
+"naziv": "Soft drinks (ND)",
+"2022-12": 84.48,
+"2023-12": 92.52,
+"2026-09": 103.99
+},
+"CP0129": {
+"naziv": "Other non-alcoholic beverages (ND)",
+"2022-12": 99.66,
+"2023-12": 97.5,
+"2026-09": 103.07
+},
+"CP01290": {
+"naziv": "Other non-alcoholic beverages (ND)",
+"2022-12": 99.66,
+"2023-12": 97.5,
+"2026-09": 103.07
+},
+"CP02": {
+"naziv": "Alcoholic beverages, tobacco and narcotics",
+"2022-12": 86.83,
+"2023-12": 91.96,
+"2026-09": 104.94
+},
+"CP021": {
+"naziv": "Alcoholic beverages",
+"2022-12": 80.98,
+"2023-12": 88.45,
+"2026-09": 103.33
+},
+"CP0211": {
+"naziv": "Spirits and liquors (ND)",
+"2022-12": 89.15,
+"2023-12": 94.67,
+"2026-09": 102.45
+},
+"CP02110": {
+"naziv": "Spirits and liquors (ND)",
+"2022-12": 89.15,
+"2023-12": 94.67,
+"2026-09": 102.45
+},
+"CP0212": {
+"naziv": "Wine (ND)",
+"2022-12": 71.7,
+"2023-12": 79.35,
+"2026-09": 103.87
+},
+"CP02121": {
+"naziv": "Wine from grapes (ND)",
+"2022-12": 71.7,
+"2023-12": 79.35,
+"2026-09": 103.87
+},
+"CP0213": {
+"naziv": "Beer (ND)",
+"2022-12": 87.46,
+"2023-12": 95.56,
+"2026-09": 103.39
+},
+"CP02130": {
+"naziv": "Beer (ND)",
+"2022-12": 87.46,
+"2023-12": 95.56,
+"2026-09": 103.39
+},
+"CP0219": {
+"naziv": "Other alcoholic beverages (ND)",
+"2022-12": 86.23,
+"2023-12": 90.38,
+"2026-09": 101.33
+},
+"CP02190": {
+"naziv": "Other alcoholic beverages (ND)",
+"2022-12": 86.23,
+"2023-12": 90.38,
+"2026-09": 101.33
+},
+"CP023": {
+"naziv": "Tobacco",
+"2022-12": 92.82,
+"2023-12": 95.66,
+"2026-09": 106.68
+},
+"CP0230": {
+"naziv": "Tobacco (ND)",
+"2022-12": 92.82,
+"2023-12": 95.66,
+"2026-09": 106.68
+},
+"CP02301": {
+"naziv": "Cigarettes (ND)",
+"2022-12": 92.82,
+"2023-12": 95.63,
+"2026-09": 106.69
+},
+"CP02309": {
+"naziv": "Other tobacco products (ND)",
+"2022-12": 92.99,
+"2023-12": 96.76,
+"2026-09": 106.28
+},
+"CP03": {
+"naziv": "Clothing and footwear",
+"2022-12": 102.38,
+"2023-12": 108.12,
+"2026-09": 92.89
+},
+"CP031": {
+"naziv": "Clothing",
+"2022-12": 105.13,
+"2023-12": 110.58,
+"2026-09": 91.46
+},
+"CP0311": {
+"naziv": "Clothing materials (SD)",
+"2022-12": 93.01,
+"2023-12": 97.97,
+"2026-09": 103.91
+},
+"CP03110": {
+"naziv": "Clothing materials (SD)",
+"2022-12": 93.01,
+"2023-12": 97.97,
+"2026-09": 103.91
+},
+"CP0312": {
+"naziv": "Garments (SD)",
+"2022-12": 105.26,
+"2023-12": 110.73,
+"2026-09": 91.39
+},
+"CP03121": {
+"naziv": "Garments for men or boys (SD)",
+"2022-12": 102.46,
+"2023-12": 110.04,
+"2026-09": 92.53
+},
+"CP03122": {
+"naziv": "Garments for women or girls (SD)",
+"2022-12": 104.08,
+"2023-12": 107.83,
+"2026-09": 91.9
+},
+"CP03123": {
+"naziv": "Garments for infants (under 2 years of age) (SD)",
+"2022-12": 118.13,
+"2023-12": 122.39,
+"2026-09": 85.55
+},
+"CP0313": {
+"naziv": "Other articles of clothing and clothing accessories (SD)",
+"2022-12": 99.39,
+"2023-12": 101.09,
+"2026-09": 94.4
+},
+"CP03131": {
+"naziv": "Other articles of clothing (SD)",
+"2022-12": 106.1,
+"2023-12": 104.64,
+"2026-09": 93.38
+},
+"CP03132": {
+"naziv": "Clothing accessories (SD)",
+"2022-12": 78.82,
+"2023-12": 88.66,
+"2026-09": 103.41
+},
+"CP0314": {
+"naziv": "Cleaning, repair, tailoring and hire of clothing (S)",
+"2022-12": 81.27,
+"2023-12": 89.28,
+"2026-09": 110.15
+},
+"CP03141": {
+"naziv": "Cleaning of clothing (S)",
+"2022-12": 83.18,
+"2023-12": 89.22,
+"2026-09": 108.96
+},
+"CP03142": {
+"naziv": "Repair, tailoring and hire of clothing (S)",
+"2022-12": 75.62,
+"2023-12": 89.45,
+"2026-09": 113.24
+},
+"CP032": {
+"naziv": "Footwear",
+"2022-12": 92.89,
+"2023-12": 99.56,
+"2026-09": 97.67
+},
+"CP0321": {
+"naziv": "Shoes and other footwear (SD)",
+"2022-12": 93.01,
+"2023-12": 99.58,
+"2026-09": 97.66
+},
+"CP03211": {
+"naziv": "Footwear for men (SD)",
+"2022-12": 94.23,
+"2023-12": 100.3,
+"2026-09": 98.15
+},
+"CP03212": {
+"naziv": "Footwear for women (SD)",
+"2022-12": 90.85,
+"2023-12": 98.65,
+"2026-09": 97.43
+},
+"CP03213": {
+"naziv": "Footwear for infants and children (SD)",
+"2022-12": 96.34,
+"2023-12": 100.35,
+"2026-09": 96.89
+},
+"CP0322": {
+"naziv": "Cleaning, repair and hire of footwear (S)",
+"2022-12": 75.7,
+"2023-12": 82.67,
+"2026-09": 107.25
+},
+"CP03220": {
+"naziv": "Cleaning, repair and hire of footwear (S)",
+"2022-12": 75.7,
+"2023-12": 82.67,
+"2026-09": 107.25
+},
+"CP04": {
+"naziv": "Housing, water, electricity, gas and other fuels",
+"2022-12": 93.23,
+"2023-12": 93.18,
+"2026-09": 112.61
+},
+"CP041": {
+"naziv": "Actual rental payments made for housing",
+"2022-12": 78.45,
+"2023-12": 83.45,
+"2026-09": 121.73
+},
+"CP0411": {
+"naziv": "Actual rental payments made by tenants for main residence (S)",
+"2022-12": 78.45,
+"2023-12": 83.45,
+"2026-09": 121.73
+},
+"CP04110": {
+"naziv": "Actual rental payments made by tenants for main residence (S)",
+"2022-12": 78.45,
+"2023-12": 83.45,
+"2026-09": 121.73
+},
+"CP043": {
+"naziv": "Maintenance, repair and security of the dwelling",
+"2022-12": 90.88,
+"2023-12": 94.31,
+"2026-09": 106.75
+},
+"CP0431": {
+"naziv": "Security equipment and materials for dwelling maintenance and repair",
+"2022-12": 94.09,
+"2023-12": 97.34,
+"2026-09": 105.3
+},
+"CP04311": {
+"naziv": "Materials for the maintenance and repair of the dwelling (ND)",
+"2022-12": 94.09,
+"2023-12": 97.34,
+"2026-09": 105.3
+},
+"CP0432": {
+"naziv": "Services for the maintenance, repair and security of the dwelling (S)",
+"2022-12": 82.23,
+"2023-12": 86.2,
+"2026-09": 110.73
+},
+"CP04320": {
+"naziv": "Services for the maintenance, repair and security of the dwelling (S)",
+"2022-12": 82.23,
+"2023-12": 86.2,
+"2026-09": 110.73
+},
+"CP044": {
+"naziv": "Water supply and miscellaneous services relating to the dwelling",
+"2022-12": 93.52,
+"2023-12": 95.96,
+"2026-09": 112.08
+},
+"CP0441": {
+"naziv": "Water supply (ND)",
+"2022-12": 98.8,
+"2023-12": 97.95,
+"2026-09": 106.41
+},
+"CP04411": {
+"naziv": "Water supply delivered through network systems (ND)",
+"2022-12": 98.8,
+"2023-12": 97.95,
+"2026-09": 106.41
+},
+"CP0442": {
+"naziv": "Refuse collection (S)",
+"2022-12": 89.46,
+"2023-12": 100.0,
+"2026-09": 115.77
+},
+"CP04420": {
+"naziv": "Refuse collection (S)",
+"2022-12": 89.46,
+"2023-12": 100.0,
+"2026-09": 115.77
+},
+"CP0443": {
+"naziv": "Sewage collection (S)",
+"2022-12": 96.71,
+"2023-12": 94.96,
+"2026-09": 122.94
+},
+"CP04431": {
+"naziv": "Sewage collection through sewer systems (S)",
+"2022-12": 96.71,
+"2023-12": 94.96,
+"2026-09": 122.94
+},
+"CP0444": {
+"naziv": "Other services related to the dwelling (S)",
+"2022-12": 81.17,
+"2023-12": 88.14,
+"2026-09": 107.89
+},
+"CP04441": {
+"naziv": "Charges for maintenance of multi-occupied buildings (S)",
+"2022-12": 80.19,
+"2023-12": 87.53,
+"2026-09": 108.17
+},
+"CP04449": {
+"naziv": "Other services related to the dwelling n.e.c. (S)",
+"2022-12": 94.47,
+"2023-12": 96.09,
+"2026-09": 103.67
+},
+"CP045": {
+"naziv": "Electricity, gas and other fuels",
+"2022-12": 94.98,
+"2023-12": 93.36,
+"2026-09": 112.01
+},
+"CP0451": {
+"naziv": "Electricity (ND)",
+"2022-12": 89.34,
+"2023-12": 89.34,
+"2026-09": 110.95
+},
+"CP04510": {
+"naziv": "Electricity (ND)",
+"2022-12": 89.34,
+"2023-12": 89.34,
+"2026-09": 110.95
+},
+"CP0452": {
+"naziv": "Gas (ND)",
+"2022-12": 93.28,
+"2023-12": 92.12,
+"2026-09": 104.89
+},
+"CP04521": {
+"naziv": "Natural gas through networks (ND)",
+"2022-12": 92.64,
+"2023-12": 92.51,
+"2026-09": 105.57
+},
+"CP04522": {
+"naziv": "Liquefied hydrocarbons (ND)",
+"2022-12": 96.88,
+"2023-12": 90.0,
+"2026-09": 101.11
+},
+"CP0453": {
+"naziv": "Liquid fuels (ND)",
+"2022-12": 124.75,
+"2023-12": 113.78,
+"2026-09": 184.2
+},
+"CP04530": {
+"naziv": "Liquid fuels (ND)",
+"2022-12": 124.75,
+"2023-12": 113.78,
+"2026-09": 184.2
+},
+"CP0454": {
+"naziv": "Solid fuels (ND)",
+"2022-12": 120.19,
+"2023-12": 110.92,
+"2026-09": 114.47
+},
+"CP04542": {
+"naziv": "Wood fuel, including pellets and briquettes (ND)",
+"2022-12": 120.19,
+"2023-12": 110.92,
+"2026-09": 114.47
+},
+"CP0455": {
+"naziv": "Other energy for heating and cooling (ND)",
+"2022-12": 89.43,
+"2023-12": 88.9,
+"2026-09": 106.92
+},
+"CP04550": {
+"naziv": "Other energy for heating and cooling (ND)",
+"2022-12": 89.43,
+"2023-12": 88.9,
+"2026-09": 106.92
+},
+"CP05": {
+"naziv": "Furnishings, household equipment and routine household maintenance",
+"2022-12": 95.06,
+"2023-12": 98.98,
+"2026-09": 99.46
+},
+"CP051": {
+"naziv": "Furniture, furnishings, and loose carpets",
+"2022-12": 98.19,
+"2023-12": 100.71,
+"2026-09": 100.84
+},
+"CP0511": {
+"naziv": "Furniture, furnishings and loose carpets (D)",
+"2022-12": 98.32,
+"2023-12": 100.82,
+"2026-09": 100.79
+},
+"CP05111": {
+"naziv": "Household furniture (D)",
+"2022-12": 97.19,
+"2023-12": 100.05,
+"2026-09": 101.63
+},
+"CP05112": {
+"naziv": "Garden and camping furniture (D)",
+"2022-12": 109.79,
+"2023-12": 112.11,
+"2026-09": 85.82
+},
+"CP05113": {
+"naziv": "Lighting equipment (D)",
+"2022-12": 101.0,
+"2023-12": 102.96,
+"2026-09": 90.66
+},
+"CP05114": {
+"naziv": "Furnishings, loose carpets and rugs (D)",
+"2022-12": 105.96,
+"2023-12": 106.05,
+"2026-09": 95.32
+},
+"CP0512": {
+"naziv": "Repair, installation and hire of furniture, furnishings and loose carpets (S)",
+"2022-12": 79.8,
+"2023-12": 84.86,
+"2026-09": 108.78
+},
+"CP05120": {
+"naziv": "Repair, installation and hire of furniture, furnishings and loose carpets (S)",
+"2022-12": 79.8,
+"2023-12": 84.86,
+"2026-09": 108.78
+},
+"CP052": {
+"naziv": "Household textiles",
+"2022-12": 100.28,
+"2023-12": 101.23,
+"2026-09": 97.63
+},
+"CP0521": {
+"naziv": "Household textiles (SD)",
+"2022-12": 100.28,
+"2023-12": 101.23,
+"2026-09": 97.63
+},
+"CP05211": {
+"naziv": "Furnishing fabrics and curtains (SD)",
+"2022-12": 99.1,
+"2023-12": 102.01,
+"2026-09": 100.3
+},
+"CP05212": {
+"naziv": "Bed linen and bedding (SD)",
+"2022-12": 100.82,
+"2023-12": 99.63,
+"2026-09": 98.75
+},
+"CP05213": {
+"naziv": "Table linen and bathroom linen (SD)",
+"2022-12": 100.82,
+"2023-12": 102.7,
+"2026-09": 91.55
+},
+"CP05219": {
+"naziv": "Other household textiles (SD)",
+"2022-12": 99.33,
+"2023-12": 106.33,
+"2026-09": 94.79
+},
+"CP053": {
+"naziv": "Household appliances",
+"2022-12": 100.33,
+"2023-12": 100.82,
+"2026-09": 98.22
+},
+"CP0531": {
+"naziv": "Major electric and other household appliances (D)",
+"2022-12": 100.98,
+"2023-12": 101.46,
+"2026-09": 98.33
+},
+"CP05311": {
+"naziv": "Major kitchen appliances (D)",
+"2022-12": 98.87,
+"2023-12": 99.8,
+"2026-09": 99.77
+},
+"CP05312": {
+"naziv": "Major laundry appliances (D)",
+"2022-12": 105.12,
+"2023-12": 105.14,
+"2026-09": 96.57
+},
+"CP05313": {
+"naziv": "Heaters and air conditioners (D)",
+"2022-12": 101.65,
+"2023-12": 101.04,
+"2026-09": 98.1
+},
+"CP05314": {
+"naziv": "Cleaning equipment (D)",
+"2022-12": 107.86,
+"2023-12": 106.73,
+"2026-09": 92.34
+},
+"CP05319": {
+"naziv": "Other major household appliances (D)",
+"2022-12": 94.29,
+"2023-12": 97.06,
+"2026-09": 100.74
+},
+"CP0532": {
+"naziv": "Small household appliances (SD)",
+"2022-12": 100.67,
+"2023-12": 98.67,
+"2026-09": 95.59
+},
+"CP05321": {
+"naziv": "Small appliances for the cooking and processing of food (SD)",
+"2022-12": 100.7,
+"2023-12": 99.11,
+"2026-09": 95.68
+},
+"CP05322": {
+"naziv": "Small appliances for the preparation of beverages (SD)",
+"2022-12": 100.27,
+"2023-12": 98.1,
+"2026-09": 96.38
+},
+"CP05329": {
+"naziv": "Other small household appliances (SD)",
+"2022-12": 100.98,
+"2023-12": 98.51,
+"2026-09": 94.14
+},
+"CP0533": {
+"naziv": "Repair, installation and hire of household appliances (S)",
+"2022-12": 77.68,
+"2023-12": 88.03,
+"2026-09": 105.42
+},
+"CP05330": {
+"naziv": "Repair, installation and hire of household appliances (S)",
+"2022-12": 77.68,
+"2023-12": 88.03,
+"2026-09": 105.42
+},
+"CP054": {
+"naziv": "Glassware, tableware and household utensils",
+"2022-12": 94.78,
+"2023-12": 98.69,
+"2026-09": 98.17
+},
+"CP0540": {
+"naziv": "Glassware, tableware and household utensils (SD)",
+"2022-12": 94.78,
+"2023-12": 98.69,
+"2026-09": 98.17
+},
+"CP05401": {
+"naziv": "Glassware, crystal ware, ceramic ware and china ware (SD)",
+"2022-12": 89.18,
+"2023-12": 96.45,
+"2026-09": 98.93
+},
+"CP05402": {
+"naziv": "Cutlery, flatware and silverware (SD)",
+"2022-12": 101.89,
+"2023-12": 105.83,
+"2026-09": 96.12
+},
+"CP05403": {
+"naziv": "Kitchen utensils and articles (SD)",
+"2022-12": 95.57,
+"2023-12": 98.65,
+"2026-09": 98.14
+},
+"CP055": {
+"naziv": "Tools and equipment for house and garden",
+"2022-12": 96.67,
+"2023-12": 99.35,
+"2026-09": 99.12
+},
+"CP0551": {
+"naziv": "Motorized tools and equipment (D)",
+"2022-12": 99.05,
+"2023-12": 100.83,
+"2026-09": 97.61
+},
+"CP05510": {
+"naziv": "Motorized tools and equipment (D)",
+"2022-12": 99.05,
+"2023-12": 100.83,
+"2026-09": 97.61
+},
+"CP0552": {
+"naziv": "Non-motorized tools and miscellaneous accessories (SD)",
+"2022-12": 95.09,
+"2023-12": 98.33,
+"2026-09": 100.32
+},
+"CP05521": {
+"naziv": "Non-motorized tools (SD)",
+"2022-12": 90.07,
+"2023-12": 97.0,
+"2026-09": 104.02
+},
+"CP05522": {
+"naziv": "Miscellaneous accessories (SD)",
+"2022-12": 95.92,
+"2023-12": 98.54,
+"2026-09": 99.64
+},
+"CP056": {
+"naziv": "Goods and services for routine household maintenance",
+"2022-12": 89.23,
+"2023-12": 96.51,
+"2026-09": 99.07
+},
+"CP0561": {
+"naziv": "Non-durable household goods (ND)",
+"2022-12": 89.68,
+"2023-12": 97.22,
+"2026-09": 98.43
+},
+"CP05611": {
+"naziv": "Household cleaning and maintenance products (ND)",
+"2022-12": 87.27,
+"2023-12": 96.95,
+"2026-09": 98.66
+},
+"CP05619": {
+"naziv": "Other non-durable household goods (ND)",
+"2022-12": 97.43,
+"2023-12": 98.02,
+"2026-09": 98.43
+},
+"CP0562": {
+"naziv": "Domestic services and household services (S)",
+"2022-12": 83.15,
+"2023-12": 87.89,
+"2026-09": 112.56
+},
+"CP05629": {
+"naziv": "Other household services (S)",
+"2022-12": 83.15,
+"2023-12": 87.89,
+"2026-09": 112.56
+},
+"CP06": {
+"naziv": "Health",
+"2022-12": 87.07,
+"2023-12": 91.96,
+"2026-09": 105.55
+},
+"CP061": {
+"naziv": "Medicines and health products",
+"2022-12": 92.03,
+"2023-12": 95.68,
+"2026-09": 103.5
+},
+"CP0611": {
+"naziv": "Medicines (ND)",
+"2022-12": 91.87,
+"2023-12": 95.69,
+"2026-09": 103.34
+},
+"CP06111": {
+"naziv": "Medicines, vaccines and other pharmaceutical preparations (ND)",
+"2022-12": 91.87,
+"2023-12": 95.69,
+"2026-09": 103.34
+},
+"CP06112": {
+"naziv": "Herbal medicines and homeopathic products (ND)",
+"2022-12": 90.94,
+"2023-12": 91.34,
+"2026-09": 107.85
+},
+"CP0612": {
+"naziv": "Medical products (ND)",
+"2022-12": 93.81,
+"2023-12": 95.08,
+"2026-09": 104.18
+},
+"CP06121": {
+"naziv": "Medical diagnostic products (ND)",
+"2022-12": 92.7,
+"2023-12": 94.2,
+"2026-09": 104.95
+},
+"CP06122": {
+"naziv": "Preventive and protective devices (ND)",
+"2022-12": 95.19,
+"2023-12": 96.31,
+"2026-09": 104.37
+},
+"CP06123": {
+"naziv": "Treatment devices for personal use (ND)",
+"2022-12": 94.79,
+"2023-12": 95.28,
+"2026-09": 99.77
+},
+"CP0613": {
+"naziv": "Assistive products (D)",
+"2022-12": 93.29,
+"2023-12": 95.9,
+"2026-09": 104.39
+},
+"CP06131": {
+"naziv": "Assistive products for vision (D)",
+"2022-12": 93.65,
+"2023-12": 95.58,
+"2026-09": 104.64
+},
+"CP06132": {
+"naziv": "Assistive products for hearing and communication (D)",
+"2022-12": 88.9,
+"2023-12": 100.0,
+"2026-09": 100.0
+},
+"CP0614": {
+"naziv": "Repair, rental and maintenance of medical and assistive products (S)",
+"2022-12": 82.47,
+"2023-12": 90.12,
+"2026-09": 104.86
+},
+"CP06140": {
+"naziv": "Repair, rental and maintenance of medical and assistive products (S)",
+"2022-12": 82.47,
+"2023-12": 90.12,
+"2026-09": 104.86
+},
+"CP062": {
+"naziv": "Outpatient care services",
+"2022-12": 81.63,
+"2023-12": 88.92,
+"2026-09": 110.46
+},
+"CP0622": {
+"naziv": "Outpatient dental services (S)",
+"2022-12": 80.96,
+"2023-12": 87.75,
+"2026-09": 111.1
+},
+"CP06221": {
+"naziv": "Dental preventive services (S)",
+"2022-12": 81.2,
+"2023-12": 88.01,
+"2026-09": 113.52
+},
+"CP06229": {
+"naziv": "Other outpatient dental services (S)",
+"2022-12": 80.96,
+"2023-12": 87.75,
+"2026-09": 111.06
+},
+"CP0623": {
+"naziv": "Other outpatient care services (S)",
+"2022-12": 83.15,
+"2023-12": 91.42,
+"2026-09": 109.49
+},
+"CP06231": {
+"naziv": "Outpatient curative and rehabilitative services (S)",
+"2022-12": 82.39,
+"2023-12": 90.93,
+"2026-09": 109.99
+},
+"CP06232": {
+"naziv": "Outpatient long-term care services (S)",
+"2022-12": 88.59,
+"2023-12": 94.12,
+"2026-09": 103.57
+},
+"CP063": {
+"naziv": "Inpatient care services",
+"2022-12": 71.59,
+"2023-12": 74.93,
+"2026-09": 101.9
+},
+"CP0631": {
+"naziv": "Inpatient curative and rehabilitative services (S)",
+"2022-12": 71.59,
+"2023-12": 74.93,
+"2026-09": 101.9
+},
+"CP06310": {
+"naziv": "Inpatient curative and rehabilitative services (S)",
+"2022-12": 71.59,
+"2023-12": 74.93,
+"2026-09": 101.9
+},
+"CP064": {
+"naziv": "Other health services",
+"2022-12": 83.32,
+"2023-12": 87.54,
+"2026-09": 105.03
+},
+"CP0641": {
+"naziv": "Diagnostic imaging services and medical laboratory services (S)",
+"2022-12": 83.32,
+"2023-12": 87.54,
+"2026-09": 105.03
+},
+"CP06410": {
+"naziv": "Diagnostic imaging services and medical laboratory services (S)",
+"2022-12": 83.32,
+"2023-12": 87.54,
+"2026-09": 105.03
+},
+"CP07": {
+"naziv": "Transport",
+"2022-12": 95.51,
+"2023-12": 98.67,
+"2026-09": 113.17
+},
+"CP071": {
+"naziv": "Purchase of vehicles",
+"2022-12": 100.65,
+"2023-12": 102.7,
+"2026-09": 96.72
+},
+"CP0711": {
+"naziv": "Motor cars (D)",
+"2022-12": 100.67,
+"2023-12": 102.67,
+"2026-09": 96.74
+},
+"CP07111": {
+"naziv": "New motor cars (D)",
+"2022-12": 92.99,
+"2023-12": 95.99,
+"2026-09": 101.68
+},
+"CP07112": {
+"naziv": "Second-hand motor cars (D)",
+"2022-12": 107.98,
+"2023-12": 108.96,
+"2026-09": 93.23
+},
+"CP0712": {
+"naziv": "Motorcycles (D)",
+"2022-12": 100.04,
+"2023-12": 104.04,
+"2026-09": 97.12
+},
+"CP07120": {
+"naziv": "Motorcycles (D)",
+"2022-12": 100.04,
+"2023-12": 104.04,
+"2026-09": 97.12
+},
+"CP0713": {
+"naziv": "Bicycles (D)",
+"2022-12": 101.14,
+"2023-12": 103.09,
+"2026-09": 94.65
+},
+"CP07130": {
+"naziv": "Bicycles (D)",
+"2022-12": 101.14,
+"2023-12": 103.09,
+"2026-09": 94.65
+},
+"CP072": {
+"naziv": "Operation of personal transport equipment",
+"2022-12": 92.84,
+"2023-12": 96.42,
+"2026-09": 120.6
+},
+"CP0721": {
+"naziv": "Parts and accessories for personal transport equipment (SD)",
+"2022-12": 90.78,
+"2023-12": 95.7,
+"2026-09": 101.94
+},
+"CP07211": {
+"naziv": "Tyres (SD)",
+"2022-12": 94.11,
+"2023-12": 98.06,
+"2026-09": 98.89
+},
+"CP07212": {
+"naziv": "Parts for personal transport equipment (SD)",
+"2022-12": 87.71,
+"2023-12": 93.88,
+"2026-09": 104.81
+},
+"CP07213": {
+"naziv": "Accessories for personal transport equipment (SD)",
+"2022-12": 93.53,
+"2023-12": 87.89,
+"2026-09": 103.65
+},
+"CP0722": {
+"naziv": "Fuels and lubricants for personal transport equipment (ND)",
+"2022-12": 100.69,
+"2023-12": 102.65,
+"2026-09": 125.13
+},
+"CP07221": {
+"naziv": "Diesel (ND)",
+"2022-12": 111.65,
+"2023-12": 107.98,
+"2026-09": 132.76
+},
+"CP07222": {
+"naziv": "Petrol (ND)",
+"2022-12": 92.53,
+"2023-12": 99.37,
+"2026-09": 120.09
+},
+"CP07223": {
+"naziv": "Other fuels for personal transport equipment (ND)",
+"2022-12": 108.83,
+"2023-12": 93.76,
+"2026-09": 99.61
+},
+"CP07224": {
+"naziv": "Lubricants (ND)",
+"2022-12": 89.44,
+"2023-12": 94.62,
+"2026-09": 108.37
+},
+"CP0723": {
+"naziv": "Maintenance and repair of personal transport equipment (S)",
+"2022-12": 76.41,
+"2023-12": 84.61,
+"2026-09": 111.56
+},
+"CP07230": {
+"naziv": "Maintenance and repair of personal transport equipment (S)",
+"2022-12": 76.41,
+"2023-12": 84.61,
+"2026-09": 111.56
+},
+"CP0724": {
+"naziv": "Other services related to personal transport equipment (S)",
+"2022-12": 85.82,
+"2023-12": 88.31,
+"2026-09": 124.39
+},
+"CP07241": {
+"naziv": "Parking services (S)",
+"2022-12": 75.42,
+"2023-12": 87.79,
+"2026-09": 113.69
+},
+"CP07242": {
+"naziv": "Toll facilities (S)",
+"2022-12": 91.94,
+"2023-12": 91.76,
+"2026-09": 100.0
+},
+"CP07243": {
+"naziv": "Driving lessons, tests, licences and roadworthiness tests (S)",
+"2022-12": 85.42,
+"2023-12": 87.8,
+"2026-09": 129.31
+},
+"CP07244": {
+"naziv": "Hire of personal transport equipment without driver (S)",
+"2022-12": 87.7,
+"2023-12": 98.01,
+"2026-09": 100.71
+},
+"CP073": {
+"naziv": "Passenger transport services",
+"2022-12": 100.75,
+"2023-12": 103.7,
+"2026-09": 104.22
+},
+"CP0731": {
+"naziv": "Passenger transport by railway (S)",
+"2022-12": 103.32,
+"2023-12": 103.45,
+"2026-09": 100.0
+},
+"CP07311": {
+"naziv": "Passenger transport by train (S)",
+"2022-12": 103.32,
+"2023-12": 103.45,
+"2026-09": 100.0
+},
+"CP0732": {
+"naziv": "Passenger transport by road (S)",
+"2022-12": 94.89,
+"2023-12": 99.11,
+"2026-09": 103.41
+},
+"CP07321": {
+"naziv": "Passenger transport by bus and coach (S)",
+"2022-12": 97.27,
+"2023-12": 100.67,
+"2026-09": 102.61
+},
+"CP07322": {
+"naziv": "Passenger transport by taxi and hired vehicle with driver (S)",
+"2022-12": 81.3,
+"2023-12": 90.55,
+"2026-09": 107.9
+},
+"CP0733": {
+"naziv": "Passenger transport by air (S)",
+"2022-12": 112.96,
+"2023-12": 119.41,
+"2026-09": 101.92
+},
+"CP07331": {
+"naziv": "Passenger transport by air, domestic (S)",
+"2022-12": 84.03,
+"2023-12": 89.16,
+"2026-09": 104.8
+},
+"CP07332": {
+"naziv": "Passenger transport by air, international (S)",
+"2022-12": 114.24,
+"2023-12": 120.75,
+"2026-09": 101.84
+},
+"CP0734": {
+"naziv": "Passenger transport by sea and inland waterway (S)",
+"2022-12": 84.63,
+"2023-12": 82.11,
+"2026-09": 130.36
+},
+"CP07340": {
+"naziv": "Passenger transport by sea and inland waterway (S)",
+"2022-12": 84.63,
+"2023-12": 82.11,
+"2026-09": 130.36
+},
+"CP0735": {
+"naziv": "Combined passenger transport (S)",
+"2022-12": 100.0,
+"2023-12": 100.0,
+"2026-09": 100.0
+},
+"CP07350": {
+"naziv": "Combined passenger transport (S)",
+"2022-12": 100.0,
+"2023-12": 100.0,
+"2026-09": 100.0
+},
+"CP0736": {
+"naziv": "Other passenger transport services (S)",
+"2022-12": 123.79,
+"2023-12": 124.86,
+"2026-09": 102.18
+},
+"CP07360": {
+"naziv": "Other passenger transport services (S)",
+"2022-12": 123.79,
+"2023-12": 124.86,
+"2026-09": 102.18
+},
+"CP074": {
+"naziv": "Transport services for goods",
+"2022-12": 84.4,
+"2023-12": 88.07,
+"2026-09": 95.71
+},
+"CP0741": {
+"naziv": "Postal and courier services (S)",
+"2022-12": 84.64,
+"2023-12": 88.32,
+"2026-09": 95.58
+},
+"CP07411": {
+"naziv": "Letter handling services (S)",
+"2022-12": 73.3,
+"2023-12": 90.09,
+"2026-09": 102.12
+},
+"CP07412": {
+"naziv": "Courier and parcel delivery services (S)",
+"2022-12": 87.63,
+"2023-12": 87.63,
+"2026-09": 94.03
+},
+"CP08": {
+"naziv": "Information and communication",
+"2022-12": 101.39,
+"2023-12": 102.03,
+"2026-09": 102.51
+},
+"CP081": {
+"naziv": "Information and communication equipment",
+"2022-12": 109.89,
+"2023-12": 109.71,
+"2026-09": 101.23
+},
+"CP0811": {
+"naziv": "Fixed telephone equipment (D)",
+"2022-12": 86.26,
+"2023-12": 84.83,
+"2026-09": 99.67
+},
+"CP08110": {
+"naziv": "Fixed telephone equipment (D)",
+"2022-12": 86.26,
+"2023-12": 84.83,
+"2026-09": 99.67
+},
+"CP0812": {
+"naziv": "Mobile telephone equipment (D)",
+"2022-12": 118.38,
+"2023-12": 116.81,
+"2026-09": 102.69
+},
+"CP08120": {
+"naziv": "Mobile telephone equipment (D)",
+"2022-12": 118.38,
+"2023-12": 116.81,
+"2026-09": 102.69
+},
+"CP0813": {
+"naziv": "Information processing equipment (D)",
+"2022-12": 104.37,
+"2023-12": 104.22,
+"2026-09": 105.12
+},
+"CP08131": {
+"naziv": "Computers, laptops and tablets (D)",
+"2022-12": 104.41,
+"2023-12": 104.52,
+"2026-09": 105.9
+},
+"CP08132": {
+"naziv": "Peripheral equipment and its consumable components (D)",
+"2022-12": 103.6,
+"2023-12": 100.05,
+"2026-09": 97.7
+},
+"CP0814": {
+"naziv": "Equipment for the reception, recording and reproduction of sound and vision (D)",
+"2022-12": 107.24,
+"2023-12": 108.14,
+"2026-09": 95.79
+},
+"CP08140": {
+"naziv": "Equipment for the reception, recording and reproduction of sound and vision (D)",
+"2022-12": 107.24,
+"2023-12": 108.14,
+"2026-09": 95.79
+},
+"CP0815": {
+"naziv": "Unrecorded recording media (SD)",
+"2022-12": 98.56,
+"2023-12": 96.12,
+"2026-09": 157.23
+},
+"CP08150": {
+"naziv": "Unrecorded recording media (SD)",
+"2022-12": 98.56,
+"2023-12": 96.12,
+"2026-09": 157.23
+},
+"CP0819": {
+"naziv": "Other information and communication equipment and accessories (D)",
+"2022-12": 102.22,
+"2023-12": 107.08,
+"2026-09": 96.85
+},
+"CP08191": {
+"naziv": "Other information and communication equipment (D)",
+"2022-12": 104.88,
+"2023-12": 109.87,
+"2026-09": 98.18
+},
+"CP082": {
+"naziv": "Software, excluding games",
+"2022-12": 86.14,
+"2023-12": 89.72,
+"2026-09": 105.22
+},
+"CP0820": {
+"naziv": "Software, excluding games (S)",
+"2022-12": 86.14,
+"2023-12": 89.72,
+"2026-09": 105.22
+},
+"CP08200": {
+"naziv": "Software, excluding games (S)",
+"2022-12": 86.14,
+"2023-12": 89.72,
+"2026-09": 105.22
+},
+"CP083": {
+"naziv": "Information and communication services",
+"2022-12": 97.8,
+"2023-12": 98.75,
+"2026-09": 103.1
+},
+"CP0831": {
+"naziv": "Fixed communication services (S)",
+"2022-12": 99.97,
+"2023-12": 99.98,
+"2026-09": 100.04
+},
+"CP08310": {
+"naziv": "Fixed communication services (S)",
+"2022-12": 99.97,
+"2023-12": 99.98,
+"2026-09": 100.04
+},
+"CP0832": {
+"naziv": "Mobile communication services (S)",
+"2022-12": 90.29,
+"2023-12": 93.03,
+"2026-09": 105.22
+},
+"CP08320": {
+"naziv": "Mobile communication services (S)",
+"2022-12": 90.29,
+"2023-12": 93.03,
+"2026-09": 105.22
+},
+"CP0833": {
+"naziv": "Internet access provision services and online storage services (S)",
+"2022-12": 99.58,
+"2023-12": 94.49,
+"2026-09": 103.97
+},
+"CP08330": {
+"naziv": "Internet access provision services and online storage services (S)",
+"2022-12": 99.58,
+"2023-12": 94.49,
+"2026-09": 103.97
+},
+"CP0834": {
+"naziv": "Bundled telecommunication services (S)",
+"2022-12": 106.06,
+"2023-12": 108.78,
+"2026-09": 103.35
+},
+"CP08340": {
+"naziv": "Bundled telecommunication services (S)",
+"2022-12": 106.06,
+"2023-12": 108.78,
+"2026-09": 103.35
+},
+"CP0835": {
+"naziv": "Repair and rental of information and communication equipment (S)",
+"2022-12": 88.08,
+"2023-12": 93.7,
+"2026-09": 104.21
+},
+"CP08350": {
+"naziv": "Repair and rental of information and communication equipment (S)",
+"2022-12": 88.08,
+"2023-12": 93.7,
+"2026-09": 104.21
+},
+"CP0839": {
+"naziv": "Other information and communication services (S)",
+"2022-12": 101.6,
+"2023-12": 97.1,
+"2026-09": 99.81
+},
+"CP08391": {
+"naziv": "Television and radio licences and fees (S)",
+"2022-12": 100.0,
+"2023-12": 100.0,
+"2026-09": 100.0
+},
+"CP08392": {
+"naziv": "Subscriptions to audiovisual streaming services and rental of audiovisual content (S)",
+"2022-12": 106.21,
+"2023-12": 90.84,
+"2026-09": 98.89
+},
+"CP09": {
+"naziv": "Recreation, sport and culture",
+"2022-12": 82.33,
+"2023-12": 88.76,
+"2026-09": 107.41
+},
+"CP091": {
+"naziv": "Recreational durables",
+"2022-12": 98.98,
+"2023-12": 101.91,
+"2026-09": 100.01
+},
+"CP0911": {
+"naziv": "Photographic and cinematographic equipment and optical instruments (D)",
+"2022-12": 98.98,
+"2023-12": 101.91,
+"2026-09": 100.01
+},
+"CP09111": {
+"naziv": "Cameras (D)",
+"2022-12": 98.98,
+"2023-12": 101.91,
+"2026-09": 100.01
+},
+"CP092": {
+"naziv": "Other recreational goods",
+"2022-12": 94.56,
+"2023-12": 94.04,
+"2026-09": 98.26
+},
+"CP0921": {
+"naziv": "Games, toys and hobby-related articles (SD)",
+"2022-12": 93.68,
+"2023-12": 91.98,
+"2026-09": 99.81
+},
+"CP09211": {
+"naziv": "Video game computers, consoles, game applications and software (SD)",
+"2022-12": 98.7,
+"2023-12": 98.67,
+"2026-09": 105.34
+},
+"CP09212": {
+"naziv": "Other games, toys and hobby-related articles (SD)",
+"2022-12": 93.57,
+"2023-12": 91.78,
+"2026-09": 99.15
+},
+"CP0922": {
+"naziv": "Sporting, camping and open-air recreation equipment (SD)",
+"2022-12": 97.82,
+"2023-12": 101.07,
+"2026-09": 95.99
+},
+"CP09221": {
+"naziv": "Sporting equipment (SD)",
+"2022-12": 97.36,
+"2023-12": 101.56,
+"2026-09": 94.13
+},
+"CP09222": {
+"naziv": "Camping and open-air recreation equipment (SD)",
+"2022-12": 99.37,
+"2023-12": 99.38,
+"2026-09": 103.75
+},
+"CP093": {
+"naziv": "Garden products and pets",
+"2022-12": 87.41,
+"2023-12": 96.76,
+"2026-09": 102.79
+},
+"CP0931": {
+"naziv": "Garden products, plants and flowers (ND)",
+"2022-12": 85.78,
+"2023-12": 93.74,
+"2026-09": 104.04
+},
+"CP09311": {
+"naziv": "Garden products (ND)",
+"2022-12": 91.52,
+"2023-12": 97.25,
+"2026-09": 104.51
+},
+"CP09312": {
+"naziv": "Plants, seeds and flowers (ND)",
+"2022-12": 82.56,
+"2023-12": 91.92,
+"2026-09": 103.92
+},
+"CP0932": {
+"naziv": "Pets and pet products (D)",
+"2022-12": 88.36,
+"2023-12": 99.71,
+"2026-09": 101.74
+},
+"CP09321": {
+"naziv": "Pets (D)",
+"2022-12": 85.33,
+"2023-12": 92.81,
+"2026-09": 122.16
+},
+"CP09322": {
+"naziv": "Products for pets and other household animals (ND)",
+"2022-12": 88.44,
+"2023-12": 99.9,
+"2026-09": 100.63
+},
+"CP094": {
+"naziv": "Recreational services",
+"2022-12": 74.74,
+"2023-12": 82.59,
+"2026-09": 109.0
+},
+"CP0945": {
+"naziv": "Veterinary and other services for pets (S)",
+"2022-12": 68.72,
+"2023-12": 68.72,
+"2026-09": 100.0
+},
+"CP09450": {
+"naziv": "Veterinary and other services for pets (S)",
+"2022-12": 68.72,
+"2023-12": 68.72,
+"2026-09": 100.0
+},
+"CP0946": {
+"naziv": "Recreational and sporting services (S)",
+"2022-12": 75.55,
+"2023-12": 84.19,
+"2026-09": 109.85
+},
+"CP09462": {
+"naziv": "Services associated with the practice of sports (S)",
+"2022-12": 86.21,
+"2023-12": 92.41,
+"2026-09": 106.56
+},
+"CP09463": {
+"naziv": "Services associated with attendance at sporting events (S)",
+"2022-12": 50.82,
+"2023-12": 65.0,
+"2026-09": 119.17
+},
+"CP095": {
+"naziv": "Cultural goods",
+"2022-12": 101.95,
+"2023-12": 102.2,
+"2026-09": 98.6
+},
+"CP0951": {
+"naziv": "Musical instruments (D)",
+"2022-12": 101.87,
+"2023-12": 101.77,
+"2026-09": 98.21
+},
+"CP09510": {
+"naziv": "Musical instruments (D)",
+"2022-12": 101.87,
+"2023-12": 101.77,
+"2026-09": 98.21
+},
+"CP096": {
+"naziv": "Cultural services",
+"2022-12": 79.99,
+"2023-12": 87.74,
+"2026-09": 118.19
+},
+"CP0961": {
+"naziv": "Services provided by cinemas, theatres and concert venues (S)",
+"2022-12": 80.66,
+"2023-12": 88.63,
+"2026-09": 116.18
+},
+"CP09610": {
+"naziv": "Services provided by cinemas, theatres and concert venues (S)",
+"2022-12": 80.66,
+"2023-12": 88.63,
+"2026-09": 116.18
+},
+"CP0962": {
+"naziv": "Services provided by museums, libraries and cultural sites (S)",
+"2022-12": 76.51,
+"2023-12": 84.2,
+"2026-09": 137.05
+},
+"CP09620": {
+"naziv": "Services provided by museums, libraries and cultural sites (S)",
+"2022-12": 76.51,
+"2023-12": 84.2,
+"2026-09": 137.05
+},
+"CP0963": {
+"naziv": "Photographic services (S)",
+"2022-12": 78.76,
+"2023-12": 84.79,
+"2026-09": 111.48
+},
+"CP09630": {
+"naziv": "Photographic services (S)",
+"2022-12": 78.76,
+"2023-12": 84.79,
+"2026-09": 111.48
+},
+"CP0969": {
+"naziv": "Other cultural services (S)",
+"2022-12": 80.98,
+"2023-12": 87.44,
+"2026-09": 101.68
+},
+"CP09690": {
+"naziv": "Other cultural services (S)",
+"2022-12": 80.98,
+"2023-12": 87.44,
+"2026-09": 101.68
+},
+"CP097": {
+"naziv": "Newspapers, books and stationery",
+"2022-12": 87.32,
+"2023-12": 91.62,
+"2026-09": 106.4
+},
+"CP0971": {
+"naziv": "Books (SD)",
+"2022-12": 84.48,
+"2023-12": 89.33,
+"2026-09": 107.81
+},
+"CP09711": {
+"naziv": "Educational books and textbooks (SD)",
+"2022-12": 82.03,
+"2023-12": 87.73,
+"2026-09": 110.76
+},
+"CP09719": {
+"naziv": "Other books (SD)",
+"2022-12": 97.49,
+"2023-12": 97.77,
+"2026-09": 99.93
+},
+"CP0972": {
+"naziv": "Newspapers and periodicals (ND)",
+"2022-12": 87.05,
+"2023-12": 89.53,
+"2026-09": 114.27
+},
+"CP09721": {
+"naziv": "Newspapers (ND)",
+"2022-12": 88.68,
+"2023-12": 90.81,
+"2026-09": 113.63
+},
+"CP09722": {
+"naziv": "Magazines and periodicals (ND)",
+"2022-12": 79.31,
+"2023-12": 83.98,
+"2026-09": 117.81
+},
+"CP0973": {
+"naziv": "Miscellaneous printed matter (ND)",
+"2022-12": 94.17,
+"2023-12": 98.79,
+"2026-09": 106.88
+},
+"CP09730": {
+"naziv": "Miscellaneous printed matter (ND)",
+"2022-12": 94.17,
+"2023-12": 98.79,
+"2026-09": 106.88
+},
+"CP0974": {
+"naziv": "Stationery and drawing materials (ND)",
+"2022-12": 92.55,
+"2023-12": 99.35,
+"2026-09": 96.61
+},
+"CP09740": {
+"naziv": "Stationery and drawing materials (ND)",
+"2022-12": 92.55,
+"2023-12": 99.35,
+"2026-09": 96.61
+},
+"CP098": {
+"naziv": "Package holidays",
+"2022-12": 75.67,
+"2023-12": 83.76,
+"2026-09": 108.27
+},
+"CP0980": {
+"naziv": "Package holidays (S)",
+"2022-12": 75.67,
+"2023-12": 83.76,
+"2026-09": 108.27
+},
+"CP09800": {
+"naziv": "Package holidays (S)",
+"2022-12": 75.67,
+"2023-12": 83.76,
+"2026-09": 108.27
+},
+"CP10": {
+"naziv": "Education services",
+"2022-12": 89.98,
+"2023-12": 94.88,
+"2026-09": 100.55
+},
+"CP101": {
+"naziv": "Early childhood and primary education",
+"2022-12": 98.94,
+"2023-12": 104.5,
+"2026-09": 87.88
+},
+"CP1010": {
+"naziv": "Early childhood and primary education (S)",
+"2022-12": 98.94,
+"2023-12": 104.5,
+"2026-09": 87.88
+},
+"CP10101": {
+"naziv": "Early childhood education (S)",
+"2022-12": 98.94,
+"2023-12": 104.5,
+"2026-09": 87.88
+},
+"CP102": {
+"naziv": "Secondary education",
+"2022-12": 78.32,
+"2023-12": 85.21,
+"2026-09": 119.01
+},
+"CP1020": {
+"naziv": "Secondary education (S)",
+"2022-12": 78.32,
+"2023-12": 85.21,
+"2026-09": 119.01
+},
+"CP10200": {
+"naziv": "Secondary education (S)",
+"2022-12": 78.32,
+"2023-12": 85.21,
+"2026-09": 119.01
+},
+"CP104": {
+"naziv": "Tertiary education",
+"2022-12": 90.98,
+"2023-12": 94.24,
+"2026-09": 102.52
+},
+"CP1040": {
+"naziv": "Tertiary education (S)",
+"2022-12": 90.98,
+"2023-12": 94.24,
+"2026-09": 102.52
+},
+"CP10400": {
+"naziv": "Tertiary education (S)",
+"2022-12": 90.98,
+"2023-12": 94.24,
+"2026-09": 102.52
+},
+"CP105": {
+"naziv": "Education not defined by level",
+"2022-12": 81.02,
+"2023-12": 87.02,
+"2026-09": 104.45
+},
+"CP1050": {
+"naziv": "Education not defined by level (S)",
+"2022-12": 81.02,
+"2023-12": 87.02,
+"2026-09": 104.45
+},
+"CP10509": {
+"naziv": "Other education not defined by level (S)",
+"2022-12": 80.84,
+"2023-12": 86.83,
+"2026-09": 103.87
+},
+"CP11": {
+"naziv": "Restaurants and accommodation services",
+"2022-12": 73.45,
+"2023-12": 82.81,
+"2026-09": 109.1
+},
+"CP111": {
+"naziv": "Food and beverage serving services",
+"2022-12": 77.57,
+"2023-12": 87.96,
+"2026-09": 108.13
+},
+"CP1111": {
+"naziv": "Restaurants, cafés and the like (S)",
+"2022-12": 77.55,
+"2023-12": 87.96,
+"2026-09": 108.39
+},
+"CP11111": {
+"naziv": "Restaurants, cafés and the like – with full service (S)",
+"2022-12": 78.13,
+"2023-12": 88.49,
+"2026-09": 108.44
+},
+"CP11112": {
+"naziv": "Restaurants, cafés and the like – with limited service (S)",
+"2022-12": 74.85,
+"2023-12": 85.56,
+"2026-09": 108.19
+},
+"CP1112": {
+"naziv": "Canteens, cafeterias and refectories (S)",
+"2022-12": 77.92,
+"2023-12": 88.1,
+"2026-09": 104.59
+},
+"CP11121": {
+"naziv": "Canteens and cafeterias of universities, schools and kindergartens (S)",
+"2022-12": 79.29,
+"2023-12": 89.65,
+"2026-09": 101.76
+},
+"CP11129": {
+"naziv": "Other canteens, cafeterias and refectories (S)",
+"2022-12": 77.02,
+"2023-12": 87.09,
+"2026-09": 107.32
+},
+"CP112": {
+"naziv": "Accommodation services",
+"2022-12": 66.42,
+"2023-12": 74.21,
+"2026-09": 111.54
+},
+"CP1120": {
+"naziv": "Accommodation services (S)",
+"2022-12": 66.42,
+"2023-12": 74.21,
+"2026-09": 111.54
+},
+"CP11201": {
+"naziv": "Hotels, motels, inns and similar accommodation services (S)",
+"2022-12": 76.73,
+"2023-12": 83.76,
+"2026-09": 128.86
+},
+"CP11202": {
+"naziv": "Holiday centres, camping sites, youth hostels and similar accommodation services (S)",
+"2022-12": 61.0,
+"2023-12": 69.43,
+"2026-09": 106.73
+},
+"CP11203": {
+"naziv": "Accommodation services of boarding schools, universities and other educational establishments (S)",
+"2022-12": 97.2,
+"2023-12": 97.25,
+"2026-09": 105.69
+},
+"CP12": {
+"naziv": "Insurance and financial services",
+"2022-12": 86.44,
+"2023-12": 89.86,
+"2026-09": 102.77
+},
+"CP121": {
+"naziv": "Insurance",
+"2022-12": 87.14,
+"2023-12": 91.59,
+"2026-09": 104.41
+},
+"CP1212": {
+"naziv": "Insurance connected with health (S)",
+"2022-12": 78.71,
+"2023-12": 84.59,
+"2026-09": 108.85
+},
+"CP12120": {
+"naziv": "Insurance connected with health (S)",
+"2022-12": 78.71,
+"2023-12": 84.59,
+"2026-09": 108.85
+},
+"CP1213": {
+"naziv": "Insurance connected with dwellings (S)",
+"2022-12": 93.27,
+"2023-12": 94.75,
+"2026-09": 100.0
+},
+"CP12130": {
+"naziv": "Insurance connected with dwellings (S)",
+"2022-12": 93.27,
+"2023-12": 94.75,
+"2026-09": 100.0
+},
+"CP1214": {
+"naziv": "Insurance connected with transport (S)",
+"2022-12": 90.48,
+"2023-12": 94.47,
+"2026-09": 101.72
+},
+"CP12141": {
+"naziv": "Personal transport insurance (S)",
+"2022-12": 90.42,
+"2023-12": 94.44,
+"2026-09": 101.74
+},
+"CP12142": {
+"naziv": "Travel insurance (S)",
+"2022-12": 95.43,
+"2023-12": 96.46,
+"2026-09": 100.32
+},
+"CP122": {
+"naziv": "Financial services",
+"2022-12": 85.29,
+"2023-12": 87.5,
+"2026-09": 100.64
+},
+"CP1222": {
+"naziv": "Explicit charges by deposit-taking corporations (S)",
+"2022-12": 85.26,
+"2023-12": 87.47,
+"2026-09": 100.64
+},
+"CP12220": {
+"naziv": "Explicit charges by deposit-taking corporations (S)",
+"2022-12": 85.26,
+"2023-12": 87.47,
+"2026-09": 100.64
+},
+"CP1229": {
+"naziv": "Other financial services (S)",
+"2022-12": 99.87,
+"2023-12": 100.02,
+"2026-09": 100.0
+},
+"CP12299": {
+"naziv": "Other financial services n.e.c. (S)",
+"2022-12": 99.87,
+"2023-12": 100.02,
+"2026-09": 100.0
+},
+"CP13": {
+"naziv": "Personal care, social protection and miscellaneous goods and services",
+"2022-12": 87.51,
+"2023-12": 92.04,
+"2026-09": 103.99
+},
+"CP131": {
+"naziv": "Personal care",
+"2022-12": 88.21,
+"2023-12": 92.53,
+"2026-09": 104.31
+},
+"CP1311": {
+"naziv": "Electric appliances for personal care (SD)",
+"2022-12": 98.99,
+"2023-12": 102.51,
+"2026-09": 98.19
+},
+"CP13111": {
+"naziv": "Purchase of electric appliances for personal care (SD)",
+"2022-12": 98.99,
+"2023-12": 102.51,
+"2026-09": 98.19
+},
+"CP1312": {
+"naziv": "Other appliances, articles and products for personal care (ND)",
+"2022-12": 92.79,
+"2023-12": 96.42,
+"2026-09": 100.12
+},
+"CP13120": {
+"naziv": "Other appliances, articles and products for personal care (ND)",
+"2022-12": 92.79,
+"2023-12": 96.42,
+"2026-09": 100.12
+},
+"CP1313": {
+"naziv": "Hairdressing salons and personal grooming establishments (S)",
+"2022-12": 79.94,
+"2023-12": 85.37,
+"2026-09": 112.03
+},
+"CP13131": {
+"naziv": "Hairdressing (S)",
+"2022-12": 79.98,
+"2023-12": 85.27,
+"2026-09": 111.92
+},
+"CP13132": {
+"naziv": "Personal grooming treatments (S)",
+"2022-12": 78.83,
+"2023-12": 87.71,
+"2026-09": 113.35
+},
+"CP132": {
+"naziv": "Other personal effects",
+"2022-12": 92.59,
+"2023-12": 96.44,
+"2026-09": 102.34
+},
+"CP1321": {
+"naziv": "Jewellery and watches (D)",
+"2022-12": 85.89,
+"2023-12": 90.97,
+"2026-09": 109.37
+},
+"CP13211": {
+"naziv": "Purchase of jewellery and watches (D)",
+"2022-12": 86.38,
+"2023-12": 91.27,
+"2026-09": 109.36
+},
+"CP13212": {
+"naziv": "Repair and hire of jewellery, clocks and watches (S)",
+"2022-12": 70.46,
+"2023-12": 80.98,
+"2026-09": 114.18
+},
+"CP1329": {
+"naziv": "Other personal effects n.e.c. (SD)",
+"2022-12": 93.56,
+"2023-12": 97.21,
+"2026-09": 99.62
+},
+"CP13291": {
+"naziv": "Travel goods, baby articles and other personal effects n.e.c. (SD)",
+"2022-12": 93.56,
+"2023-12": 97.21,
+"2026-09": 99.62
+},
+"CP133": {
+"naziv": "Social protection",
+"2022-12": 83.06,
+"2023-12": 88.65,
+"2026-09": 103.56
+},
+"CP1330": {
+"naziv": "Social protection (S)",
+"2022-12": 83.06,
+"2023-12": 88.65,
+"2026-09": 103.56
+},
+"CP13301": {
+"naziv": "Childcare services (S)",
+"2022-12": 98.06,
+"2023-12": 104.06,
+"2026-09": 98.49
+},
+"CP13302": {
+"naziv": "Retirement homes for elderly persons and residences for disabled persons, not providing medical care (S)",
+"2022-12": 78.02,
+"2023-12": 83.45,
+"2026-09": 109.69
+},
+"CP139": {
+"naziv": "Other services",
+"2022-12": 85.64,
+"2023-12": 90.74,
+"2026-09": 102.45
+},
+"CP1390": {
+"naziv": "Other services (S)",
+"2022-12": 85.64,
+"2023-12": 90.74,
+"2026-09": 102.45
+},
+"CP13909": {
+"naziv": "Other services n.e.c. (S)",
+"2022-12": 85.64,
+"2023-12": 90.74,
+"2026-09": 102.45
+},
+"GD": {
+"naziv": "Goods (overall index excluding services)",
+"2022-12": 92.41,
+"2023-12": 96.2,
+"2026-09": 103.73
+},
+"FOOD": {
+"naziv": "Food including alcohol and tobacco",
+"2022-12": 86.71,
+"2023-12": 92.31,
+"2026-09": 101.76
+},
+"FOOD_P": {
+"naziv": "Processed food including alcohol and tobacco",
+"2022-12": 87.21,
+"2023-12": 91.85,
+"2026-09": 101.85
+},
+"FOOD_P_X_TBC": {
+"naziv": "Processed food excluding tobacco",
+"2022-12": 86.14,
+"2023-12": 91.14,
+"2026-09": 100.94
+},
+"FOOD_P_X_ALC_TBC": {
+"naziv": "Processed food excluding alcohol and tobacco",
+"2022-12": 87.4,
+"2023-12": 91.81,
+"2026-09": 100.29
+},
+"FOOD_NP": {
+"naziv": "Unprocessed food",
+"2022-12": 85.25,
+"2023-12": 93.65,
+"2026-09": 101.52
+},
+"FOOD_S": {
+"naziv": "Seasonal food",
+"2022-12": 83.06,
+"2023-12": 96.59,
+"2026-09": 100.15
+},
+"IGD": {
+"naziv": "Industrial goods",
+"2022-12": 96.93,
+"2023-12": 99.19,
+"2026-09": 105.23
+},
+"IGD_NNRG": {
+"naziv": "Non-energy industrial goods",
+"2022-12": 96.84,
+"2023-12": 100.45,
+"2026-09": 99.28
+},
+"IGD_NNRG_D": {
+"naziv": "Non-energy industrial goods, durables only",
+"2022-12": 101.85,
+"2023-12": 103.38,
+"2026-09": 99.15
+},
+"IGD_NNRG_SD": {
+"naziv": "Non-energy industrial goods, semi-durables only",
+"2022-12": 98.4,
+"2023-12": 103.04,
+"2026-09": 95.83
+},
+"IGD_NNRG_ND": {
+"naziv": "Non-energy industrial goods, non-durables only",
+"2022-12": 92.05,
+"2023-12": 96.28,
+"2026-09": 102.21
+},
+"NRG": {
+"naziv": "Energy",
+"2022-12": 97.02,
+"2023-12": 96.54,
+"2026-09": 118.05
+},
+"ELC_GAS": {
+"naziv": "Electricity, gas, solid fuels and heat energy",
+"2022-12": 92.88,
+"2023-12": 91.9,
+"2026-09": 109.65
+},
+"FUEL": {
+"naziv": "Liquid fuels and fuels for personal transport equipment",
+"2022-12": 103.75,
+"2023-12": 104.13,
+"2026-09": 128.2
+},
+"SERV": {
+"naziv": "Services (overall index excluding goods)",
+"2022-12": 81.04,
+"2023-12": 87.6,
+"2026-09": 108.89
+},
+"SERV_COM": {
+"naziv": "Services related to communication",
+"2022-12": 96.37,
+"2023-12": 98.8,
+"2026-09": 103.78
+},
+"SERV_HOUS": {
+"naziv": "Services related to housing",
+"2022-12": 84.5,
+"2023-12": 89.41,
+"2026-09": 118.41
+},
+"SERV_MSC": {
+"naziv": "Services - miscellaneous",
+"2022-12": 82.85,
+"2023-12": 88.27,
+"2026-09": 105.1
+},
+"SERV_REC": {
+"naziv": "Services related to recreation, including repairs and personal care",
+"2022-12": 75.74,
+"2023-12": 84.02,
+"2026-09": 109.13
+},
+"SERV_REC_X_HOA": {
+"naziv": "Services related to recreation and personal care, excluding package holidays and accommodation",
+"2022-12": 79.46,
+"2023-12": 87.91,
+"2026-09": 108.57
+},
+"SERV_REC_HOA": {
+"naziv": "Services related to package holidays and accommodation",
+"2022-12": 67.76,
+"2023-12": 75.6,
+"2026-09": 110.99
+},
+"SERV_TRA": {
+"naziv": "Services related to transport",
+"2022-12": 88.34,
+"2023-12": 92.88,
+"2026-09": 111.14
+},
+"NRG_FOOD_NP": {
+"naziv": "Energy and unprocessed food",
+"2022-12": 92.45,
+"2023-12": 95.44,
+"2026-09": 111.66
+},
+"NRG_FOOD_S": {
+"naziv": "Energy and seasonal food",
+"2022-12": 94.07,
+"2023-12": 96.55,
+"2026-09": 114.43
+},
+"EDUC_HLTH_SPR": {
+"naziv": "Education, health and social protection",
+"2022-12": 87.01,
+"2023-12": 91.98,
+"2026-09": 104.78
+},
+"TOT_X_FOOD_S": {
+"naziv": "Overall index excluding seasonal food",
+"2022-12": 88.73,
+"2023-12": 93.18,
+"2026-09": 105.59
+},
+"TOT_X_ALC_TBC": {
+"naziv": "Overall index excluding alcohol and tobacco",
+"2022-12": 88.67,
+"2023-12": 93.38,
+"2026-09": 105.46
+},
+"TOT_X_TBC": {
+"naziv": "Overall index excluding tobacco",
+"2022-12": 88.39,
+"2023-12": 93.2,
+"2026-09": 105.38
+},
+"TOT_X_NRG": {
+"naziv": "Overall index excluding energy",
+"2022-12": 87.4,
+"2023-12": 92.84,
+"2026-09": 103.69
+},
+"TOT_X_NRG_FOOD": {
+"naziv": "Overall index excluding energy, food, alcohol and tobacco",
+"2022-12": 87.75,
+"2023-12": 93.1,
+"2026-09": 104.64
+},
+"TOT_X_NRG_FOOD_NP": {
+"naziv": "Overall index excluding energy and unprocessed food",
+"2022-12": 87.61,
+"2023-12": 92.77,
+"2026-09": 103.9
+},
+"TOT_X_NRG_FOOD_S": {
+"naziv": "Overall index excluding energy and seasonal food",
+"2022-12": 87.57,
+"2023-12": 92.71,
+"2026-09": 103.82
+},
+"TOT_X_FUEL": {
+"naziv": "Overall index excluding liquid fuels and fuels for personal transport equipment",
+"2022-12": 87.83,
+"2023-12": 92.77,
+"2026-09": 104.15
+},
+"TOT_X_HOUS": {
+"naziv": "Overall index excluding housing, water, electricity, gas and other fuels",
+"2022-12": 87.92,
+"2023-12": 93.3,
+"2026-09": 104.5
+},
+"TOT_X_EDUC_HLTH_SPR": {
+"naziv": "Overall index excluding education, health and social protection",
+"2022-12": 88.66,
+"2023-12": 93.38,
+"2026-09": 105.47
+},
+"AP": {
+"naziv": "Administered prices",
+"2022-12": 88.01,
+"2023-12": 90.63,
+"2026-09": 109.76
+},
+"AP_NRG": {
+"naziv": "Administered prices - energy",
+"2022-12": 90.03,
+"2023-12": 89.99,
+"2026-09": 109.46
+},
+"AP_X_NRG": {
+"naziv": "Administered prices excluding energy",
+"2022-12": 86.79,
+"2023-12": 91.01,
+"2026-09": 109.92
+},
+"AP_X_NRG_FOOD": {
+"naziv": "Administered prices excluding energy and food",
+"2022-12": 86.79,
+"2023-12": 91.01,
+"2026-09": 109.92
+},
+"AP_NRG_FOOD": {
+"naziv": "Administered prices - energy and food",
+"2022-12": 90.03,
+"2023-12": 89.99,
+"2026-09": 109.46
+},
+"APF": {
+"naziv": "Fully administered prices",
+"2022-12": 81.02,
+"2023-12": 85.15,
+"2026-09": 118.99
+},
+"APM": {
+"naziv": "Mainly administered prices",
+"2022-12": 89.46,
+"2023-12": 91.79,
+"2026-09": 108.0
+},
+"TOT_X_AP": {
+"naziv": "Overall index excluding administered prices",
+"2022-12": 88.64,
+"2023-12": 93.84,
+"2026-09": 104.57
+},
+"TOT_X_APF": {
+"naziv": "Overall index excluding fully administered prices",
+"2022-12": 88.78,
+"2023-12": 93.54,
+"2026-09": 105.06
+},
+"TOT_X_APM": {
+"naziv": "Overall index excluding mainly administered prices",
+"2022-12": 88.38,
+"2023-12": 93.53,
+"2026-09": 105.01
+}
+}
+}

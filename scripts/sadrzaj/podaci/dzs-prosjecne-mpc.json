@@ -1,0 +1,929 @@
+[
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Bijela riža",
+"jm": "1 kg",
+"kn_ruj22": 26.21,
+"kn_pro22": 27.26,
+"eur_pro22": 3.62,
+"eur_pro23": 3.65
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Pšenično brašno, bijelo",
+"jm": "1 kg",
+"kn_ruj22": 5.6,
+"kn_pro22": 5.45,
+"eur_pro22": 0.72,
+"eur_pro23": 0.74
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Pšenična krupica (gris), obična",
+"jm": "1 kg",
+"kn_ruj22": 10.47,
+"kn_pro22": 10.31,
+"eur_pro22": 1.37,
+"eur_pro23": 1.5
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Kruh od pšeničnog brašna, bijeli",
+"jm": "400 − 700 g",
+"kn_ruj22": 9.55,
+"kn_pro22": 10.34,
+"eur_pro22": 1.37,
+"eur_pro23": 1.41
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Kruh od pšeničnog brašna, polubijeli",
+"jm": "400 − 700 g",
+"kn_ruj22": 8.43,
+"kn_pro22": 9.08,
+"eur_pro22": 1.2,
+"eur_pro23": 1.24
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Kruh, miješani",
+"jm": "400 − 700 g",
+"kn_ruj22": 11.96,
+"kn_pro22": 12.16,
+"eur_pro22": 1.61,
+"eur_pro23": 1.67
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Pecivo",
+"jm": "1 kom.",
+"kn_ruj22": 3.14,
+"kn_pro22": 3.24,
+"eur_pro22": 0.43,
+"eur_pro23": 0.45
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Krafna",
+"jm": "1 kom.",
+"kn_ruj22": 4.91,
+"kn_pro22": 5.08,
+"eur_pro22": 0.67,
+"eur_pro23": 0.68
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Tost",
+"jm": "1 kom.",
+"kn_ruj22": 12.18,
+"kn_pro22": 13.52,
+"eur_pro22": 1.79,
+"eur_pro23": 1.83
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Tjestenina",
+"jm": "400 − 500 g",
+"kn_ruj22": 12.29,
+"kn_pro22": 13.02,
+"eur_pro22": 1.73,
+"eur_pro23": 1.72
+},
+{
+"kat": "KRUH I PROIZVODI OD ŽITARICA",
+"ime": "Kukuruzne pahuljice",
+"jm": "250 − 500 g",
+"kn_ruj22": 20.42,
+"kn_pro22": 20.67,
+"eur_pro22": 2.74,
+"eur_pro23": 3.29
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Junetina s kostima",
+"jm": "1 kg",
+"kn_ruj22": 62.25,
+"kn_pro22": 64.49,
+"eur_pro22": 8.56,
+"eur_pro23": 9.07
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Teleća rebra",
+"jm": "1 kg",
+"kn_ruj22": 54.85,
+"kn_pro22": 55.45,
+"eur_pro22": 7.36,
+"eur_pro23": 8.03
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Svinjetina s kostima, kotleti",
+"jm": "1 kg",
+"kn_ruj22": 42.21,
+"kn_pro22": 39.69,
+"eur_pro22": 5.27,
+"eur_pro23": 6.16
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Svinjetina bez kosti, but",
+"jm": "1 kg",
+"kn_ruj22": 44.1,
+"kn_pro22": 42.45,
+"eur_pro22": 5.63,
+"eur_pro23": 6.47
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Pile",
+"jm": "1 kg",
+"kn_ruj22": 24.58,
+"kn_pro22": 24.39,
+"eur_pro22": 3.24,
+"eur_pro23": 3.23
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Šunka u ovitku",
+"jm": "1 kg",
+"kn_ruj22": 75.97,
+"kn_pro22": 74.26,
+"eur_pro22": 9.86,
+"eur_pro23": 11.08
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Posebna salama",
+"jm": "1 kg",
+"kn_ruj22": 48.15,
+"kn_pro22": 48.72,
+"eur_pro22": 6.47,
+"eur_pro23": 6.67
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Mortadela",
+"jm": "1 kg",
+"kn_ruj22": 69.95,
+"kn_pro22": 66.99,
+"eur_pro22": 8.89,
+"eur_pro23": 10.01
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Hrenovke, bez dodataka",
+"jm": "200 − 300 g",
+"kn_ruj22": 13.83,
+"kn_pro22": 14.0,
+"eur_pro22": 1.86,
+"eur_pro23": 1.91
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Čajna kobasica",
+"jm": "1 kg",
+"kn_ruj22": 106.67,
+"kn_pro22": 103.5,
+"eur_pro22": 13.74,
+"eur_pro23": 16.45
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Slanina",
+"jm": "1 kg",
+"kn_ruj22": 110.09,
+"kn_pro22": 115.71,
+"eur_pro22": 15.36,
+"eur_pro23": 16.2
+},
+{
+"kat": "MESO I MESNI PROIZVODI",
+"ime": "Pašteta",
+"jm": "50 − 100 g",
+"kn_ruj22": 8.73,
+"kn_pro22": 8.62,
+"eur_pro22": 1.14,
+"eur_pro23": 1.21
+},
+{
+"kat": "RIBA I RIBLJI PROIZVODI",
+"ime": "Smrznuti oslić, file",
+"jm": "400 − 500 g",
+"kn_ruj22": 37.53,
+"kn_pro22": 39.75,
+"eur_pro22": 5.28,
+"eur_pro23": 5.23
+},
+{
+"kat": "RIBA I RIBLJI PROIZVODI",
+"ime": "Sardine u ulju, bez dodataka",
+"jm": "100 − 120 g",
+"kn_ruj22": 11.47,
+"kn_pro22": 11.35,
+"eur_pro22": 1.51,
+"eur_pro23": 1.41
+},
+{
+"kat": "RIBA I RIBLJI PROIZVODI",
+"ime": "Tuna u konzervi, bez dodataka",
+"jm": "100 − 160 g",
+"kn_ruj22": 22.15,
+"kn_pro22": 22.02,
+"eur_pro22": 2.92,
+"eur_pro23": 3.14
+},
+{
+"kat": "MLIJEKO I MLIJEČNI PROIZVODI",
+"ime": "Mlijeko, svježe",
+"jm": "1 l",
+"kn_ruj22": 9.88,
+"kn_pro22": 9.92,
+"eur_pro22": 1.32,
+"eur_pro23": 1.29
+},
+{
+"kat": "MLIJEKO I MLIJEČNI PROIZVODI",
+"ime": "Mlijeko, trajno",
+"jm": "1 l",
+"kn_ruj22": 7.47,
+"kn_pro22": 7.51,
+"eur_pro22": 1.0,
+"eur_pro23": 1.0
+},
+{
+"kat": "MLIJEKO I MLIJEČNI PROIZVODI",
+"ime": "Jogurt, obični, čašica",
+"jm": "180 − 200 g",
+"kn_ruj22": 4.07,
+"kn_pro22": 4.4,
+"eur_pro22": 0.59,
+"eur_pro23": 0.48
+},
+{
+"kat": "MLIJEKO I MLIJEČNI PROIZVODI",
+"ime": "Sir, polutrvrdi",
+"jm": "1 kg",
+"kn_ruj22": 80.29,
+"kn_pro22": 82.85,
+"eur_pro22": 10.99,
+"eur_pro23": 9.23
+},
+{
+"kat": "MLIJEKO I MLIJEČNI PROIZVODI",
+"ime": "Sirni namaz, bez dodataka",
+"jm": "100 g",
+"kn_ruj22": 7.76,
+"kn_pro22": 8.59,
+"eur_pro22": 1.14,
+"eur_pro23": 1.11
+},
+{
+"kat": "JAJA",
+"ime": "Kokošja jaja",
+"jm": "10 kom.",
+"kn_ruj22": 17.46,
+"kn_pro22": 21.52,
+"eur_pro22": 2.86,
+"eur_pro23": 2.69
+},
+{
+"kat": "ULJA I MASTI",
+"ime": "Ulje, suncokretovo",
+"jm": "1 l",
+"kn_ruj22": 15.98,
+"kn_pro22": 15.12,
+"eur_pro22": 2.01,
+"eur_pro23": 1.46
+},
+{
+"kat": "ULJA I MASTI",
+"ime": "Maslac",
+"jm": "250 g",
+"kn_ruj22": 24.27,
+"kn_pro22": 26.99,
+"eur_pro22": 3.58,
+"eur_pro23": 3.12
+},
+{
+"kat": "ULJA I MASTI",
+"ime": "Margarin, stolni",
+"jm": "250 g",
+"kn_ruj22": 7.06,
+"kn_pro22": 6.85,
+"eur_pro22": 0.91,
+"eur_pro23": 0.97
+},
+{
+"kat": "VOĆE",
+"ime": "Limuni",
+"jm": "1 kg",
+"kn_ruj22": 14.4,
+"kn_pro22": 13.39,
+"eur_pro22": 1.78,
+"eur_pro23": 1.34
+},
+{
+"kat": "VOĆE",
+"ime": "Naranče",
+"jm": "1 kg",
+"kn_ruj22": 14.22,
+"kn_pro22": 10.16,
+"eur_pro22": 1.35,
+"eur_pro23": 1.55
+},
+{
+"kat": "VOĆE",
+"ime": "Banane",
+"jm": "1 kg",
+"kn_ruj22": 10.25,
+"kn_pro22": 10.72,
+"eur_pro22": 1.42,
+"eur_pro23": 1.45
+},
+{
+"kat": "VOĆE",
+"ime": "Jabuke",
+"jm": "1 kg",
+"kn_ruj22": 9.29,
+"kn_pro22": 9.7,
+"eur_pro22": 1.29,
+"eur_pro23": 1.48
+},
+{
+"kat": "POVRĆE",
+"ime": "Grah, suhi",
+"jm": "1 kg",
+"kn_ruj22": 18.7,
+"kn_pro22": 20.43,
+"eur_pro22": 2.71,
+"eur_pro23": 2.28
+},
+{
+"kat": "POVRĆE",
+"ime": "Crveni luk",
+"jm": "1 kg",
+"kn_ruj22": 6.0,
+"kn_pro22": 6.15,
+"eur_pro22": 0.82,
+"eur_pro23": 1.09
+},
+{
+"kat": "POVRĆE",
+"ime": "Mrkva",
+"jm": "1 kg",
+"kn_ruj22": 6.56,
+"kn_pro22": 6.05,
+"eur_pro22": 0.8,
+"eur_pro23": 0.97
+},
+{
+"kat": "POVRĆE",
+"ime": "Slatko zelje",
+"jm": "1 kg",
+"kn_ruj22": 7.04,
+"kn_pro22": 4.9,
+"eur_pro22": 0.65,
+"eur_pro23": 0.73
+},
+{
+"kat": "POVRĆE",
+"ime": "Rajčice",
+"jm": "1 kg",
+"kn_ruj22": 13.73,
+"kn_pro22": 14.86,
+"eur_pro22": 1.97,
+"eur_pro23": 2.28
+},
+{
+"kat": "POVRĆE",
+"ime": "Paprika",
+"jm": "1 kg",
+"kn_ruj22": 14.97,
+"kn_pro22": 14.63,
+"eur_pro22": 1.94,
+"eur_pro23": 2.35
+},
+{
+"kat": "POVRĆE",
+"ime": "Tikvice",
+"jm": "1 kg",
+"kn_ruj22": 10.94,
+"kn_pro22": 15.12,
+"eur_pro22": 2.01,
+"eur_pro23": 2.17
+},
+{
+"kat": "POVRĆE",
+"ime": "Kelj",
+"jm": "1 kg",
+"kn_ruj22": 10.97,
+"kn_pro22": 7.31,
+"eur_pro22": 0.97,
+"eur_pro23": 1.06
+},
+{
+"kat": "POVRĆE",
+"ime": "Brokula",
+"jm": "1 kg",
+"kn_ruj22": 28.93,
+"kn_pro22": 22.3,
+"eur_pro22": 2.95,
+"eur_pro23": 3.79
+},
+{
+"kat": "POVRĆE",
+"ime": "Šampinjoni",
+"jm": "500 g",
+"kn_ruj22": 14.0,
+"kn_pro22": 13.24,
+"eur_pro22": 1.76,
+"eur_pro23": 1.79
+},
+{
+"kat": "POVRĆE",
+"ime": "Konzervirani krastavci",
+"jm": "660 − 670 g",
+"kn_ruj22": 17.77,
+"kn_pro22": 18.27,
+"eur_pro22": 2.42,
+"eur_pro23": 2.62
+},
+{
+"kat": "POVRĆE",
+"ime": "Krumpiri",
+"jm": "1 kg",
+"kn_ruj22": 5.96,
+"kn_pro22": 6.47,
+"eur_pro22": 0.86,
+"eur_pro23": 0.95
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Čips, vrećica",
+"jm": "130 − 150 g",
+"kn_ruj22": 11.54,
+"kn_pro22": 12.12,
+"eur_pro22": 1.61,
+"eur_pro23": 1.97
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Šećer, kristal",
+"jm": "1 kg",
+"kn_ruj22": 7.96,
+"kn_pro22": 7.99,
+"eur_pro22": 1.06,
+"eur_pro23": 1.27
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Džem",
+"jm": "320 − 450 g",
+"kn_ruj22": 14.65,
+"kn_pro22": 14.67,
+"eur_pro22": 1.95,
+"eur_pro23": 2.37
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Med, prirodni",
+"jm": "900 − 1 000 g",
+"kn_ruj22": 70.24,
+"kn_pro22": 68.1,
+"eur_pro22": 9.04,
+"eur_pro23": 8.48
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Mliječna čokolada bez dodataka",
+"jm": "80 − 100 g",
+"kn_ruj22": 6.89,
+"kn_pro22": 7.51,
+"eur_pro22": 1.0,
+"eur_pro23": 0.98
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Napolitanke",
+"jm": "350 − 500 g",
+"kn_ruj22": 17.79,
+"kn_pro22": 19.58,
+"eur_pro22": 2.6,
+"eur_pro23": 2.84
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Majoneza, u vrećici",
+"jm": "85 − 100 g",
+"kn_ruj22": 6.91,
+"kn_pro22": 7.01,
+"eur_pro22": 0.93,
+"eur_pro23": 1.05
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Kuhinjska sol",
+"jm": "1 kg",
+"kn_ruj22": 5.97,
+"kn_pro22": 6.1,
+"eur_pro22": 0.81,
+"eur_pro23": 0.83
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Vegeta, obična",
+"jm": "250 g",
+"kn_ruj22": 15.09,
+"kn_pro22": 15.3,
+"eur_pro22": 2.03,
+"eur_pro23": 2.01
+},
+{
+"kat": "OSTALI PREHRAMBENI PROIZVODI",
+"ime": "Dječja instant hrana",
+"jm": "150 − 200 g",
+"kn_ruj22": 17.12,
+"kn_pro22": 16.91,
+"eur_pro22": 2.24,
+"eur_pro23": 2.25
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Kava, mljevena, s kofeinom",
+"jm": "175 − 250 g",
+"kn_ruj22": 21.96,
+"kn_pro22": 21.93,
+"eur_pro22": 2.91,
+"eur_pro23": 3.07
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Čaj, filter-vrećice, kutija",
+"jm": "1 kom.",
+"kn_ruj22": 13.16,
+"kn_pro22": 12.97,
+"eur_pro22": 1.72,
+"eur_pro23": 1.96
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Mineralna gazirana voda, plastična boca",
+"jm": "1,5 l",
+"kn_ruj22": 6.51,
+"kn_pro22": 6.64,
+"eur_pro22": 0.88,
+"eur_pro23": 0.9
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Prirodna negazirana mineralna voda, plastična boca",
+"jm": "1,5 l",
+"kn_ruj22": 6.32,
+"kn_pro22": 6.58,
+"eur_pro22": 0.87,
+"eur_pro23": 0.88
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Voćni sirup",
+"jm": "0,7 − 1 l",
+"kn_ruj22": 25.16,
+"kn_pro22": 26.7,
+"eur_pro22": 3.55,
+"eur_pro23": 3.0
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Prirodni voćni sok",
+"jm": "1 l",
+"kn_ruj22": 11.67,
+"kn_pro22": 12.22,
+"eur_pro22": 1.62,
+"eur_pro23": 1.75
+},
+{
+"kat": "BEZALKOHOLNA PIĆA",
+"ime": "Gazirani bezalkoholni napitak",
+"jm": "1,5 − 2 l",
+"kn_ruj22": 13.63,
+"kn_pro22": 14.16,
+"eur_pro22": 1.88,
+"eur_pro23": 2.05
+},
+{
+"kat": "ALKOHOLNA PIĆA",
+"ime": "Svijetlo pivo, u boci",
+"jm": "0,5 l",
+"kn_ruj22": 7.61,
+"kn_pro22": 8.02,
+"eur_pro22": 1.07,
+"eur_pro23": 1.17
+},
+{
+"kat": "ALKOHOLNA PIĆA",
+"ime": "Vino, bijelo",
+"jm": "0,7 − 1 l",
+"kn_ruj22": 30.64,
+"kn_pro22": 32.9,
+"eur_pro22": 4.37,
+"eur_pro23": 4.67
+},
+{
+"kat": "PROIZVODI ZA ČIŠĆENJE I ODRŽAVANJE",
+"ime": "Deterdžent za strojno pranje rublja, u prahu",
+"jm": "1,0 − 1,5 kg",
+"kn_ruj22": 44.0,
+"kn_pro22": 48.08,
+"eur_pro22": 6.38,
+"eur_pro23": 6.09
+},
+{
+"kat": "PROIZVODI ZA ČIŠĆENJE I ODRŽAVANJE",
+"ime": "Tekući deterdžent za ručno pranje posuđa",
+"jm": "0,45 − 0,5 l",
+"kn_ruj22": 10.09,
+"kn_pro22": 10.42,
+"eur_pro22": 1.38,
+"eur_pro23": 1.4
+},
+{
+"kat": "ZDRAVLJE",
+"ime": "Sirup za ublažavanje kašlja, za odrasle",
+"jm": "100 − 200 ml",
+"kn_ruj22": 50.06,
+"kn_pro22": 51.72,
+"eur_pro22": 6.86,
+"eur_pro23": 7.42
+},
+{
+"kat": "ZDRAVLJE",
+"ime": "Tablete za snižavanje tjelesne temperature",
+"jm": "kutija",
+"kn_ruj22": 22.65,
+"kn_pro22": 23.76,
+"eur_pro22": 3.15,
+"eur_pro23": 3.47
+},
+{
+"kat": "ZDRAVLJE",
+"ime": "Laboratorijske pretrage − kompletna krvna slika",
+"jm": "pretraga",
+"kn_ruj22": 63.09,
+"kn_pro22": 63.09,
+"eur_pro22": 8.38,
+"eur_pro23": 8.38
+},
+{
+"kat": "ZDRAVLJE",
+"ime": "Dopunsko zdravstveno osiguranje",
+"jm": "premija",
+"kn_ruj22": 720.0,
+"kn_pro22": 672.0,
+"eur_pro22": 89.19,
+"eur_pro23": 95.56
+},
+{
+"kat": "ZDRAVLJE",
+"ime": "Stomatološka usluga − čišćenje zubnoga kamenca, privatna praksa",
+"jm": "",
+"kn_ruj22": 299.02,
+"kn_pro22": 307.44,
+"eur_pro22": 40.82,
+"eur_pro23": 44.28
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Četkica za zube",
+"jm": "1 kom.",
+"kn_ruj22": 19.81,
+"kn_pro22": 21.5,
+"eur_pro22": 2.85,
+"eur_pro23": 2.9
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Pasta za zube, tuba",
+"jm": "75 − 100 ml",
+"kn_ruj22": 15.9,
+"kn_pro22": 16.45,
+"eur_pro22": 2.18,
+"eur_pro23": 2.39
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Tekući sapun, s pumpicom",
+"jm": "250 − 300 ml",
+"kn_ruj22": 18.49,
+"kn_pro22": 19.58,
+"eur_pro22": 2.6,
+"eur_pro23": 2.37
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Krema za lice",
+"jm": "50 ml",
+"kn_ruj22": 62.39,
+"kn_pro22": 63.55,
+"eur_pro22": 8.43,
+"eur_pro23": 8.91
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Šampon za kosu",
+"jm": "250 − 350 ml",
+"kn_ruj22": 26.06,
+"kn_pro22": 27.15,
+"eur_pro22": 3.6,
+"eur_pro23": 3.75
+},
+{
+"kat": "PROIZVODI ZA OSOBNU HIGIJENU I NJEGU",
+"ime": "Gel za tuširanje",
+"jm": "250 − 350 ml",
+"kn_ruj22": 20.3,
+"kn_pro22": 21.38,
+"eur_pro22": 2.84,
+"eur_pro23": 2.76
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Špageti",
+"jm": "porcija",
+"kn_ruj22": 54.42,
+"kn_pro22": 54.64,
+"eur_pro22": 7.25,
+"eur_pro23": 8.11
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Juha",
+"jm": "porcija",
+"kn_ruj22": 23.98,
+"kn_pro22": 23.91,
+"eur_pro22": 3.17,
+"eur_pro23": 3.72
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Bečki odrezak (s prilogom)",
+"jm": "porcija",
+"kn_ruj22": 75.63,
+"kn_pro22": 76.49,
+"eur_pro22": 10.15,
+"eur_pro23": 11.62
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Voćni sok",
+"jm": "2 dl",
+"kn_ruj22": 18.75,
+"kn_pro22": 18.81,
+"eur_pro22": 2.5,
+"eur_pro23": 2.78
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Kava, espresso",
+"jm": "šalica",
+"kn_ruj22": 10.42,
+"kn_pro22": 10.47,
+"eur_pro22": 1.39,
+"eur_pro23": 1.57
+},
+{
+"kat": "UGOSTITELJSKE USLUGE",
+"ime": "Pizza, srednja",
+"jm": "porcija",
+"kn_ruj22": 53.35,
+"kn_pro22": 54.58,
+"eur_pro22": 7.25,
+"eur_pro23": 8.25
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Muško šišanje, bez pranja kose",
+"jm": "",
+"kn_ruj22": 59.48,
+"kn_pro22": 60.57,
+"eur_pro22": 8.04,
+"eur_pro23": 9.01
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Žensko šišanje, pranje kose i fen frizura",
+"jm": "",
+"kn_ruj22": 147.98,
+"kn_pro22": 149.64,
+"eur_pro22": 19.86,
+"eur_pro23": 21.25
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Usluga pedikera",
+"jm": "",
+"kn_ruj22": 137.43,
+"kn_pro22": 139.32,
+"eur_pro22": 18.5,
+"eur_pro23": 20.62
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Klasična masaža cijelog tijela",
+"jm": "sat",
+"kn_ruj22": 199.4,
+"kn_pro22": 205.61,
+"eur_pro22": 27.3,
+"eur_pro23": 29.09
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Kemijsko čišćenje hlača",
+"jm": "",
+"kn_ruj22": 45.17,
+"kn_pro22": 46.27,
+"eur_pro22": 6.14,
+"eur_pro23": 6.75
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Kemijsko čišćenje košulja",
+"jm": "",
+"kn_ruj22": 27.62,
+"kn_pro22": 27.54,
+"eur_pro22": 3.66,
+"eur_pro23": 3.77
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Redovni godišnji servis plinskog bojlera",
+"jm": "",
+"kn_ruj22": 500.78,
+"kn_pro22": 503.42,
+"eur_pro22": 66.82,
+"eur_pro23": 70.54
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Pranje automobila, strojno, izvana",
+"jm": "",
+"kn_ruj22": 61.02,
+"kn_pro22": 62.06,
+"eur_pro22": 8.24,
+"eur_pro23": 8.78
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Ulaznica za kino",
+"jm": "ulaznica",
+"kn_ruj22": 35.06,
+"kn_pro22": 35.57,
+"eur_pro22": 4.71,
+"eur_pro23": 5.22
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Ulaznica za kazalište",
+"jm": "ulaznica",
+"kn_ruj22": 63.59,
+"kn_pro22": 64.33,
+"eur_pro22": 8.54,
+"eur_pro23": 9.41
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Teretana, mjesečna članarina",
+"jm": "",
+"kn_ruj22": 254.85,
+"kn_pro22": 256.67,
+"eur_pro22": 34.08,
+"eur_pro23": 36.9
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Ulaznica za bazen",
+"jm": "ulaznica",
+"kn_ruj22": 22.0,
+"kn_pro22": 25.8,
+"eur_pro22": 3.42,
+"eur_pro23": 3.57
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Tečaj stranog jezika, jedan semestar",
+"jm": "",
+"kn_ruj22": 2397.62,
+"kn_pro22": 2408.75,
+"eur_pro22": 319.66,
+"eur_pro23": 340.94
+},
+{
+"kat": "OSTALE USLUGE",
+"ime": "Naknada za vođenje tekućeg računa",
+"jm": "naknada",
+"kn_ruj22": 11.4,
+"kn_pro22": 11.4,
+"eur_pro22": 1.51,
+"eur_pro23": 1.51
+}
+]

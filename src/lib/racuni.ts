@@ -1,6 +1,8 @@
 // SAMO SERVER. Ova datoteka sadrži današnje cijene (polje c) i ne smije se uvoziti
 // u klijentske komponente. Klijent dobiva JavnaStavka (bez c) preko javniRacun().
 // Sve cijene provjerene su 16. 11. 2026. i svaka ima izvor.
+// Ručno uneseni računi su u ovoj datoteci; računi iz DZS-ovih podataka generiraju se u racuni-dzs.ts.
+import { RACUNI_DZS } from "./racuni-dzs";
 
 export type Izvor = { n: string; u: string };
 
@@ -20,6 +22,8 @@ export type Stavka = {
   k: number;
   f: number;
   cijeli?: boolean;
+  /** današnja cijena je procjena (službena cijena iz 12/2023. uvećana za rast cijena skupine), a ne izmjerena cijena */
+  procjena?: boolean;
   izv: keyof typeof IZVORI;
   /** kratka riječ za rečenicu na računu (samo finale) */
   rijec?: string;
@@ -56,6 +60,14 @@ export const IZVORI = {
     n: "Dnevnik.hr, ulaznice za zidine (200 kn, potom 40 eura)",
     u: "https://dnevnik.hr/vijesti/hrvatska/novo-poskupljenje-ulaznica-za-dubrovacke-zidine---893078.html",
   },
+  dzs: {
+    n: "DZS, prosječne maloprodajne cijene u kunama i eurima (12/2022. i 12/2023.); rast do 9/2026. prema Eurostatovu HICP-u za Hrvatsku",
+    u: "https://podaci.dzs.hr/hr/podaci/cijene/uvodenje-eura-prosjecne-maloprodajne-cijene/",
+  },
+  dzsplace: {
+    n: "DZS, prosječne neto i bruto plaće po županijama (2022. i I. do III. 2026.)",
+    u: "https://podaci.dzs.hr/media/xpkfrkth/zaposlenost-i-place-pregled-po-zupanijama.xlsx",
+  },
   hrt: {
     n: "HRT, tumačenje o mjesečnoj pristojbi",
     u: "https://visitlosinj.hr/EasyEdit/UserFiles/kutak-za-iznajmljivace/propisi/2025/tumacenje-hrt-vezano-za-placanje-mjesecne-pristojbe-za-iznajmljivace.pdf",
@@ -64,7 +76,7 @@ export const IZVORI = {
 
 const SLUZBENA_2016 = { p: 0.421, t: "Službena inflacija, 10/2016. do 9/2026. (DZS)" };
 
-export const RACUNI: Racun[] = [
+const RUCNI: Racun[] = [
   {
     id: "jakna-2016",
     naslov: "Račun iz zimske jakne",
@@ -124,6 +136,15 @@ export const RACUNI: Racun[] = [
   },
 ];
 
+// Raspored: ručni računi (2016. i stariji) raspoređeni su među DZS-ove (prosinac 2022.), da tjedan ne bude jednoličan.
+// Novi računi dodaju se NA KRAJ popisa; postojeći redoslijed se ne dira.
+export const RACUNI: Racun[] = [
+  RUCNI[0], ...RACUNI_DZS.slice(0, 6),
+  RUCNI[1], ...RACUNI_DZS.slice(6, 13),
+  RUCNI[2], ...RACUNI_DZS.slice(13, 20),
+  RUCNI[3], ...RACUNI_DZS.slice(20),
+];
+
 /** Račun koji NOVA igra dobiva na zadani dan. Dok nema više sadržaja, računi se vrte u krug.
  *  Za već započetu igru uvijek koristi racunIgre(): raspored se mijenja kad se doda sadržaj. */
 export function racunZaDan(dan: number): Racun {
@@ -142,7 +163,7 @@ export function setRacuna(r: Racun): Stavka[] {
 
 function javna(s: Stavka): JavnaStavka {
   // Eksplicitno nabrajanje polja: novo polje u Stavka ne može slučajno procuriti klijentu.
-  return { kat: s.kat, ime: s.ime, opis: s.opis, god: s.god, kn: s.kn, st: s.st, max: s.max, k: s.k, f: s.f, cijeli: s.cijeli, rijec: s.rijec };
+  return { kat: s.kat, ime: s.ime, opis: s.opis, god: s.god, kn: s.kn, st: s.st, max: s.max, k: s.k, f: s.f, cijeli: s.cijeli, procjena: s.procjena, rijec: s.rijec };
 }
 
 export function javniRacun(r: Racun): JavniRacun {
