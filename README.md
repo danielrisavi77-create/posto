@@ -1,6 +1,6 @@
 # Pošto?
 
-Dnevna igra: pronađeni stari račun u kunama, pogađaš koliko iste stvari koštaju danas. Dvoboj protiv igrača iz druge županije, liga županija po sezoni (mjesec), link izazova.
+Dnevna igra: pronađeni stari račun u kunama, pogađaš koliko iste stvari koštaju danas. Dvoboj protiv igrača iz druge županije, liga županija po sezoni (mjesec), ljestvice igrača, privatne lige, link izazova, Veliki račun sezone.
 
 Stack: Next.js 16 (App Router, TypeScript strict), Supabase (Postgres), bez prijave.
 
@@ -16,8 +16,8 @@ Bez Supabase varijabli aplikacija u razvoju koristi pohranu u memoriji (podaci n
 ## Postavljanje Supabasea
 
 1. Otvori novi projekt na supabase.com (regija Frankfurt).
-2. SQL Editor: zalijepi i pokreni redom sve datoteke iz `supabase/migrations/` (0001, 0002, 0003).
-3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na sve tri tablice, bez politika (namjerno, pristup ide samo preko servera).
+2. SQL Editor: zalijepi i pokreni redom sve datoteke iz `supabase/migrations/` (0001 do 0004).
+3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na svih pet tablica, bez politika (namjerno, pristup ide samo preko servera).
 4. Project Settings, API: kopiraj Project URL i `service_role` ključ.
 
 ## Varijable okruženja
@@ -40,7 +40,16 @@ Git deploy (ne drag and drop). Build naredba `npm run build`, Netlify sam prepoz
 ## Kako je složeno
 
 ```
-src/lib/racuni.ts      sadržaj: računi, stare i današnje cijene, izvori (SAMO SERVER)
+src/lib/racuni.ts      ručno uneseni računi, izvori, raspored (SAMO SERVER)
+src/lib/racuni-dzs.ts  računi generirani iz DZS-a i Eurostata (ne uređuje se ručno)
+scripts/sadrzaj/       skripta i izvorni podaci za generiranje računa
+src/lib/statistika.ts  knjižica kupca i Veliki račun
+src/lib/liga.ts        privatne lige
+src/lib/tablice.ts     priprema ljestvica za prikaz
+src/app/ljestvica/     županije, igrači danas, igrači u sezoni
+src/app/liga/          moje lige i stranica lige
+src/app/veliki-racun/  zbroj svih košarica sezone
+src/app/izvori/        izvori i metoda procjene cijena
 src/lib/bodovanje.ts   čiste funkcije: bodovi, razredi, osjećaj inflacije, formatiranje
 src/lib/dan.ts         redni broj dana, sezona, ponoć: sve po zagrebačkom vremenu
 src/lib/pohrana.ts     sloj pohrane: Supabase i memorija iza istog sučelja
@@ -74,13 +83,17 @@ npm run e2e
 
 Treba Chrome (`CHROME_PATH`). Server mora biti svjež jer test očekuje praznu pohranu.
 
-## Dodavanje novog računa
+## Sadržaj
 
-U `src/lib/racuni.ts` dodaj objekt u `RACUNI`: četiri stavke i `finale`. Svaka stavka mora imati izvor u `IZVORI`. Svaki račun ima stabilan `id` koji se sprema uz igru, pa stare igre ostaju na svom računu i kad se raspored promijeni. Postojeći `id` se nikad ne mijenja i ne koristi ponovno. Nova igra na dan N dobiva račun `(N - 1) mod broj_računa`, zato novi sadržaj objavljuj oko ponoći: igrači koji su taj dan već igrali ostaju na starom računu.
+Vidi `docs/SADRZAJ.md`. Ukratko: 25 računa generira `python3 scripts/sadrzaj/slozi.py`, 4 su ručno unesena u `src/lib/racuni.ts`. Svaki račun ima stabilan `id` koji se sprema uz igru, pa stare igre ostaju na svom računu i kad se raspored promijeni. Novi sadržaj objavljuj oko ponoći.
+
+## Dizajn
+
+Stol s kariranim stolnjakom i papiri na njemu: požutjeli kunski račun, termo račun, kemijska kojom igrač upisuje cijenu, crvena olovka koja ispravlja, žuta naljepnica s postotkom, izrezak iz novina s tablicom. Sve boje i fontovi su tokeni na vrhu `src/app/globals.css`.
 
 ## Poznata ograničenja
 
-- Samo 4 računa: vrte se u krug. Za lansiranje treba barem 30 (vidi `docs/SADRZAJ.md`).
+- 29 računa: trideseti dan sezone ponavlja prvi. Današnje cijene na 25 računa su procjene (vidi `docs/SADRZAJ.md`).
 - Brisanje kolačića i dalje omogućuje ponovnu igru istog dana, do granice od 30 računa na sat po mreži. Za nagrade treba jača zaštita.
 - Filter nadimaka je kratak popis korijena, ne moderacija.
 - Stranica `/privatnost` je nacrt: upisati voditelja obrade i dati pravniku na provjeru.

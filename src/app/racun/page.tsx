@@ -1,27 +1,22 @@
-import { headers } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Dijeli } from "@/components/Dijeli";
 import { Odbrojavanje } from "@/components/Odbrojavanje";
-import { Zaglavlje } from "@/components/Zajednicko";
+import { Tablice } from "@/components/Tablice";
+import { Papir, Vrh } from "@/components/Zajednicko";
+import { adresaStranice } from "@/lib/adresa";
 import { EMOJI, eur, kune, osjecaj, post, razred, runda, tipKupca } from "@/lib/bodovanje";
 import { danBroj, danaDoKrajaSezone, danaUSezoni, datumTekst, imeSezone, prviDanSezone, sekundiDoPonoci, sezona } from "@/lib/dan";
 import { igracId, protivnikIgre } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
 import { racunIgre, setRacuna, type Stavka } from "@/lib/racuni";
+import { knjizica } from "@/lib/statistika";
+import { mjestoZupanije, redoviZupanija } from "@/lib/tablice";
 
 export const dynamic = "force-dynamic";
 
 function nekad(a: Stavka): string {
   return a.kn != null ? kune(a.kn) : eur(a.st, a.cijeli);
-}
-
-async function adresaStranice(): Promise<string> {
-  const iz = process.env.POSTO_SITE_URL;
-  if (iz) return iz.replace(/\/+$/, "");
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
-  const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
 }
 
 export default async function RacunStranica() {
@@ -35,163 +30,198 @@ export default async function RacunStranica() {
   const racun = racunIgre(igra);
   const set = setRacuna(racun);
   const fin = racun.finale;
-  const [prot, liga, mojeIgre, adresa] = await Promise.all([protivnikIgre(igra), db.ligaSezone(sezona()), db.igreSezone(id, sezona()), adresaStranice()]);
+  const [prot, liga, sveIgre, adresa, mjesto] = await Promise.all([
+    protivnikIgre(igra), db.ligaSezone(sezona()), db.sveIgre(id), adresaStranice(), db.mjestoDana(dan, igra.ukupno),
+  ]);
 
   const razredi = set.map((a, i) => razred(igra.pogodci[i], a.c));
   const o = osjecaj(racun.stavke.map((s) => s.st), racun.stavke.map((s) => s.c), igra.pogodci);
   const tip = tipKupca(o);
   const finTi = igra.pogodci[4] / fin.st - 1;
   const finStv = fin.c / fin.st - 1;
+  const imaProcjena = set.some((s) => s.procjena);
 
   const runde = set.map((a, i) => runda(igra.pogodci[i], prot.pogodci[i], a.c));
   const ja = runde.filter((x) => x === 1).length;
   const on = runde.filter((x) => x === -1).length;
   const dvoboj = ja > on ? `pobjeda ${ja}:${on}` : ja < on ? `poraz ${ja}:${on}` : `neriješeno ${ja}:${on}`;
 
-  const poredak = [...liga].sort((a, b) => b.prosjek - a.prosjek || b.igara - a.igara);
-  const mjesto = Math.max(1, poredak.findIndex((x) => x.zupanija === igra.zupanija) + 1);
-  const prikazLige = poredak.map((x, i) => ({ ...x, mj: i + 1 })).filter((x) => x.mj <= 5 || x.zupanija === igra.zupanija);
-
+  const mjestoZup = mjestoZupanije(liga, igra.zupanija);
   const najvise = Math.max(o.ti, o.stvarno, finStv, racun.sluzbena?.p ?? 0, 0.01);
   const stupci: { kl: string; naziv: string; v: number }[] = [
-    { kl: "ti", naziv: "Po tebi (ova 4 artikla)", v: o.ti },
-    { kl: "st", naziv: "Stvarno (ova 4 artikla)", v: o.stvarno },
+    { kl: "ti", naziv: "Po tebi (ove 4 stavke)", v: o.ti },
+    { kl: "st", naziv: "Stvarno (ove 4 stavke)", v: o.stvarno },
     ...(racun.sluzbena ? [{ kl: "sl", naziv: racun.sluzbena.t, v: racun.sluzbena.p }] : []),
     { kl: "pl", naziv: `${fin.rijec ?? fin.ime} od ${fin.god}`, v: finStv },
   ];
 
   // Ladica: jedan pretinac po danu tekuće sezone.
-  const poDanu = new Map(mojeIgre.map((g) => [g.dan, g.ukupno]));
+  const uSezoni = sveIgre.filter((g) => g.sezona === sezona());
+  const poDanu = new Map(uSezoni.map((g) => [g.dan, g.ukupno]));
   const prvi = prviDanSezone();
   const pretinci = Array.from({ length: danaUSezoni() }, (_, k) => ({ redni: k + 1, ukupno: poDanu.get(prvi + k) }));
-
-  // Niz: uzastopni dani unatrag od danas (unutar sezone).
-  let niz = 0;
-  for (let d = dan; poDanu.has(d); d--) niz++;
-
+  const knj = knjizica(sveIgre, dan);
   const doKraja = danaDoKrajaSezone();
+
+  const godina = /\d{4}/.exec(racun.god)?.[0];
   const tekst =
     `Pošto? br. ${dan}, ${racun.naslov.toLowerCase()}\n` +
     `${razredi.map((r) => EMOJI[r]).join("")} ${igra.ukupno}/500\n` +
-    `Po meni je sve skuplje ${post(o.ti).replace("+", "")} nego ${racun.sluzbena ? "2016." : "u kunama"}\n` +
+    `Po meni je sve skuplje ${post(o.ti).replace("+", "")} nego ${godina ? `${godina}.` : "u kunama"}\n` +
     `Tip kupca: ${tip.ime}\n` +
-    `${igra.zupanija}: ${mjesto}. u ligi\n` +
+    `${igra.zupanija}: ${mjestoZup}. u ligi županija\n` +
     `Možeš li bolje? Igraj protiv mene:`;
 
   return (
     <>
-      <Zaglavlje dan={dan} datum={datumTekst()} />
-      <section className="racun" aria-label="Tvoj račun">
-        <h2>POŠTO?</h2>
-        <p className="sred">
+      <Vrh />
+      <Papir oznaka="Tvoj račun">
+        <p className="glava">
+          <b>POŠTO?</b>
           {racun.naslov}
           <br />
-          Račun br. {dan} / {datumTekst()}
+          Račun br. {dan}, {datumTekst()}
         </p>
         <hr className="crta" />
-        <p>
-          Kupac: {igra.nadimak || "Anonimni kupac"}
-          <br />
-          Blagajna: {igra.zupanija}
-        </p>
+        <div className="red">
+          <span>Kupac</span>
+          <span>{igra.nadimak || "Anonimni kupac"}</span>
+        </div>
+        <div className="red">
+          <span>Blagajna</span>
+          <span>{igra.zupanija}</span>
+        </div>
         <hr className="crta" />
         {set.map((a, i) => (
           <div className="stavka" key={a.ime}>
-            <span className="naziv">{a.ime}</span>
-            <span>
-              {EMOJI[razredi[i]]} {igra.bodovi[i]}
-            </span>
-            <span className="detalj">
-              {a.god} {nekad(a)} / ti {eur(igra.pogodci[i], a.cijeli)} / danas {eur(a.c, a.cijeli)}
+            <div className="red">
+              <span>{a.ime}</span>
+              <span>+{igra.bodovi[i]}</span>
+            </div>
+            <span className="sitno">
+              {a.god} {nekad(a)}, ti {eur(igra.pogodci[i], a.cijeli)}, danas {eur(a.c, a.cijeli)}
             </span>
           </div>
         ))}
         <hr className="crta" />
-        <div className="ukupno">
+        <div className="red ukupno">
           <span>UKUPNO BODOVA</span>
+          <span>{igra.ukupno} / 500</span>
+        </div>
+        <div className="red">
+          <span>Danas si</span>
           <span>
-            <b>{igra.ukupno}</b> / 500
+            {mjesto.mjesto}. od {mjesto.igraca}
           </span>
         </div>
-        <p>
-          Dvoboj: {dvoboj} protiv {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime} (${prot.zupanija})`}
-        </p>
+        <div className="red">
+          <span>Dvoboj</span>
+          <span>{dvoboj}</span>
+        </div>
+        <span className="sitno">protiv: {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime}, ${prot.zupanija}`}</span>
         <hr className="crta" />
-        <p className="sred">KOLIKO JE POSKUPJELO</p>
-        <div className="osjecaj">
+
+        <p>KOLIKO JE POSKUPJELO</p>
+        <div className="stupci">
           {stupci.map((s) => (
-            <div className={"l " + s.kl} key={s.kl}>
-              <span>{s.naziv}</span>
-              <b>{post(s.v)}</b>
-              <span className="stup">
-                <i style={{ width: `${Math.max(0, Math.min(100, Math.round((s.v / najvise) * 100)))}%` }} />
-              </span>
-            </div>
-          ))}
-        </div>
-        <p>
-          Košarica: {eur(o.staro)} nekad, {eur(o.novo)} danas, {eur(o.moje)} po tebi.
-          <br />
-          {fin.rijec ?? fin.ime}: rekao si {post(finTi)}, stvarno {post(finStv)}.
-        </p>
-        <div className="titula">{tip.ime}</div>
-        <p className="sred">{tip.opis}</p>
-        <p className="sitno">Četiri artikla nisu statistička košarica. Služe za usporedbu tvog osjećaja i stvarnih cijena, ne kao mjera inflacije.</p>
-      </section>
-
-      <Dijeli tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} />
-
-      <section className="kartica">
-        <h3 className="naslov-bloka">
-          Liga županija <span className="oznaka-demo">{imeSezone()}</span>
-        </h3>
-        <p className="opis">
-          Prosjek bodova po odigranom računu u ovoj sezoni. Do kraja još {doKraja} {doKraja === 1 ? "dan" : "dana"}. Najbolja županija osvaja Zlatnu blagajnu.
-        </p>
-        <div className="derbi">
-          {prikazLige.map((x, k) => (
-            <div key={x.zupanija}>
-              {k > 0 && x.mj - prikazLige[k - 1].mj > 1 ? <div className="razmak">· · ·</div> : null}
-              <div className={"red" + (x.zupanija === igra.zupanija ? " moj" : "")}>
-                <span className="mj">{x.mj}.</span>
-                <span>
-                  {x.zupanija} <small>({x.igara})</small>
-                </span>
-                <span>{x.prosjek}</span>
-                <span className="traka">
-                  <i style={{ width: `${Math.round(x.prosjek / 5)}%` }} />
-                </span>
+            <div className={"stupac " + s.kl} key={s.kl}>
+              <div className="red">
+                <span>{s.naziv}</span>
+                <b>{post(s.v)}</b>
               </div>
+              <div className="traka" style={{ width: `${Math.max(2, Math.min(100, Math.round((s.v / najvise) * 100)))}%` }} />
             </div>
           ))}
         </div>
-        {poredak.length < 2 ? <p className="opis">Tvoja županija je zasad sama u ligi. Pošalji izazov nekome iz druge.</p> : null}
-      </section>
+        <span className="sitno">
+          Košarica: {eur(o.staro)} nekad, {eur(o.novo)} danas, {eur(o.moje)} po tebi. {fin.rijec ?? fin.ime}: rekao si {post(finTi)}, stvarno {post(finStv)}.
+        </span>
 
-      <section className="kartica">
-        <h3 className="naslov-bloka">
-          Ladica računa{" "}
-          <span className="oznaka-demo">
-            {mojeIgre.length} / {pretinci.length}
-          </span>
-        </h3>
-        <p className="opis">Svaki dan jedan pronađeni račun. Skupi sve u sezoni i otključaj Veliki račun: cijelo desetljeće na jednom papiru.</p>
-        <div className="ladica">
-          {pretinci.map((p) => (
-            <span key={p.redni} className={p.ukupno != null ? "ima" : ""}>
-              {p.ukupno ?? p.redni}
-            </span>
-          ))}
+        <div className="pecat">
+          <small>tip kupca</small>
+          {tip.ime}
         </div>
-      </section>
+        <p style={{ textAlign: "center" }}>{tip.opis}</p>
+        <span className="sitno">
+          Četiri stavke nisu statistička košarica: služe za usporedbu tvog osjećaja i cijena, ne kao mjera inflacije.
+          {imaProcjena ? " Današnje cijene na ovom računu su procjene za rujan 2026. (DZS-ov prosjek uvećan za rast cijena skupine prema Eurostatu)." : ""}
+        </span>
+      </Papir>
 
-      <section className="kartica odbrojavanje">
-        <p className="opis">Novi račun stiže za</p>
-        <Odbrojavanje sekundi={sekundiDoPonoci()} />
-        <p className="niz">
-          Tvoj niz: {niz} {niz === 1 ? "dan" : "dana"} zaredom
+      <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} napomena="Tko otvori tvoj link, igra dvoboj baš protiv tebe." />
+
+      <Tablice
+        naslov="Liga županija"
+        kartice={[
+          {
+            id: "zupanije", naziv: "Županije", stupac: "Županija (broj računa)", vrijednost: "Prosjek",
+            redovi: redoviZupanija(liga, igra.zupanija, 5),
+            prazno: "Tvoja županija je zasad sama u ligi.",
+            opis: `Sezona ${imeSezone()}: još ${doKraja} ${doKraja === 1 ? "dan" : "dana"} do Zlatne blagajne.`,
+          },
+        ]}
+      />
+      <p className="na-stolu">
+        <Link className="veza" href="/ljestvica">
+          Sve ljestvice
+        </Link>{" "}
+        ili{" "}
+        <Link className="veza" href="/liga">
+          osnuj ligu za svoju ekipu
+        </Link>
+        .
+      </p>
+
+      <section className="na-stolu">
+        <h2 className="naslov">Ladica računa</h2>
+        <p className="prica">
+          Skupljeno {uSezoni.length} od {pretinci.length}. Svi skupljeni računi zbrajaju se u{" "}
+          <Link className="veza" href="/veliki-racun">
+            Veliki račun sezone
+          </Link>
+          .
         </p>
       </section>
+      <div className="ladica" aria-hidden="true">
+        {pretinci.map((p) => (
+          <span key={p.redni} className={p.ukupno != null ? "ima" : ""}>
+            {p.ukupno ?? p.redni}
+          </span>
+        ))}
+      </div>
+
+      <Papir oznaka="Tvoja knjižica">
+        <p className="glava">
+          <b>KNJIŽICA KUPCA</b>
+        </p>
+        <div className="brojke">
+          <div>
+            <b>{knj.igara}</b>plaćenih računa
+          </div>
+          <div>
+            <b>{knj.niz}</b>
+            {knj.niz === 1 ? "dan zaredom" : "dana zaredom"}
+          </div>
+          <div>
+            <b>{knj.prosjek}</b>prosjek bodova
+          </div>
+          <div>
+            <b>{knj.najbolji}</b>najbolji račun
+          </div>
+          <div>
+            <b>{knj.uCent}</b>cijena pogođenih u cent
+          </div>
+          <div>
+            <b>{knj.najduziNiz}</b>najdulji niz
+          </div>
+        </div>
+        {knj.tip ? <span className="sitno">Najčešće si: {knj.tip}.</span> : null}
+        <hr className="crta" />
+        <div className="odbrojavanje">
+          <span className="sitno">Novi račun stiže za</span>
+          <Odbrojavanje sekundi={sekundiDoPonoci()} />
+        </div>
+      </Papir>
     </>
   );
 }

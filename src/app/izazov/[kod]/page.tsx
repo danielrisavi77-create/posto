@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prihvatiIzazov } from "@/app/akcije";
+import { Papir, Vrh } from "@/components/Zajednicko";
 import { EMOJI } from "@/lib/bodovanje";
 import { sazetakIzazova } from "@/lib/igra";
 
@@ -28,53 +29,66 @@ export default async function Izazov({ params }: Props) {
   if (!s) {
     return (
       <>
-        <div className="logo velik">POŠTO?</div>
-        <section className="kartica">
-          <h1 className="artikl">Ovaj izazov ne postoji</h1>
-          <p className="opis">Link je možda krivo kopiran. Današnji račun te svejedno čeka.</p>
-          <Link className="gumb crveni" href="/">
-            Igraj današnji račun
-          </Link>
+        <Vrh />
+        <section className="na-stolu">
+          <h1 className="naslov">Ovaj izazov ne postoji</h1>
+          <p className="prica">Link je možda krivo kopiran. Današnji račun te svejedno čeka.</p>
         </section>
+        <Link className="tipka na-stolu-tipka" href="/">
+          Igraj današnji račun
+        </Link>
       </>
     );
   }
 
   return (
     <>
-      <div className="logo velik">POŠTO?</div>
-      <h1 className="slogan">
-        {s.ime} te izaziva. <em>Možeš li bolje?</em>
-      </h1>
-      <section className="kartica">
-        <span className="kategorija">{s.zupanija}</span>
-        <div className="cijena" aria-label={`Rezultat ${s.ukupno} od 500`}>
-          {s.ukupno}
-          <small>/500</small>
-        </div>
-        <p className="rast" aria-hidden="true">
-          {s.razredi.map((r) => EMOJI[r]).join(" ")}
-        </p>
-        <p className="opis">
-          Račun br. {s.dan}: {s.naslov}. Stari račun u kunama, a ti pogađaš koliko iste stvari koštaju danas.
-        </p>
-        {s.danasnji ? (
-          <form action={prihvatiIzazov}>
-            <input type="hidden" name="kod" value={kod} />
-            <button className="gumb crveni" type="submit">
-              Prihvati izazov
-            </button>
-          </form>
-        ) : (
-          <>
-            <p className="niz">Taj račun je od ranijeg dana, pa dvoboj više ne vrijedi.</p>
-            <Link className="gumb crveni" href="/">
-              Igraj današnji račun
-            </Link>
-          </>
-        )}
+      <Vrh />
+      <section className="na-stolu">
+        <h1 className="naslov">{s.ime} te izaziva</h1>
+        <p className="prica">Stari račun u kunama, a ti pogađaš koliko iste stvari koštaju danas. Tko je bliže cijeni, uzima rundu.</p>
       </section>
-      <p className="podnozje">Jedan račun dnevno. Bez prijave. Traje oko minute.</p>
+      <Papir oznaka="Rezultat izazivača">
+        <p className="glava">
+          <b>POŠTO?</b>
+          {s.naslov}
+          <br />
+          Račun br. {s.dan}
+        </p>
+        <hr className="crta" />
+        <div className="red">
+          <span>Kupac</span>
+          <span>{s.ime}</span>
+        </div>
+        <div className="red">
+          <span>Blagajna</span>
+          <span>{s.zupanija}</span>
+        </div>
+        <div className="red">
+          <span>Pet odgovora</span>
+          <span aria-hidden="true">{s.razredi.map((r) => EMOJI[r]).join("")}</span>
+        </div>
+        <hr className="crta" />
+        <div className="red ukupno">
+          <span>UKUPNO BODOVA</span>
+          <span>{s.ukupno} / 500</span>
+        </div>
+      </Papir>
+      {s.danasnji ? (
+        <form action={prihvatiIzazov} className="sakrij">
+          <input type="hidden" name="kod" value={kod} />
+          <button className="tipka crvena na-stolu-tipka" type="submit">
+            Prihvati izazov
+          </button>
+        </form>
+      ) : (
+        <>
+          <p className="na-stolu">Taj račun je od ranijeg dana, pa dvoboj više ne vrijedi.</p>
+          <Link className="tipka na-stolu-tipka" href="/">
+            Igraj današnji račun
+          </Link>
+        </>
+      )}
     </>
   );
 }

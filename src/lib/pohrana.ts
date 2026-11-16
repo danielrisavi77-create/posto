@@ -24,6 +24,8 @@ export type Igra = {
 
 export type Igrac = { id: string; nadimak: string; zupanija: string };
 export type RedLige = { zupanija: string; prosjek: number; igara: number };
+export type RedIgraca = { igracId: string; nadimak: string; zupanija: string; bodovi: number; igara: number };
+export type Liga = { id: string; kod: string; naziv: string; vlasnik: string };
 
 export type NovaIgra = Pick<Igra, "kod" | "dan" | "racun" | "sezona" | "igracId" | "nadimak" | "zupanija" | "protivnikId" | "protivnikBot">;
 
@@ -40,6 +42,20 @@ export interface Pohrana {
   nasumicniProtivnik(dan: number, zupanija: string, igracId: string): Promise<Igra | null>;
   ligaSezone(sezona: string): Promise<RedLige[]>;
   igreSezone(igracId: string, sezona: string): Promise<{ dan: number; ukupno: number }[]>;
+  /** Sve završene igre jednog igrača (za statistiku i Veliki račun). */
+  sveIgre(igracId: string): Promise<Igra[]>;
+  /** Najbolji igrači dana; izjednačene razdvaja raniji završetak. */
+  topDana(dan: number, limit: number): Promise<RedIgraca[]>;
+  /** Mjesto rezultata među svim završenim igrama dana i ukupan broj igrača. */
+  mjestoDana(dan: number, ukupno: number): Promise<{ mjesto: number; igraca: number }>;
+  topSezone(sezona: string, limit: number): Promise<RedIgraca[]>;
+  stvoriLigu(l: { kod: string; naziv: string; vlasnik: string }): Promise<Liga>;
+  ligaPoKodu(kod: string): Promise<Liga | null>;
+  uclani(ligaId: string, igracId: string): Promise<void>;
+  ligeIgraca(igracId: string): Promise<Liga[]>;
+  clanoviLige(ligaId: string): Promise<Igrac[]>;
+  sezonaZaIgrace(sezona: string, ids: string[]): Promise<RedIgraca[]>;
+  danZaIgrace(dan: number, ids: string[]): Promise<RedIgraca[]>;
   /** Ograničenje zahtjeva: true ako je ključ unutar granice u tekućem prozoru. */
   dopusti(kljuc: string, limit: number, sekundi: number): Promise<boolean>;
 }
@@ -135,6 +151,82 @@ class SupabasePohrana implements Pohrana {
     greska("dopusti", error);
     return data === true;
   }
+  async sveIgre(igracId: string) {
+    const { data, error } = await this.db.from("igre").select("*").eq("igrac_id", igracId).eq("gotovo", true).order("dan", { ascending: true }).limit(1000);
+    greska("sveIgre", error);
+    return ((data as Red[] | null) ?? []).map(izReda);
+  }
+  async topDana(dan: number, limit: number) {
+    const { data, error } = await this.db.from("igre").select("igrac_id,nadimak,zupanija,ukupno").eq("dan", dan).eq("gotovo", true)
+      .order("ukupno", { ascending: false }).order("zavrseno", { ascending: true }).limit(limit);
+    greska("topDana", error);
+    return ((data as { igrac_id: string; nadimak: string; zupanija: string; ukupno: number }[] | null) ?? [])
+      .map((r) => ({ igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija, bodovi: r.ukupno, igara: 1 }));
+  }
+  async mjestoDana(dan: number, ukupno: number) {
+    const bolji = await this.db.from("igre").select("id", { count: "exact", head: true }).eq("dan", dan).eq("gotovo", true).gt("ukupno", ukupno);
+    greska("mjestoDana", bolji.error);
+    const svi = await this.db.from("igre").select("id", { count: "exact", head: true }).eq("dan", dan).eq("gotovo", true);
+    greska("mjestoDana", svi.error);
+    return { mjesto: (bolji.count ?? 0) + 1, igraca: svi.count ?? 0 };
+  }
+  async topSezone(sezona: string, limit: number) {
+    const { data, error } = await this.db.from("ljestvica_sezona").select("igrac_id,nadimak,zupanija,bodovi,igara").eq("sezona", sezona)
+      .order("bodovi", { ascending: false }).limit(limit);
+    greska("topSezone", error);
+    return ((data as RedSezone[] | null) ?? []).map(izSezone);
+  }
+  async stvoriLigu(l: { kod: string; naziv: string; vlasnik: string }) {
+    const { data, error } = await this.db.from("lige").insert({ kod: l.kod, naziv: l.naziv, vlasnik: l.vlasnik }).select("id,kod,naziv,vlasnik").single();
+    greska("stvoriLigu", error);
+    await this.uclani((data as Liga).id, l.vlasnik);
+    return data as Liga;
+  }
+  async ligaPoKodu(kod: string) {
+    const { data, error } = await this.db.from("lige").select("id,kod,naziv,vlasnik").eq("kod", kod).maybeSingle();
+    greska("ligaPoKodu", error);
+    return (data as Liga | null) ?? null;
+  }
+  async uclani(ligaId: string, igracId: string) {
+    const { error } = await this.db.from("lige_clanovi").upsert({ liga_id: ligaId, igrac_id: igracId }, { onConflict: "liga_id,igrac_id", ignoreDuplicates: true });
+    greska("uclani", error);
+  }
+  async ligeIgraca(igracId: string) {
+    const c = await this.db.from("lige_clanovi").select("liga_id").eq("igrac_id", igracId);
+    greska("ligeIgraca", c.error);
+    const ids = ((c.data as { liga_id: string }[] | null) ?? []).map((r) => r.liga_id);
+    if (!ids.length) return [];
+    const { data, error } = await this.db.from("lige").select("id,kod,naziv,vlasnik").in("id", ids).order("stvorena", { ascending: true });
+    greska("ligeIgraca", error);
+    return (data as Liga[] | null) ?? [];
+  }
+  async clanoviLige(ligaId: string) {
+    const c = await this.db.from("lige_clanovi").select("igrac_id").eq("liga_id", ligaId).limit(200);
+    greska("clanoviLige", c.error);
+    const ids = ((c.data as { igrac_id: string }[] | null) ?? []).map((r) => r.igrac_id);
+    if (!ids.length) return [];
+    const { data, error } = await this.db.from("igraci").select("id,nadimak,zupanija").in("id", ids);
+    greska("clanoviLige", error);
+    return (data as Igrac[] | null) ?? [];
+  }
+  async sezonaZaIgrace(sezona: string, ids: string[]) {
+    if (!ids.length) return [];
+    const { data, error } = await this.db.from("ljestvica_sezona").select("igrac_id,nadimak,zupanija,bodovi,igara").eq("sezona", sezona).in("igrac_id", ids);
+    greska("sezonaZaIgrace", error);
+    return ((data as RedSezone[] | null) ?? []).map(izSezone);
+  }
+  async danZaIgrace(dan: number, ids: string[]) {
+    if (!ids.length) return [];
+    const { data, error } = await this.db.from("igre").select("igrac_id,nadimak,zupanija,ukupno").eq("dan", dan).eq("gotovo", true).in("igrac_id", ids);
+    greska("danZaIgrace", error);
+    return ((data as { igrac_id: string; nadimak: string; zupanija: string; ukupno: number }[] | null) ?? [])
+      .map((r) => ({ igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija, bodovi: r.ukupno, igara: 1 }));
+  }
+}
+
+type RedSezone = { igrac_id: string; nadimak: string; zupanija: string; bodovi: number; igara: number };
+function izSezone(r: RedSezone): RedIgraca {
+  return { igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija, bodovi: r.bodovi, igara: r.igara };
 }
 
 /* ---------- Memorija (samo lokalni razvoj) ---------- */
@@ -179,6 +271,37 @@ class MemorijskaPohrana implements Pohrana {
   async igreSezone(igracId: string, sezona: string) {
     return [...this.igre.values()].filter((g) => g.igracId === igracId && g.sezona === sezona && g.gotovo).map((g) => ({ dan: g.dan, ukupno: g.ukupno }));
   }
+  private lige = new Map<string, Liga>();
+  private clanstva = new Map<string, Set<string>>();
+  private red(g: Igra): RedIgraca { return { igracId: g.igracId, nadimak: g.nadimak, zupanija: g.zupanija, bodovi: g.ukupno, igara: 1 }; }
+  private gotove() { return [...this.igre.values()].filter((g) => g.gotovo); }
+  private zbroji(igre: Igra[]): RedIgraca[] {
+    const m = new Map<string, RedIgraca>();
+    for (const g of igre) {
+      const i = this.igraci.get(g.igracId);
+      const r = m.get(g.igracId) ?? { igracId: g.igracId, nadimak: i?.nadimak ?? g.nadimak, zupanija: i?.zupanija ?? g.zupanija, bodovi: 0, igara: 0 };
+      r.bodovi += g.ukupno; r.igara += 1; m.set(g.igracId, r);
+    }
+    return [...m.values()];
+  }
+  async sveIgre(igracId: string) { return this.gotove().filter((g) => g.igracId === igracId).sort((a, b) => a.dan - b.dan).map((g) => structuredClone(g)); }
+  async topDana(dan: number, limit: number) { return this.gotove().filter((g) => g.dan === dan).sort((a, b) => b.ukupno - a.ukupno).slice(0, limit).map((g) => this.red(g)); }
+  async mjestoDana(dan: number, ukupno: number) {
+    const d = this.gotove().filter((g) => g.dan === dan);
+    return { mjesto: d.filter((g) => g.ukupno > ukupno).length + 1, igraca: d.length };
+  }
+  async topSezone(sezona: string, limit: number) { return this.zbroji(this.gotove().filter((g) => g.sezona === sezona)).sort((a, b) => b.bodovi - a.bodovi).slice(0, limit); }
+  async stvoriLigu(l: { kod: string; naziv: string; vlasnik: string }) {
+    const liga: Liga = { id: randomUUID(), ...l };
+    this.lige.set(liga.id, liga); this.clanstva.set(liga.id, new Set([l.vlasnik]));
+    return { ...liga };
+  }
+  async ligaPoKodu(kod: string) { for (const l of this.lige.values()) if (l.kod === kod) return { ...l }; return null; }
+  async uclani(ligaId: string, igracId: string) { this.clanstva.get(ligaId)?.add(igracId); }
+  async ligeIgraca(igracId: string) { return [...this.lige.values()].filter((l) => this.clanstva.get(l.id)?.has(igracId)).map((l) => ({ ...l })); }
+  async clanoviLige(ligaId: string) { return [...(this.clanstva.get(ligaId) ?? [])].map((id) => this.igraci.get(id)).filter((i): i is Igrac => !!i).map((i) => ({ ...i })); }
+  async sezonaZaIgrace(sezona: string, ids: string[]) { return this.zbroji(this.gotove().filter((g) => g.sezona === sezona && ids.includes(g.igracId))); }
+  async danZaIgrace(dan: number, ids: string[]) { return this.gotove().filter((g) => g.dan === dan && ids.includes(g.igracId)).map((g) => this.red(g)); }
   private brojaci = new Map<string, number>();
   async dopusti(kljuc: string, limit: number, sekundi: number) {
     const k = `${kljuc}:${Math.floor(Date.now() / 1000 / sekundi)}`;

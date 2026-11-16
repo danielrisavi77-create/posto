@@ -1,157 +1,262 @@
-:root{
-  /* Layout: jedan stupac širine mobitela na žutoj podlozi; stari kunski račun (požutjeli papir) nasuprot današnjem (bijeli papir) */
+/*
+  Pošto? vizualni sustav
+  Ideja: kuhinjski stol s kariranim stolnjakom, na njemu papiri iz stvarnog života:
+  požutjeli kunski račun, novi termo račun, kemijska olovka kojom igrač upisuje cijenu,
+  crvena olovka koja ispravlja, žuta naljepnica s cijenom, izrezak iz novina s tablicom.
+  Sve je lijevo poravnato kao na pravom računu; jedini "glasni" element je rukopis.
+*/
+:root {
   color-scheme: light;
-  --zuta:#FFD400;
-  --zuta-tamna:#F2C200;
-  --tinta:#14110F;
-  --akcija:#E3122B;
-  --papir:#FFFBEF;
-  --stari-papir:#EFE3BE;
-  --plava:#1437C8;
-  --siva:#6B655C;
-  --dobro:#1E9E55;
-  --f-display:"Anton","Arial Narrow",Impact,sans-serif;
-  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"DM Mono",ui-monospace,"Courier New",monospace;
+  --stolnjak: #eef2f7;
+  --stolnjak-kocka: rgba(74, 112, 178, 0.26);
+  --papir: #fcfbf7;
+  --stari-papir: #f0e7cc;
+  --novine: #e8e5db;
+  --tisak: #2b2832;
+  --blijedi-tisak: #6f6a78;
+  --stari-tisak: #5a4f3c;
+  --kemijska: #1b3fa6;
+  --crvena: #c9142b;
+  --olovka: #5d6168;
+  --naljepnica: #ffdf3a;
+  --dobro: #1d7a46;
+  --f-ui: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --f-naslov: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-tisak: "Inconsolata", "Courier New", monospace;
+  --f-ruka: "Caveat", "Segoe Print", cursive;
+  --zub: 6px;
 }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{
-  background:var(--zuta);
-  background-image:radial-gradient(var(--zuta-tamna) 1.5px,transparent 1.6px);
-  background-size:14px 14px;
-  color:var(--tinta);
-  font-family:var(--f-body);
-  font-size:16px;
-  line-height:1.4;
-  -webkit-font-smoothing:antialiased;
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background-color: var(--stolnjak);
+  background-image:
+    linear-gradient(90deg, var(--stolnjak-kocka) 50%, transparent 50%),
+    linear-gradient(var(--stolnjak-kocka) 50%, transparent 50%);
+  background-size: 46px 46px;
+  color: var(--tisak);
+  font-family: var(--f-ui);
+  font-size: 17px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
 }
-#app{max-width:440px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:18px;min-height:100%}
-h1,h2,h3,p{margin:0}
-button{font:inherit;color:inherit;cursor:pointer}
-a{color:var(--plava)}
-:focus-visible{outline:3px solid var(--plava);outline-offset:2px}
+h1, h2, h3, p, ol, ul { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+a { color: var(--kemijska); }
+:focus-visible { outline: 3px solid var(--kemijska); outline-offset: 3px; border-radius: 2px; }
 
-.demo-traka{font-family:var(--f-mono);font-size:12px;background:var(--tinta);color:var(--zuta);padding:6px 10px;border-radius:6px;text-align:center}
-.zaglavlje{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-family:var(--f-display);background:var(--akcija);color:#fff;padding:2px 14px 4px;border:3px solid var(--tinta);box-shadow:4px 4px 0 var(--tinta);transform:rotate(-3deg);letter-spacing:.02em;line-height:1.15}
-.logo.velik{font-size:64px;align-self:flex-start;margin:6px 0 10px 4px}
-.logo.mali{font-size:28px;border-width:2px;box-shadow:3px 3px 0 var(--tinta)}
-.broj-dana{font-family:var(--f-mono);font-size:13px;text-align:right}
-.slogan{font-family:var(--f-display);font-size:30px;line-height:1.3;text-wrap:balance;text-transform:uppercase}
-.slogan em{font-style:normal;background:var(--tinta);color:var(--zuta);padding:0 6px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.prica{font-size:17px;font-weight:600;text-wrap:pretty}
-
-.kartica{background:var(--papir);border:3px solid var(--tinta);border-radius:14px;box-shadow:5px 5px 0 var(--tinta);padding:18px;display:flex;flex-direction:column;gap:14px}
-.polje{display:flex;flex-direction:column;gap:6px}
-.polje label{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
-select,input[type=text]{font:inherit;padding:12px;border:2px solid var(--tinta);border-radius:10px;background:#fff;color:var(--tinta);width:100%}
-.gumb{font-family:var(--f-display);font-size:24px;text-transform:uppercase;letter-spacing:.03em;background:var(--tinta);color:var(--zuta);border:3px solid var(--tinta);border-radius:12px;padding:12px 16px;width:100%;transition:transform .08s}
-.gumb:active{transform:translate(2px,2px)}
-.gumb.crveni{background:var(--akcija);color:#fff;box-shadow:4px 4px 0 var(--tinta)}
-.gumb.sporedni{font-family:var(--f-body);font-weight:800;font-size:15px;text-transform:none;letter-spacing:0;background:transparent;color:var(--tinta);border-width:2px}
-.niz{font-family:var(--f-mono);font-size:13px}
-.greska{color:var(--akcija);font-weight:800;font-size:14px}
-.opis{color:var(--siva);font-size:15px}
-
-/* Stari račun */
-.stari{
-  background:var(--stari-papir);font-family:var(--f-mono);font-size:14px;color:#3B3426;
-  padding:16px 14px;border:1px solid #BFB088;transform:rotate(-1.2deg);
-  box-shadow:3px 4px 0 rgba(20,17,15,.35);display:flex;flex-direction:column;gap:6px;
+#app {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 14px 14px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100dvh;
 }
-.stari .sred{text-align:center}
-.stari .r{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
-.stari hr,.crta{border:0;border-top:2px dashed currentColor;margin:2px 0;width:100%;opacity:.7}
-.stari .uk{font-weight:500;font-size:16px}
-.stari .zig{align-self:flex-end;border:2px solid #8A3B2E;color:#8A3B2E;padding:1px 8px;transform:rotate(-6deg);font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
 
-/* Igra */
-.napredak{display:flex;gap:6px}
-.napredak span{flex:1;height:12px;border:2px solid var(--tinta);border-radius:4px;background:var(--papir)}
-.napredak span.g{background:var(--dobro)}.napredak span.y{background:#F5B700}.napredak span.o{background:#F47B20}.napredak span.r{background:var(--akcija)}.napredak span.sad{background:var(--tinta)}
-.dvoboj{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:13px;background:var(--tinta);color:var(--zuta);border-radius:10px;padding:8px 12px}
-.dvoboj b{font-family:var(--f-display);font-size:22px;font-weight:400;letter-spacing:.04em}
-.kategorija{align-self:flex-start;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--tinta);border-radius:999px;padding:2px 10px;background:#fff}
-.artikl{font-family:var(--f-display);font-size:32px;line-height:1.08;text-transform:uppercase;text-wrap:balance}
-.nekad{background:var(--stari-papir);border:1px dashed #8C7F5A;border-radius:8px;padding:10px 12px;font-family:var(--f-mono);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.nekad b{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
-.nekad span{font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.cijena{font-family:var(--f-display);font-size:64px;line-height:1;text-align:center;font-variant-numeric:tabular-nums;padding:4px 0 0}
-.rast{text-align:center;font-family:var(--f-mono);font-size:14px;min-height:20px}
-.klizac{display:flex;flex-direction:column;gap:10px}
-input[type=range]{width:100%;height:36px;accent-color:var(--akcija);margin:0}
-.fino{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.fino button{font-family:var(--f-mono);font-size:16px;font-weight:500;background:#fff;border:2px solid var(--tinta);border-radius:10px;padding:10px}
-.raspon{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--siva)}
+/* ---------- Vrh: naljepnica s imenom i tri poveznice ---------- */
+.vrh { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.znak {
+  font-family: var(--f-naslov); font-weight: 800; font-size: 26px; line-height: 1;
+  color: var(--crvena); background: var(--naljepnica); text-decoration: none;
+  padding: 5px 12px 6px; border-radius: 4px; transform: rotate(-3deg);
+  box-shadow: 0 2px 3px rgba(30, 40, 70, 0.3);
+}
+.znak.velik { font-size: 54px; padding: 6px 18px 9px; align-self: flex-start; margin: 6px 0 2px 2px; }
+.izbornik { display: flex; gap: 14px; align-items: center; font-size: 15px; font-weight: 600; }
+.izbornik a, .izbornik button { color: var(--tisak); text-decoration: underline; text-underline-offset: 3px; background: var(--stolnjak); padding: 2px 4px; border-radius: 3px; }
 
-.usporedba{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.usporedba div{border:2px solid var(--tinta);border-radius:10px;padding:8px 4px;text-align:center;background:#fff;min-width:0}
-.usporedba .n{background:var(--stari-papir);border-style:dashed}
-.usporedba .prava{background:var(--tinta);color:var(--zuta)}
-.usporedba b{display:block;font-family:var(--f-display);font-size:25px;font-weight:400;line-height:1.15;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.usporedba span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
-.skok{font-family:var(--f-display);font-size:30px;text-transform:uppercase;text-align:center;background:var(--akcija);color:#fff;padding:4px 8px;border:3px solid var(--tinta);transform:rotate(-1.5deg)}
-.skok.nula{background:var(--dobro)}
-.ocjena{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.pecat{font-family:var(--f-display);font-size:22px;text-transform:uppercase;border:3px solid currentColor;border-radius:8px;padding:2px 10px;transform:rotate(-4deg)}
-.pecat.g{color:var(--dobro)}.pecat.y{color:#B88700}.pecat.o{color:#C85A0B}.pecat.r{color:var(--akcija)}
-.bodovi{font-family:var(--f-mono);font-size:15px}
-.dosjetka{font-weight:800;font-size:18px;text-wrap:balance}
-.protivnik{font-family:var(--f-mono);font-size:14px;border:2px solid var(--tinta);border-radius:10px;padding:8px 10px;background:#fff}
-.izvor{font-size:12px;color:var(--siva);font-family:var(--f-mono);overflow-wrap:anywhere}
+/* ---------- Papir ---------- */
+.list { filter: drop-shadow(0 9px 10px rgba(30, 40, 70, 0.3)); }
+.papir {
+  background-color: var(--papir);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  padding: 26px 18px 28px;
+  font-family: var(--f-tisak);
+  font-stretch: 82%;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--tisak);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  -webkit-mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / calc(2 * var(--zub)) 51% repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--zub)) 51% repeat-x;
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) top / calc(2 * var(--zub)) 51% repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--zub)) 51% repeat-x;
+}
+.papir.stari { background-color: var(--stari-papir); color: var(--stari-tisak); }
+.list.nakrivo { transform: rotate(-1.4deg); margin: 2px 6px; }
+.papir.ravno-gore { -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--zub)) 100% repeat-x; mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--zub)) 100% repeat-x; padding-top: 18px; }
 
-/* Novi račun */
-.racun{position:relative;background:var(--papir);font-family:var(--f-mono);font-size:14px;padding:20px 16px 18px;border:2px solid var(--tinta);border-bottom:0;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.racun::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-12px;height:12px;background:linear-gradient(135deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x,linear-gradient(225deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x}
-.racun h2{font-family:var(--f-display);font-size:30px;font-weight:400;text-align:center;letter-spacing:.04em}
-.racun .sred{text-align:center}
-.stavka{display:grid;grid-template-columns:1fr auto;gap:2px 10px}
-.stavka .naziv{font-weight:500}
-.stavka .detalj{grid-column:1/-1;color:var(--siva);font-size:12px;font-variant-numeric:tabular-nums}
-.ukupno{display:flex;justify-content:space-between;align-items:baseline;font-weight:500}
-.ukupno b{font-family:var(--f-display);font-size:40px;font-weight:400;line-height:1}
-.osjecaj{display:flex;flex-direction:column;gap:6px}
-.osjecaj .l{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-variant-numeric:tabular-nums}
-.osjecaj .stup{grid-column:1/-1;height:14px;border:2px solid var(--tinta);background:#fff}
-.osjecaj .stup i{display:block;height:100%;background:var(--tinta)}
-.osjecaj .ti .stup i{background:var(--akcija)}
-.osjecaj .sl .stup i{background:var(--siva)}
-.osjecaj .pl .stup i{background:var(--dobro)}
-.titula{text-align:center;font-family:var(--f-display);font-size:26px;text-transform:uppercase;background:var(--tinta);color:var(--zuta);padding:6px 8px;text-wrap:balance}
-.sitno{font-size:11px;color:var(--siva)}
-.dijeli pre{font-family:var(--f-mono);font-size:14px;white-space:pre-wrap;margin:0;background:#fff;border:2px dashed var(--tinta);border-radius:10px;padding:12px}
-.kopirano{font-size:13px;font-weight:800;color:var(--dobro);min-height:18px}
-.naslov-bloka{font-family:var(--f-display);font-size:24px;text-transform:uppercase;font-weight:400;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.oznaka-demo{font-family:var(--f-mono);font-size:11px;background:var(--zuta);border:2px solid var(--tinta);border-radius:999px;padding:1px 8px;white-space:nowrap}
-.derbi{display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
-.red{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border:2px solid var(--tinta);border-radius:10px;background:#fff;font-size:14px}
-.red .traka{grid-column:2/-1;height:6px;background:#EDE7D6;border-radius:3px;overflow:hidden}
-.red .traka i{display:block;height:100%;background:var(--tinta)}
-.red.moj{background:var(--tinta);color:var(--zuta);font-weight:800}
-.red.moj .traka{background:#3A342C}.red.moj .traka i{background:var(--zuta)}
-.red .mj{font-family:var(--f-display);font-size:18px}
-.razmak{font-family:var(--f-mono);font-size:12px;color:var(--siva);text-align:center}
-.ladica{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
-.ladica span{aspect-ratio:3/4;border:2px dashed #B9B09A;border-radius:3px;font-family:var(--f-mono);font-size:10px;display:flex;align-items:center;justify-content:center;color:#B9B09A}
-.ladica span.ima{background:var(--stari-papir);border:2px solid var(--tinta);color:var(--tinta);font-weight:500;transform:rotate(-3deg)}
-.odbrojavanje{text-align:center}
-.odbrojavanje b{font-family:var(--f-display);font-size:40px;font-weight:400;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
-.podnozje{font-size:12px;color:var(--tinta);opacity:.75;text-align:center}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media (max-width:360px){.cijena{font-size:52px}.logo.velik{font-size:52px}.artikl{font-size:27px}.usporedba b{font-size:21px}}
+.glava { text-align: center; }
+.glava b { display: block; font-family: var(--f-naslov); font-stretch: 100%; font-weight: 800; font-size: 30px; letter-spacing: 0.06em; line-height: 1.1; }
+.crta { border: 0; border-top: 1.5px dashed currentColor; opacity: 0.55; width: 100%; margin: 2px 0; }
+.red { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.red > :last-child { white-space: nowrap; }
+.sitno { font-size: 14px; color: var(--blijedi-tisak); }
+.papir.stari .sitno { color: var(--stari-tisak); opacity: 0.8; }
+.ukupno { font-weight: 700; font-size: 20px; }
+.zig {
+  align-self: flex-end; font-family: var(--f-naslov); font-stretch: 100%; font-weight: 700; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #8a2f26; border: 2px solid #8a2f26; padding: 1px 9px; transform: rotate(-7deg); opacity: 0.75;
+}
 
-/* Dodaci za produkciju */
-.izazov{background:var(--tinta);color:var(--zuta);border-radius:12px;padding:12px 14px;font-weight:600}
-.izazov b{font-family:var(--f-display);font-weight:400;font-size:20px;letter-spacing:.03em;display:block;text-transform:uppercase}
-.gumbi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gumb.wa{background:var(--dobro);color:#fff;border-color:var(--tinta);font-size:20px}
-.gumb.mali{font-size:20px}
-a.gumb{display:block;text-align:center;text-decoration:none}
-.bot{font-size:12px;color:var(--siva)}
+/* ---------- Tekst na stolu (izvan papira) ---------- */
+.na-stolu { background: var(--stolnjak); padding: 10px 12px; border-radius: 4px; }
+.naslov { font-family: var(--f-naslov); font-weight: 700; font-size: 34px; line-height: 1.08; text-wrap: balance; }
+.prica { font-size: 18px; text-wrap: pretty; margin-top: 6px; }
+.upute { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; font-size: 16px; counter-reset: u; }
+.upute li { counter-increment: u; display: flex; gap: 8px; }
+.upute li::before { content: counter(u) "."; font-family: var(--f-ruka); font-weight: 700; font-size: 22px; line-height: 1; color: var(--kemijska); min-width: 18px; }
+.napomena { font-size: 14px; color: var(--blijedi-tisak); }
 
-footer.podnozje{margin-top:auto;padding-top:8px}
-footer.podnozje a{color:inherit;font-weight:800}
-.kartica code{font-family:var(--f-mono);font-size:.9em;background:#fff;border:1px solid #cfc7b2;border-radius:4px;padding:0 4px}
-.kartica form{display:contents}
-.cijena small{font-size:.45em}
+/* ---------- Obrazac: crte za upis, upisuje se "kemijskom" ---------- */
+.obrazac { display: flex; flex-direction: column; gap: 14px; }
+.polje { display: flex; flex-direction: column; gap: 2px; }
+.polje label { font-size: 14px; color: var(--blijedi-tisak); }
+.polje select, .polje input[type="text"] {
+  font-family: var(--f-ruka); font-weight: 700; font-size: 28px; line-height: 1.2; color: var(--kemijska);
+  background: transparent; border: 0; border-bottom: 2px solid var(--tisak); border-radius: 0;
+  padding: 2px 2px 0; width: 100%; appearance: none; -webkit-appearance: none;
+}
+.polje select { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%232b2832' stroke-width='2'/%3E%3C/svg%3E") right 4px center no-repeat; padding-right: 26px; }
+.polje input::placeholder { color: #a9b3cf; }
+.greska { font-family: var(--f-ruka); font-weight: 700; font-size: 22px; line-height: 1.15; color: var(--crvena); }
+
+.tipka {
+  display: block; width: 100%; text-align: center; text-decoration: none;
+  font-family: var(--f-naslov); font-stretch: 100%; font-weight: 700; font-size: 23px; letter-spacing: 0.04em; text-transform: uppercase;
+  background: var(--tisak); color: var(--papir); padding: 13px 14px 14px; border-radius: 3px;
+}
+.tipka:active { transform: translateY(1px); }
+.tipka[disabled] { opacity: 0.5; cursor: default; }
+.tipka.crvena { background: var(--crvena); }
+.tipka.zelena { background: var(--dobro); }
+.tipka.na-stolu-tipka { box-shadow: 0 6px 8px -4px rgba(30, 40, 70, 0.5); }
+.veza { font-weight: 600; color: var(--kemijska); text-decoration: underline; text-underline-offset: 3px; font-size: 16px; }
+.dvije { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ---------- Rukopis ---------- */
+.ruka { font-family: var(--f-ruka); font-weight: 700; color: var(--kemijska); line-height: 1; font-stretch: 100%; }
+.ruka.crv { color: var(--crvena); }
+.ruka.olo { color: var(--olovka); font-weight: 600; }
+.krizano { position: relative; display: inline-block; opacity: 0.85; }
+.krizano::after { content: ""; position: absolute; left: -4%; right: -4%; top: 52%; border-top: 3px solid var(--crvena); border-radius: 2px; transform: rotate(-7deg); }
+.zaokruzeno { display: inline-block; padding: 0 12px 2px; border: 3px solid var(--crvena); border-radius: 50% 46% 52% 48% / 55% 50% 50% 45%; transform: rotate(-2deg); }
+.ispis { animation: ispis 0.45s ease-out both; }
+@keyframes ispis { from { clip-path: inset(-10% 100% -10% 0); } to { clip-path: inset(-10% -10% -10% -10%); } }
+
+.naljepnica {
+  display: inline-block; font-family: var(--f-naslov); font-stretch: 100%; font-weight: 800; font-size: 26px; line-height: 1;
+  color: var(--crvena); background: var(--naljepnica); padding: 6px 12px 7px; border-radius: 4px; transform: rotate(-3deg);
+  box-shadow: 0 2px 3px rgba(30, 40, 70, 0.28);
+}
+.naljepnica.isto { color: #fff; background: var(--dobro); }
+.lupi { animation: lupi 0.3s 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+@keyframes lupi { from { transform: rotate(-3deg) scale(0.4); opacity: 0; } to { transform: rotate(-3deg) scale(1); opacity: 1; } }
+
+.pecat {
+  align-self: center; text-align: center; font-family: var(--f-naslov); font-stretch: 100%; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--crvena); border: 4px double var(--crvena); border-radius: 8px; padding: 6px 16px 8px; transform: rotate(-6deg); opacity: 0.86; margin: 8px 0;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.75'/%3E%3C/filter%3E%3Crect width='200' height='120' filter='url(%23m)'/%3E%3C/svg%3E") center / 200px 120px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.75'/%3E%3C/filter%3E%3Crect width='200' height='120' filter='url(%23m)'/%3E%3C/svg%3E") center / 200px 120px;
+}
+.pecat small { display: block; font-size: 14px; letter-spacing: 0.08em; }
+
+/* ---------- Igra ---------- */
+.dvoboj { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 15px; }
+.dvoboj b { font-size: 22px; font-weight: 700; }
+.proslo { display: flex; flex-direction: column; gap: 1px; }
+.proslo .trag { display: flex; gap: 10px; align-items: baseline; font-size: 14px; color: var(--blijedi-tisak); flex-wrap: wrap; }
+.proslo .trag .ruka { font-size: 21px; }
+.kat { font-size: 14px; color: var(--blijedi-tisak); }
+.artikl { font-family: var(--f-naslov); font-stretch: 100%; font-weight: 700; font-size: 32px; line-height: 1.05; text-wrap: balance; }
+.upis { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; border-bottom: 2px solid var(--tisak); padding-bottom: 2px; min-height: 70px; }
+.upis .ruka { font-size: 66px; }
+.rast { font-size: 15px; min-height: 21px; color: var(--blijedi-tisak); }
+.ispravak { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.ispravak .ruka { font-size: 54px; }
+.ispravak .ruka.mala { font-size: 40px; }
+.komentar { font-size: 27px; line-height: 1.1; text-wrap: balance; transform: rotate(-1deg); }
+.suparnik { font-size: 26px; line-height: 1.1; }
+.bodovi { display: flex; justify-content: space-between; font-weight: 700; }
+
+.alat { display: flex; flex-direction: column; gap: 12px; }
+.klizac { display: flex; flex-direction: column; gap: 6px; background: var(--stolnjak); padding: 10px 12px 12px; border-radius: 4px; }
+.klizac label { font-size: 15px; font-weight: 600; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; }
+input[type="range"]::-webkit-slider-runnable-track { height: 14px; border-bottom: 2px solid var(--tisak); background: repeating-linear-gradient(90deg, var(--tisak) 0 1.5px, transparent 1.5px 5%); }
+input[type="range"]::-moz-range-track { height: 14px; border-bottom: 2px solid var(--tisak); background: repeating-linear-gradient(90deg, var(--tisak) 0 1.5px, transparent 1.5px 5%); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; margin-top: -10px; border-radius: 50%; background: var(--kemijska); border: 3px solid var(--papir); box-shadow: 0 2px 4px rgba(30, 40, 70, 0.5); }
+input[type="range"]::-moz-range-thumb { width: 30px; height: 30px; border-radius: 50%; background: var(--kemijska); border: 3px solid var(--papir); box-shadow: 0 2px 4px rgba(30, 40, 70, 0.5); }
+.raspon { display: flex; justify-content: space-between; font-family: var(--f-tisak); font-stretch: 82%; font-size: 14px; color: var(--blijedi-tisak); }
+.fino { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fino button { font-family: var(--f-tisak); font-stretch: 82%; font-size: 18px; font-weight: 700; background: var(--papir); border: 2px solid var(--tisak); border-radius: 3px; padding: 9px; }
+
+/* ---------- Račun na kraju ---------- */
+.stavka { display: flex; flex-direction: column; }
+.stupci { display: flex; flex-direction: column; gap: 7px; }
+.stupac .traka { height: 12px; background: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 5px); margin-top: 2px; }
+.stupac.ti { color: var(--kemijska); }
+.stupac.st { color: var(--tisak); }
+.stupac.sl { color: var(--blijedi-tisak); }
+.stupac.pl { color: var(--dobro); }
+.poruka { font-family: var(--f-tisak); font-stretch: 82%; font-size: 15px; white-space: pre-wrap; margin: 0; background: var(--papir); border-left: 0; padding: 12px; border-radius: 3px; overflow-wrap: anywhere; }
+.status { font-size: 15px; font-weight: 600; color: var(--dobro); min-height: 22px; }
+
+/* ---------- Izrezak iz novina: tablice ---------- */
+.izrezak {
+  background: var(--novine); color: #1f1e22; padding: 16px 16px 18px; transform: rotate(0.5deg);
+  clip-path: polygon(0 1.2%, 6% 0, 31% 0.9%, 58% 0, 83% 1%, 100% 0.2%, 99.2% 34%, 100% 71%, 99% 100%, 71% 99.1%, 44% 100%, 17% 99%, 0 100%, 0.9% 62%, 0 30%);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.izrezak h2, .izrezak h3 { font-family: var(--f-naslov); font-weight: 800; font-size: 30px; line-height: 1; text-transform: uppercase; border-bottom: 3px solid #1f1e22; padding-bottom: 6px; }
+.izrezak .pod { font-size: 15px; }
+.kartice { display: flex; gap: 16px; flex-wrap: wrap; font-weight: 600; font-size: 16px; }
+.kartice button { text-decoration: underline; text-underline-offset: 4px; color: #1f1e22; }
+.kartice button[aria-selected="true"] { text-decoration: none; background: #1f1e22; color: var(--novine); padding: 0 6px; }
+.tablica { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 16px; }
+.tablica th { font-weight: 600; font-size: 13px; text-align: left; padding: 2px 4px; border-bottom: 1px solid #1f1e22; }
+.tablica td { padding: 6px 4px; border-bottom: 1px solid rgba(31, 30, 34, 0.25); }
+.tablica td:first-child { width: 28px; font-weight: 700; }
+.tablica td.br, .tablica th.br { text-align: right; white-space: nowrap; }
+.tablica tr.moj td { font-weight: 700; }
+.tablica tr.moj td:nth-child(2) span { box-shadow: inset 0 -9px 0 rgba(27, 63, 166, 0.28); }
+.tablica tr.razmak td { text-align: center; border-bottom: 0; padding: 0; color: var(--blijedi-tisak); }
+.prazno { font-size: 16px; }
+
+/* ---------- Ladica i knjižica ---------- */
+.ladica { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+.ladica span { aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; font-family: var(--f-tisak); font-stretch: 82%; font-size: 11px; color: #7f8fb0; border: 1.5px dashed #8fa3c9; background: rgba(238, 242, 247, 0.85); }
+.ladica span.ima { background: var(--papir); border: 0; color: var(--tisak); font-weight: 700; transform: rotate(-3deg); box-shadow: 0 2px 3px rgba(30, 40, 70, 0.35); }
+.ladica span.ima:nth-child(3n) { transform: rotate(2deg); }
+.brojke { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+.brojke div { display: flex; flex-direction: column; }
+.brojke b { font-family: var(--f-ruka); font-stretch: 100%; font-size: 38px; line-height: 1; color: var(--kemijska); }
+.odbrojavanje b { font-family: var(--f-tisak); font-stretch: 82%; font-size: 40px; font-weight: 700; font-variant-numeric: tabular-nums; display: block; line-height: 1.1; }
+
+.izazov-traka { background: var(--tisak); color: var(--papir); padding: 10px 12px; border-radius: 3px; font-size: 16px; }
+.izazov-traka b { display: block; font-family: var(--f-naslov); font-size: 24px; line-height: 1.1; }
+.podnozje { margin-top: auto; font-size: 14px; background: var(--stolnjak); padding: 6px 10px; border-radius: 4px; align-self: flex-start; }
+.podnozje a { color: inherit; font-weight: 600; }
+.clanak { font-family: var(--f-ui); font-stretch: 100%; font-size: 16px; }
+.clanak h1 { font-family: var(--f-naslov); font-weight: 700; font-size: 32px; line-height: 1.1; }
+.clanak h2 { font-family: var(--f-naslov); font-weight: 700; font-size: 22px; margin-top: 6px; }
+.clanak code { font-family: var(--f-tisak); font-size: 0.95em; }
+form.sakrij { display: contents; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ispis, .lupi { animation: none; }
+  * { transition: none !important; }
+}
+@media (max-width: 350px) {
+  .upis .ruka { font-size: 54px; }
+  .artikl { font-size: 28px; }
+  .znak.velik { font-size: 44px; }
+}

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { pogodiRundu, zapamtiIzazov, zapocni, type RezultatPogotka } from "@/lib/igra";
+import { osnujLigu, udjiULigu } from "@/lib/liga";
 
 export type StanjeForme = { greska: string | null };
 
@@ -24,4 +25,16 @@ export async function pogodi(indeks: number, vrijednost: number): Promise<Rezult
 export async function prihvatiIzazov(fd: FormData): Promise<void> {
   await zapamtiIzazov(String(fd.get("kod") ?? ""));
   redirect("/");
+}
+
+export async function osnuj(_prije: StanjeForme, fd: FormData): Promise<StanjeForme> {
+  const r = await osnujLigu(String(fd.get("naziv") ?? ""));
+  if ("greska" in r) return { greska: r.greska };
+  redirect(`/liga/${r.liga.kod}`);
+}
+
+export async function udji(_prije: StanjeForme, fd: FormData): Promise<StanjeForme> {
+  const r = await udjiULigu(String(fd.get("kod") ?? ""));
+  if ("greska" in r) return { greska: r.greska };
+  redirect(`/liga/${r.liga.kod}`);
 }

@@ -6,7 +6,7 @@ import type { Razred } from "./bodovanje";
 
 export const VELICINA = { width: 1200, height: 630 };
 
-const BOJE: Record<Razred, string> = { g: "#1E9E55", y: "#F5B700", o: "#F47B20", r: "#E3122B" };
+const BOJE: Record<Razred, string> = { g: "#1D7A46", y: "#F5B700", o: "#F47B20", r: "#C9142B" };
 
 async function font(ime: string): Promise<Buffer> {
   return readFile(join(process.cwd(), "assets", "fonts", ime));
@@ -33,10 +33,11 @@ export async function slika(s: Sadrzaj): Promise<ImageResponse> {
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FFD400", padding: 56, fontFamily: "Archivo, ArchivoExt", color: "#14110F" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", background: "#B9CBE6", padding: 36 }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FCFBF7", padding: 44, fontFamily: "Archivo, ArchivoExt", color: "#2B2832", boxShadow: "0 14px 0 rgba(30,40,70,0.25)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", fontFamily: "Anton, AntonExt", fontSize: 92, color: "#fff", background: "#E3122B", border: "6px solid #14110F", padding: "0 28px", transform: "rotate(-3deg)", boxShadow: "10px 10px 0 #14110F" }}>
-            POŠTO?
+          <div style={{ display: "flex", fontFamily: "Anton, AntonExt", fontSize: 84, color: "#C9142B", background: "#FFDF3A", padding: "2px 30px 6px", borderRadius: 8, transform: "rotate(-3deg)" }}>
+            Pošto?
           </div>
           {s.broj ? (
             <div style={{ display: "flex", fontFamily: "Anton, AntonExt", fontSize: 120, lineHeight: 1 }}>{s.broj}</div>
@@ -49,11 +50,12 @@ export async function slika(s: Sadrzaj): Promise<ImageResponse> {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
             {(s.razredi ?? []).map((r, i) => (
-              <div key={i} style={{ width: 76, height: 76, marginRight: 14, background: BOJE[r], border: "5px solid #14110F", borderRadius: 10 }} />
+              <div key={i} style={{ width: 76, height: 76, marginRight: 14, background: BOJE[r], borderRadius: 8 }} />
             ))}
           </div>
-          <div style={{ display: "flex", fontSize: 34, background: "#14110F", color: "#FFD400", padding: "10px 22px", borderRadius: 12 }}>{s.podnozje}</div>
+          <div style={{ display: "flex", fontSize: 34, background: "#2B2832", color: "#FCFBF7", padding: "10px 22px", borderRadius: 6 }}>{s.podnozje}</div>
         </div>
+      </div>
       </div>
     ),
     {

@@ -1,18 +1,28 @@
-# Sadržaj: kako dodati račun
+# Sadržaj: računi i izvori
 
-Igra vrijedi onoliko koliko su joj cijene točne. Jedan krivi iznos na društvenim mrežama košta više od tjedan dana bez novog računa.
+Igra vrijedi onoliko koliko su joj cijene točne. Trenutno ima 29 računa: 4 ručno unesena i 25 generiranih iz službenih podataka.
 
-## Pravila
+## Generirani računi (prosinac 2022.)
 
-1. Svaki par cijena (nekad i danas) mora imati izvor koji se može otvoriti: službeni cjenik, DZS, TISUP, arhiva kataloga ili novinski članak koji navodi metodologiju.
-2. Uspoređuje se isti proizvod, ista količina. Ako se pakiranje smanjilo ili se vrsta razlikuje, to mora pisati u polju `opis`, ili se stavka ne koristi.
-3. Sezonske cijene (ulaznice, cestarine) uvijek imaju sezonu u opisu.
-4. Ako izvor daje staru cijenu samo u eurima, kune se računaju po fiksnom tečaju 7,5345 i to se navodi u opisu.
-5. Raspon nije cijena. "5 do 8 eura" se ne koristi.
-6. Četiri stavke čine košaricu, peta (`finale`) je druga strana računa: plaća, mirovina, kvadrat stana i slično.
-7. `sluzbena` (službena inflacija) upisuje se samo ako su sve četiri stavke iz istog razdoblja za koje postoji DZS-ov podatak.
+Slaže ih `scripts/sadrzaj/slozi.py` iz dvije spremljene datoteke u `scripts/sadrzaj/podaci/`:
 
-## Stanje (16. 11. 2026.)
+- `dzs-prosjecne-mpc.json`: DZS, Prosječne maloprodajne cijene dobara i usluga u kunama i eurima (103 stavke, rujan 2022. do prosinac 2023.)
+- `eurostat-hicp-hr.json`: Eurostat, HICP za Hrvatsku po skupinama ECOICOP-a (prosinac 2022. do rujan 2026.)
+
+Metoda za svaku stavku:
+
+- **nekad** = DZS-ov prosjek za prosinac 2022., zadnji mjesec kune (u kunama i eurima)
+- **danas** = DZS-ov prosjek za prosinac 2023. (zadnji objavljeni) pomnožen rastom cijena pripadne skupine od 12/2023. do 9/2026.
+
+Današnja cijena je zato procjena, a ne izmjerena cijena. U igri je označena riječju "procjena", a metoda je opisana na stranici `/izvori`. Svaka od 103 DZS stavke koristi se točno jednom (skripta to provjerava).
+
+Druga strana računa: plaće po županijama (DZS, godišnji prosjek 2022. i prosjek I. do III. 2026.). Od 2024. DZS plaće prati iz drugog izvora, što piše na stranici `/izvori`.
+
+### Osvježavanje
+
+Kad Eurostat objavi novi mjesec: preuzeti indekse (skup `prc_hicp_minr`, geo=HR, unit=I25), spremiti u `eurostat-hicp-hr.json` s novim `zadnji_mjesec`, pokrenuti skriptu i pregledati razlike. Tekst "rujan 2026." u `src/components/Igra.tsx`, `src/app/racun/page.tsx` i `src/app/izvori/page.tsx` treba uskladiti.
+
+## Ručno uneseni računi
 
 | Račun | Izvor | Napomena |
 |---|---|---|
@@ -21,9 +31,16 @@ Igra vrijedi onoliko koliko su joj cijene točne. Jedan krivi iznos na društven
 | Račun iz bakine ladice | Telegram.hr | kruh: različite vrste 2016. i 2026. |
 | Ceker s placa | Telegram.hr (TISUP) | kune preračunate; minimalna plaća nije neovisno provjerena |
 
-## Otvoreno prije lansiranja
+## Pravila za novi račun
 
-- Treba najmanje 30 računa da se sezona ne ponavlja.
+1. Svaki par cijena mora imati izvor koji se može otvoriti.
+2. Isti proizvod, ista količina. Razlike moraju pisati u opisu, ili se stavka ne koristi.
+3. Sezonske cijene imaju sezonu u opisu. Raspon nije cijena.
+4. Procjena se uvijek označava poljem `procjena: true`.
+5. Svaki račun ima stabilan `id` koji se nikad ne mijenja. Novi računi dodaju se na kraj rasporeda.
+
+## Otvoreno
+
+- Fali jedan račun do pune sezone od 30 dana (30. dan ponavlja prvi račun).
 - Stavke s napomenom u tablici provjeriti na izvornom cjeniku.
-- Imena brendova (Nutella, Domaćica, Mutti): odluka s pravnikom.
-- Mogući izvori za nove račune: DZS-ove prosječne cijene, TISUP arhiva, katalozi.net, službeni cjenici javnih usluga (ZET, HŽ, HAC, nacionalni parkovi), javni cjenici trgovaca.
+- Imena brendova u ručnim računima (Nutella, Domaćica, Mutti): odluka s pravnikom.
