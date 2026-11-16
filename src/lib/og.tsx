@@ -100,7 +100,7 @@ export async function slikaIzazova(s: PodaciIzazova): Promise<ImageResponse> {
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontFamily: F_TISAK, fontSize: 34 }}>
-              {s.ime} ({s.zupanija}) kaže:
+              {s.zupanija ? `${s.ime} (${s.zupanija}) kaže:` : `${s.ime} kaže:`}
             </div>
             <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: s.mamac.length > 26 ? 84 : 104, lineHeight: 1.05, color: KEMIJSKA }}>{s.mamac}</div>
             <div style={{ display: "flex", fontFamily: F_RUKA, fontSize: 64, lineHeight: 1, color: CRVENA }}>A ti? Pošto je to danas?</div>

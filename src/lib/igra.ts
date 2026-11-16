@@ -198,7 +198,8 @@ export async function zapocni(opcije: { zupanija?: string; nadimak?: string; iza
     if (kolacici.has(KOLACIC_IZAZOV)) kolacici.delete(KOLACIC_IZAZOV);
   }
   if (!protivnikId) {
-    const p = await db.nasumicniProtivnik(dan, zupanija, id);
+    // Bez županije protivnik može biti bilo tko; "-" nije ničija županija.
+    const p = await db.nasumicniProtivnik(dan, zupanija || "-", id);
     if (p && p.racun === racun.id) protivnikId = p.id;
   }
 
@@ -211,7 +212,7 @@ export async function zapocni(opcije: { zupanija?: string; nadimak?: string; iza
 }
 
 export type JavniProtivnik = { ime: string; zupanija: string; bot: boolean };
-export type RezultatPogotka = { greska: string } | { otkrivanje: Otkrivanje; gotovo: boolean; protivnik: JavniProtivnik; trebaZupaniju: boolean };
+export type RezultatPogotka = { greska: string } | { otkrivanje: Otkrivanje; gotovo: boolean; protivnik: JavniProtivnik };
 
 export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boolean): Promise<RezultatPogotka> {
   const id = await igracId();
@@ -225,7 +226,6 @@ export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boo
   const set = setRacuna(racunIgre(igra));
   if (!Number.isInteger(indeks) || indeks < 0 || indeks >= set.length) return { greska: "Neispravna runda." };
   // Bez županije se može odigrati samo prva stavka: bodovi moraju nekome pripasti.
-  if (indeks >= 1 && !igra.zupanija) return { greska: "Prvo odaberi županiju za koju igraš." };
   const a = set[indeks];
   if (!Number.isFinite(vrijednost) || vrijednost < 0 || vrijednost > a.max) return { greska: "Cijena je izvan raspona." };
   if (dupla && igra.dupla !== null) return { greska: "Duplu si na ovom računu već iskoristio." };
@@ -240,12 +240,12 @@ export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boo
     const svjeza = await db.igraZaDan(id, dan);
     if (svjeza && svjeza.pogodci.length > indeks) {
       const kupci = await usporedba(dan, svjeza.racun, indeks, svjeza.pogodci[indeks], a.c, id);
-      return { otkrivanje: otkrij(a, svjeza.pogodci[indeks], prot.pogodci[indeks], svjeza.dupla === indeks, kupci), gotovo: svjeza.gotovo, protivnik: javni, trebaZupaniju: !svjeza.zupanija };
+      return { otkrivanje: otkrij(a, svjeza.pogodci[indeks], prot.pogodci[indeks], svjeza.dupla === indeks, kupci), gotovo: svjeza.gotovo, protivnik: javni };
     }
     return { greska: "Ova runda nije na redu. Osvježi stranicu." };
   }
   const kupci = await usporedba(dan, nova.racun, indeks, v, a.c, id);
-  return { otkrivanje: otkrij(a, v, prot.pogodci[indeks], dupla, kupci), gotovo: nova.gotovo, protivnik: javni, trebaZupaniju: !nova.zupanija };
+  return { otkrivanje: otkrij(a, v, prot.pogodci[indeks], dupla, kupci), gotovo: nova.gotovo, protivnik: javni };
 }
 
 /** Prvi odgovor otvara račun: nema obrasca prije igre. */
@@ -256,16 +256,22 @@ export async function prviPogodak(vrijednost: number, dupla: boolean, izazov?: s
   return pogodiRundu(0, vrijednost, dupla);
 }
 
-/** Županija i nadimak nakon prve stavke. */
-export async function postaviKupca(zupanija: string, nadimakSirovi: string): Promise<{ greska: string } | { ok: true }> {
-  if (!jeZupanija(zupanija)) return { greska: "Odaberi županiju da znamo kome idu bodovi." };
+/**
+ * Neobavezan upis: nadimak za ljestvicu i županija za ligu županija. Jednom upisana županija se ne mijenja,
+ * da se bodovi završenih računa ne mogu seliti iz županije u županiju.
+ */
+export async function postaviKupca(zupanijaSirova: string, nadimakSirovi: string): Promise<{ greska: string } | { ok: true }> {
+  if (zupanijaSirova && !jeZupanija(zupanijaSirova)) return { greska: "Ta županija ne postoji." };
   const id = await igracId();
   if (!id) return { greska: "Igra nije pronađena. Osvježi stranicu." };
+  if (!(await unutarGranice("kupac", 30, 3600))) return { greska: "Previše izmjena. Pokušaj kasnije." };
   const db = pohrana();
+  const postojeci = await db.igrac(id);
+  const zupanija = postojeci?.zupanija || zupanijaSirova;
   const nadimak = ocistiNadimak(nadimakSirovi);
   await db.spremiIgraca({ id, nadimak, zupanija });
   const igra = await db.igraZaDan(id, danBroj());
-  if (igra && !igra.gotovo) await db.azurirajKupcaIgre(igra.id, zupanija, nadimak);
+  if (igra) await db.azurirajKupcaIgre(igra.id, igra.zupanija || zupanija, nadimak);
   return { ok: true };
 }
 

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kod } = await params;
   const s = await sazetakIzazova(kod);
   if (!s) return { title: "Pošto?", robots: { index: false } };
-  const opis = `${s.ime} (${s.zupanija}) kaže: ${s.mamac}. Ima ${s.ukupno}/500. A ti?`;
+  const opis = `${s.ime}${s.zupanija ? ` (${s.zupanija})` : ""} kaže: ${s.mamac}. Ima ${s.ukupno}/500. A ti?`;
   return {
     title: `${s.ime} te izaziva na Pošto?`,
     description: opis,
@@ -62,7 +62,8 @@ export default async function Izazov({ params }: Props) {
         </header>
         <div className="izazov-traka" role="status">
           <b>
-            {s.ime} ({s.zupanija}) te izaziva
+            {s.ime}
+            {s.zupanija ? ` (${s.zupanija})` : ""} te izaziva
           </b>
           Ima {s.ukupno} od 500 bodova i kaže: {s.mamac}. Tko je bliže cijeni, uzima rundu.
         </div>
@@ -74,8 +75,6 @@ export default async function Izazov({ params }: Props) {
           set={javni.set}
           pocetno={mojaIgra && prot ? otkrivenoDoSad(mojaIgra, prot) : []}
           protivnik={prot ? { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot } : null}
-          zupanija={mojaIgra?.zupanija || igrac?.zupanija || ""}
-          nadimak={mojaIgra?.nadimak || igrac?.nadimak || ""}
           duplaIskoristena={!!mojaIgra && mojaIgra.dupla !== null}
           izazov={kod}
           izazivac={s.ime}
@@ -90,7 +89,8 @@ export default async function Izazov({ params }: Props) {
       <section className="na-stolu">
         <h1 className="naslov">{s.ime} te izaziva</h1>
         <p className="prica">
-          {s.ime} ({s.zupanija}) ima {s.ukupno} od 500 bodova na računu "{s.naslov}".
+          {s.ime}
+          {s.zupanija ? ` (${s.zupanija})` : ""} ima {s.ukupno} od 500 bodova na računu "{s.naslov}".
         </p>
       </section>
       {mojaIgra ? (

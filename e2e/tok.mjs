@@ -46,16 +46,7 @@ async function igraj(p, zupanija, nadimak, faktor, o = {}) {
     if (i === 1 && o.slike) await slika(p, "pitanje");
     await p.click(".traka-dolje button.tipka");
     await p.waitForSelector(".ispravak");
-    if (i === 0) {
-      if (o.bezZupanije) {
-        await p.click(".traka-dolje button.tipka");
-        await p.waitForSelector(".greska");
-        ok(/županij/i.test(await tekst(p, ".greska")), "bez županije se ne može na drugu stavku");
-      }
-      await p.select("#zupanija", zupanija);
-      if (nadimak) await p.type("#nadimak", nadimak);
-      if (o.slike) await slika(p, "prva-stavka");
-    }
+    if (i === 0 && o.slike) await slika(p, "prva-stavka");
     if (i === 1 && o.slike) {
       await new Promise((r) => setTimeout(r, 900));
       await slika(p, "otkrivanje");
@@ -63,6 +54,12 @@ async function igraj(p, zupanija, nadimak, faktor, o = {}) {
     await p.click(".traka-dolje button.tipka");
   }
   await p.waitForSelector(RACUN);
+  if (o.bezUpisa) return;
+  if (o.slike) await slika(p, "racun-prije-upisa");
+  await p.select("#zupanija", zupanija);
+  if (nadimak) await p.type("#nadimak", nadimak);
+  await p.click('section[aria-label="Upis na ljestvicu"] button.tipka');
+  await p.waitForFunction(() => !document.querySelector("#zupanija"));
 }
 
 // Igrač A: prvi dana, bez obrasca prije igre
@@ -75,7 +72,26 @@ await Promise.all([a.waitForNavigation(), a.click('a.tipka[href="/igraj"]')]);
 ok(new URL(a.url()).pathname === "/igraj", "tipka s početne vodi na zasebnu stranicu igre");
 ok((await a.$("#klizac")) !== null && (await a.$("#zupanija")) === null, "prva stavka je odmah na stranici igre, bez obrasca");
 await slika(a, "igraj");
-await igraj(a, "Grad Zagreb", "Daniel", 0.4, { refreshNa: 2, bezZupanije: true, slike: true });
+ok((await a.$(".mjerilo")) !== null && (await a.$$(".skokovi button")).length === 5, "cijena se bira mjernom trakom i brzim skokovima");
+await a.click(".skokovi button:nth-child(3)");
+ok(/\+(49|50|51)\s%/.test(await tekst(a, ".rast")), "brzi skok postavlja cijenu u odnosu na staru");
+{
+  const prije = await tekst(a, ".upis .ruka");
+  const kut = await (await a.$(".mjerilo")).boundingBox();
+  await a.mouse.move(kut.x + kut.width / 2, kut.y + 30);
+  await a.mouse.down();
+  await a.mouse.move(kut.x + kut.width / 2 - 70, kut.y + 30, { steps: 5 });
+  await a.mouse.up();
+  ok((await tekst(a, ".upis .ruka")) !== prije, "povlačenje mjerne trake mijenja cijenu");
+}
+await igraj(a, "Grad Zagreb", "Daniel", 0.4, { refreshNa: 2, slike: true, bezUpisa: true });
+ok(/Anonimni kupac/.test(await tekst(a, RACUN)) && !/Blagajna/.test(await tekst(a, RACUN)), "račun se može platiti bez županije i nadimka");
+await slika(a, "racun-prije-upisa");
+await a.select("#zupanija", "Grad Zagreb");
+await a.type("#nadimak", "Daniel");
+await a.click('section[aria-label="Upis na ljestvicu"] button.tipka');
+await a.waitForFunction(() => !document.querySelector("#zupanija"));
+ok(/Kupac\s+Daniel/.test(await tekst(a, RACUN)) && /Blagajna\s+Grad Zagreb/.test(await tekst(a, RACUN)), "naknadni upis nadimka i županije vrijedi za plaćeni račun");
 ok(/Blagajnica Ruža \(računalo\)/.test(await tekst(a, RACUN)), "prvi igrač dana igra protiv označenog računala");
 const link = (await tekst(a, "pre.poruka")).trim().split("\n").pop();
 ok(/\/izazov\/[a-z0-9]{8}$/.test(link), "link izazova postoji");

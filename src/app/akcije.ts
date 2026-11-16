@@ -26,6 +26,7 @@ export async function upisiKupca(zupanija: string, nadimak: string): Promise<{ g
   if ("ok" in r) {
     revalidatePath("/");
     revalidatePath("/igraj");
+    revalidatePath("/racun");
   }
   return r;
 }

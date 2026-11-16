@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { pogodi, upisiKupca } from "@/app/akcije";
+import { pogodi } from "@/app/akcije";
 import { PECAT, dosjetka, eur, kune, post, zaokruzi } from "@/lib/bodovanje";
 import type { JavniProtivnik, Otkrivanje } from "@/lib/igra";
 import type { JavnaStavka } from "@/lib/racuni";
-import { ZUPANIJE } from "@/lib/zupanije";
+import { Mjerilo } from "./Mjerilo";
 import { sviraj } from "./zvuk";
 
 type Props = {
@@ -17,9 +17,6 @@ type Props = {
   pocetno: Otkrivanje[];
   /** null dok račun nije otvoren: protivnik se dodjeljuje s prvim odgovorom */
   protivnik: JavniProtivnik | null;
-  /** prazno ako igrač još nije odabrao županiju */
-  zupanija: string;
-  nadimak: string;
   duplaIskoristena: boolean;
   /** kod izazova: prvi odgovor otvara dvoboj protiv izazivača */
   izazov?: string;
@@ -46,9 +43,6 @@ export function Igra(p: Props) {
   const [dupla, setDupla] = useState(false);
   const [duplaIskoristena, setDuplaIskoristena] = useState(p.duplaIskoristena);
   const [prot, setProt] = useState<JavniProtivnik | null>(p.protivnik);
-  const [zupanija, setZupanija] = useState(p.zupanija);
-  const [nadimak, setNadimak] = useState(p.nadimak);
-  const [trebaZupaniju, setTrebaZupaniju] = useState(p.pocetno.length > 0 && !p.zupanija);
   const [greska, setGreska] = useState<string | null>(null);
   const [ceka, startTransition] = useTransition();
   const sidro = useRef<HTMLDivElement>(null);
@@ -60,7 +54,7 @@ export function Igra(p: Props) {
   }, [p.pocetno.length, set.length, router]);
 
   useEffect(() => {
-    if (faza !== "pitanje" || i > 0) sidro.current?.scrollIntoView({ block: "nearest" });
+    if (faza !== "pitanje" || i > 0) sidro.current?.scrollIntoView({ block: "start" });
   }, [i, faza]);
 
   useEffect(() => () => { if (stanka.current) clearTimeout(stanka.current); }, []);
@@ -83,7 +77,6 @@ export function Igra(p: Props) {
         }
         setOtkriveno((stari) => (stari.length > i ? stari : [...stari, r.otkrivanje]));
         setProt(r.protivnik);
-        setTrebaZupaniju(r.trebaZupaniju);
         if (r.otkrivanje.dupla) setDuplaIskoristena(true);
         // Kratka stanka prije ispravka: napetost, i vrijeme da "blagajna provjeri".
         setFaza("stanka");
@@ -108,27 +101,6 @@ export function Igra(p: Props) {
     setPogodak(set[i + 1].st);
     setDupla(false);
     setFaza("pitanje");
-  }
-
-  function dalje() {
-    if (!trebaZupaniju) {
-      sljedeca();
-      return;
-    }
-    setGreska(null);
-    startTransition(async () => {
-      try {
-        const r = await upisiKupca(zupanija, nadimak);
-        if ("greska" in r) {
-          setGreska(r.greska);
-          return;
-        }
-        setTrebaZupaniju(false);
-        sljedeca();
-      } catch {
-        setGreska("Veza je pukla. Provjeri internet pa pokušaj ponovno.");
-      }
-    });
   }
 
   function pomak(smjer: number) {
@@ -176,7 +148,7 @@ export function Igra(p: Props) {
           ))}
           {i > 0 ? <hr className="crta" /> : null}
 
-          <div ref={sidro} />
+          <div ref={sidro} className="sidro" />
           <span className="kat">
             {i < zadnja ? `Stavka ${i + 1} od ${zadnja}` : "Poleđina računa"}, {a.kat.toLowerCase()}
           </span>
@@ -225,26 +197,6 @@ export function Igra(p: Props) {
                   {o.izvor.n}
                 </a>
               </p>
-              {trebaZupaniju ? (
-                <div className="obrazac kome">
-                  <p>Kome idu ovi bodovi?</p>
-                  <div className="polje">
-                    <label htmlFor="zupanija">Županija za koju igraš</label>
-                    <select id="zupanija" value={zupanija} onChange={(e) => setZupanija(e.target.value)}>
-                      <option value="">odaberi</option>
-                      {ZUPANIJE.map((z) => (
-                        <option key={z} value={z}>
-                          {z}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="polje">
-                    <label htmlFor="nadimak">Nadimak, ako želiš na ljestvicu</label>
-                    <input type="text" id="nadimak" maxLength={16} autoComplete="off" placeholder="Kralj akcija" value={nadimak} onChange={(e) => setNadimak(e.target.value)} />
-                  </div>
-                </div>
-              ) : null}
             </>
           ) : (
             <>
@@ -275,18 +227,27 @@ export function Igra(p: Props) {
           </p>
         ) : null}
         {o ? (
-          <button className="tipka" onClick={dalje} disabled={ceka}>
-            {ceka ? "Upisujem" : trebaZupaniju ? "Upiši i nastavi" : i === zadnja ? "Izdaj račun" : i === zadnja - 1 ? "Okreni račun" : "Sljedeća stavka"}
+          <button className="tipka" onClick={sljedeca}>
+            {i === zadnja ? "Izdaj račun" : i === zadnja - 1 ? "Okreni račun" : "Sljedeća stavka"}
           </button>
         ) : (
           <>
+            <div className="skokovi" role="group" aria-label={`Brzi odabir u odnosu na ${a.god}`}>
+              {[0, 0.25, 0.5, 1, 1.5].map((x) => (
+                <button key={x} type="button" onClick={() => setPogodak(zaokruzi(Math.min(a.max, Math.round((a.st * (1 + x)) / a.f) * a.f)))} disabled={ceka || faza !== "pitanje"}>
+                  {x === 0 ? "isto" : `+${Math.round(x * 100)} %`}
+                </button>
+              ))}
+            </div>
             <div className="klizac">
               <button type="button" className="korak" onClick={() => pomak(-1)} disabled={ceka || faza !== "pitanje"} aria-label={`Smanji za ${eur(a.f, a.cijeli)}`}>
                 −
               </button>
+              <Mjerilo v={pogodak} max={a.max} k={a.k} cijeli={a.cijeli} onemoguceno={ceka || faza !== "pitanje"} onChange={setPogodak} />
               <input
                 type="range"
                 id="klizac"
+                className="samo-citac"
                 aria-label="Današnja cijena"
                 min={0}
                 max={a.max}

@@ -37,8 +37,6 @@ export default async function Igraj() {
         set={racun.set}
         pocetno={igra && prot ? otkrivenoDoSad(igra, prot) : []}
         protivnik={prot ? { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot } : null}
-        zupanija={igra?.zupanija || igrac?.zupanija || ""}
-        nadimak={igra?.nadimak || igrac?.nadimak || ""}
         duplaIskoristena={!!igra && igra.dupla !== null}
       />
     </>

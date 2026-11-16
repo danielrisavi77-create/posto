@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { DerbiDana } from "@/components/DerbiDana";
 import { Dijeli } from "@/components/Dijeli";
+import { KupacForma } from "@/components/KupacForma";
 import { Odbrojavanje } from "@/components/Odbrojavanje";
 import { Tablice } from "@/components/Tablice";
 import { Papir, Vrh } from "@/components/Zajednicko";
@@ -79,7 +80,7 @@ export default async function RacunStranica() {
     `${razredi.map((r) => EMOJI[r]).join("")} ${igra.ukupno}/500\n` +
     `Kažem da je ${mamacIgre(igra)}. A ti?\n` +
     `Tip kupca: ${tip.ime}\n` +
-    `${igra.zupanija}: ${mjestoZup}. u ligi županija\n` +
+    (igra.zupanija ? `${igra.zupanija}: ${mjestoZup}. u ligi županija\n` : "") +
     `Igraj protiv mene:`;
 
   return (
@@ -97,10 +98,12 @@ export default async function RacunStranica() {
           <span>Kupac</span>
           <span>{igra.nadimak || "Anonimni kupac"}</span>
         </div>
-        <div className="red">
-          <span>Blagajna</span>
-          <span>{igra.zupanija}</span>
-        </div>
+        {igra.zupanija ? (
+          <div className="red">
+            <span>Blagajna</span>
+            <span>{igra.zupanija}</span>
+          </div>
+        ) : null}
         <hr className="crta" />
         {set.map((a, i) => (
           <div className="stavka" key={a.ime}>
@@ -125,7 +128,7 @@ export default async function RacunStranica() {
           <span>Dvoboj</span>
           <span>{dvoboj}</span>
         </div>
-        <span className="sitno">protiv: {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime}, ${prot.zupanija}`}</span>
+        <span className="sitno">protiv: {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime}${prot.zupanija ? `, ${prot.zupanija}` : ""}`}</span>
         <hr className="crta" />
 
         <p>TI I OSTALI KUPCI</p>
@@ -178,7 +181,9 @@ export default async function RacunStranica() {
 
       <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} slika={`/izazov/${igra.kod}/slika`} napomena="Na slici nema današnjih cijena, pa nikome ne kvariš igru. Tko otvori link, igra dvoboj baš protiv tebe." />
 
-      <DerbiDana danas={danasDerbi} jucer={jucerDerbi} mojaZupanija={igra.zupanija} />
+      {!igra.nadimak || !igra.zupanija ? <KupacForma nadimak={igra.nadimak} zupanija={igra.zupanija} /> : null}
+
+      <DerbiDana danas={danasDerbi} jucer={jucerDerbi} mojaZupanija={igra.zupanija || undefined} />
 
       <Tablice
         naslov="Liga županija"

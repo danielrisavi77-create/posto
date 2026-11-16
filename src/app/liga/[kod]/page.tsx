@@ -60,7 +60,7 @@ export default async function LigaStranica({ params }: { params: Promise<{ kod: 
         kartice={[
           {
             id: "sezona", naziv: "Sezona", stupac: "Kupac", vrijednost: "Bodovi",
-            redovi: tablica.map((r, i) => ({ mj: i + 1, ime: r.ime, dodatak: `${r.zupanija}, ${r.igara} ${r.igara === 1 ? "račun" : "računa"}`, vrijednost: String(r.sezona), moj: r.igracId === id })),
+            redovi: tablica.map((r, i) => ({ mj: i + 1, ime: r.ime, dodatak: `${r.zupanija ? r.zupanija + ", " : ""}${r.igara} ${r.igara === 1 ? "račun" : "računa"}`, vrijednost: String(r.sezona), moj: r.igracId === id })),
             prazno: "Liga još nema članova.",
             opis: `Zbroj bodova u sezoni ${imeSezone()}.`,
           },

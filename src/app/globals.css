@@ -203,6 +203,22 @@ a { color: var(--kemijska); }
   padding: 12px 20px calc(14px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px;
 }
 .klizac { display: grid; grid-template-columns: 48px 1fr 48px; gap: 12px; align-items: center; }
+.skokovi { display: flex; gap: 8px; }
+.skokovi button { flex: 1; font-family: var(--f-tisak); font-stretch: 82%; font-size: 15px; font-weight: 700; padding: 8px 0; border: 1.5px solid var(--tisak); border-radius: 999px; background: var(--papir); white-space: nowrap; }
+.skokovi button[disabled] { opacity: 0.45; }
+.mjerilo {
+  position: relative; height: 58px; overflow: hidden; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
+  border-bottom: 2px solid var(--tisak);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+}
+.mjerilo:active { cursor: grabbing; }
+.mjerilo.stoji { opacity: 0.5; cursor: default; }
+.mjerilo i { position: absolute; bottom: 0; width: 1.5px; margin-left: -0.75px; height: 11px; background: var(--tisak); }
+.mjerilo i.v { height: 20px; }
+.mjerilo span { position: absolute; top: 4px; transform: translateX(-50%); font-family: var(--f-tisak); font-stretch: 82%; font-size: 14px; color: var(--blijedi-tisak); white-space: nowrap; }
+.mjerilo::after { content: ""; position: absolute; left: 50%; top: 22px; bottom: 0; width: 4px; margin-left: -2px; background: var(--kemijska); border-radius: 2px 2px 0 0; }
+input.samo-citac { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 .korak { height: 48px; font-family: var(--f-tisak); font-size: 28px; font-weight: 700; line-height: 1; border: 2px solid var(--tisak); border-radius: 4px; background: var(--papir); }
 .korak[disabled] { opacity: 0.45; }
 .potvrda { display: flex; gap: 10px; }
@@ -310,3 +326,5 @@ p.odbrojavanje { text-align: center; }
 @media (max-width: 350px) { .naslov.velik { font-size: 36px; } .tipka.velika { font-size: 26px; } }
 @media (min-width: 700px) { #app { padding-top: 40px; gap: 34px; } }
 .ladica span { background: transparent; }
+
+.sidro { scroll-margin-top: 14px; }
