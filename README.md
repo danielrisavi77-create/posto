@@ -16,7 +16,7 @@ Bez Supabase varijabli aplikacija u razvoju koristi pohranu u memoriji (podaci n
 ## Postavljanje Supabasea
 
 1. Otvori novi projekt na supabase.com (regija Frankfurt).
-2. SQL Editor: zalijepi i pokreni redom sve datoteke iz `supabase/migrations/` (0001 do 0004).
+2. SQL Editor: zalijepi i pokreni redom sve datoteke iz `supabase/migrations/` (0001 do 0005).
 3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na svih pet tablica, bez politika (namjerno, pristup ide samo preko servera).
 4. Project Settings, API: kopiraj Project URL i `service_role` ključ.
 
@@ -49,6 +49,8 @@ src/lib/tablice.ts     priprema ljestvica za prikaz
 src/app/ljestvica/     županije, igrači danas, igrači u sezoni
 src/app/liga/          moje lige i stranica lige
 src/app/veliki-racun/  zbroj svih košarica sezone
+src/app/ja/            knjižica kupca i ladica računa
+src/lib/derbi.ts       derbi dana: parovi županija i ishod
 src/app/izvori/        izvori i metoda procjene cijena
 src/lib/bodovanje.ts   čiste funkcije: bodovi, razredi, osjećaj inflacije, formatiranje
 src/lib/dan.ts         redni broj dana, sezona, ponoć: sve po zagrebačkom vremenu
@@ -71,6 +73,9 @@ Ključna pravila:
 - Jedna igra po igraču po danu: `unique (dan, igrac_id)`. Runde se upisuju atomarno funkcijom `dodaj_pogodak`, pa dvostruki klik ili dva taba ne mogu upisati istu rundu dvaput.
 - Protivnik: tko te izazvao linkom, inače nasumičan stvarni igrač iz druge županije koji je račun već završio, inače računalo (uvijek označeno kao računalo).
 - Igrač je anonimni httpOnly kolačić s nasumičnim UUID-om.
+- Nema obrasca prije igre: prvi odgovor otvara račun, a županija se bira nakon prve stavke. Stranica se pritom osvježi, pa `<Igra>` mora ostati na istom mjestu u stablu (stalni `key`).
+- Dupla: jednom po računu, dvostruki bodovi unutar 15 % cijene, inače nula.
+- Slike za dijeljenje (`/izazov/[kod]/slika` i og:image) nikad ne sadrže današnje cijene, samo igračeve odgovore.
 - Ograničenje zahtjeva po mreži: 30 novih računa na sat i 120 pogodaka u minuti. IP se sprema samo kao sažetak sa solju i briše se nakon jednog dana (pri svakom pozivu i satnim pg_cron poslom).
 
 ## Testovi

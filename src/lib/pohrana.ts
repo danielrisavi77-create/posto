@@ -18,6 +18,8 @@ export type Igra = {
   bodovi: number[];
   ukupno: number;
   gotovo: boolean;
+  /** indeks stavke na kojoj je odigrana dupla, ili null */
+  dupla: number | null;
   protivnikId: string | null;
   protivnikBot: Bot | null;
 };
@@ -38,7 +40,13 @@ export interface Pohrana {
   /** Vraća postojeću igru ako ju je igrač za taj dan već započeo. */
   stvoriIgru(n: NovaIgra): Promise<Igra>;
   /** null znači da runda nije bila na redu (dvostruki klik, drugi tab, gotova igra). */
-  dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean): Promise<Igra | null>;
+  dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean, dupla: boolean): Promise<Igra | null>;
+  /** Upis županije i nadimka u igru započetu bez njih. */
+  azurirajKupcaIgre(igraId: string, zupanija: string, nadimak: string): Promise<void>;
+  /** Prosjek po županiji za jedan dan (derbi dana). */
+  ligaDana(dan: number): Promise<RedLige[]>;
+  /** Odgovori svih igrača na računu dana, za usporedbu po stavkama. */
+  pogodciDana(dan: number, racun: string): Promise<{ igracId: string; pogodci: number[] }[]>;
   nasumicniProtivnik(dan: number, zupanija: string, igracId: string): Promise<Igra | null>;
   ligaSezone(sezona: string): Promise<RedLige[]>;
   igreSezone(igracId: string, sezona: string): Promise<{ dan: number; ukupno: number }[]>;
@@ -64,14 +72,14 @@ export interface Pohrana {
 
 type Red = {
   id: string; kod: string; dan: number; racun: string; sezona: string; igrac_id: string; nadimak: string; zupanija: string;
-  pogodci: (number | string)[]; bodovi: number[]; ukupno: number; gotovo: boolean;
+  pogodci: (number | string)[]; bodovi: number[]; ukupno: number; gotovo: boolean; dupla?: number | null;
   protivnik_id: string | null; protivnik_bot: Bot | null;
 };
 
 function izReda(r: Red): Igra {
   return {
     id: r.id, kod: r.kod, dan: r.dan, racun: r.racun ?? "", sezona: r.sezona, igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija,
-    pogodci: (r.pogodci ?? []).map(Number), bodovi: r.bodovi ?? [], ukupno: r.ukupno, gotovo: r.gotovo,
+    pogodci: (r.pogodci ?? []).map(Number), bodovi: r.bodovi ?? [], ukupno: r.ukupno, gotovo: r.gotovo, dupla: r.dupla ?? null,
     protivnikId: r.protivnik_id, protivnikBot: r.protivnik_bot,
   };
 }
@@ -122,9 +130,23 @@ class SupabasePohrana implements Pohrana {
     }
     return izReda(data as Red);
   }
-  async dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean) {
+  async azurirajKupcaIgre(igraId: string, zupanija: string, nadimak: string) {
+    const { error } = await this.db.from("igre").update({ zupanija, nadimak }).eq("id", igraId);
+    greska("azurirajKupcaIgre", error);
+  }
+  async ligaDana(dan: number) {
+    const { data, error } = await this.db.from("liga_dan").select("zupanija,prosjek,igara").eq("dan", dan);
+    greska("ligaDana", error);
+    return (data as RedLige[] | null) ?? [];
+  }
+  async pogodciDana(dan: number, racun: string) {
+    const { data, error } = await this.db.from("igre").select("igrac_id,pogodci").eq("dan", dan).eq("racun", racun).order("stvoreno", { ascending: false }).limit(3000);
+    greska("pogodciDana", error);
+    return ((data as { igrac_id: string; pogodci: (number | string)[] }[] | null) ?? []).map((r) => ({ igracId: r.igrac_id, pogodci: (r.pogodci ?? []).map(Number) }));
+  }
+  async dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean, dupla: boolean) {
     const { data, error } = await this.db.rpc("dodaj_pogodak", {
-      p_igra: igraId, p_indeks: indeks, p_vrijednost: vrijednost, p_bodovi: bodovi, p_zadnji: zadnji,
+      p_igra: igraId, p_indeks: indeks, p_vrijednost: vrijednost, p_bodovi: bodovi, p_zadnji: zadnji, p_dupla: dupla,
     });
     greska("dodajPogodak", error);
     const redovi = (data as Red[] | null) ?? [];
@@ -249,13 +271,27 @@ class MemorijskaPohrana implements Pohrana {
   async stvoriIgru(n: NovaIgra) {
     const postojeca = await this.igraZaDan(n.igracId, n.dan);
     if (postojeca) return postojeca;
-    const g: Igra = { ...n, id: randomUUID(), pogodci: [], bodovi: [], ukupno: 0, gotovo: false };
+    const g: Igra = { ...n, id: randomUUID(), pogodci: [], bodovi: [], ukupno: 0, gotovo: false, dupla: null };
     this.igre.set(g.id, g);
     return structuredClone(g);
   }
-  async dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean) {
+  async azurirajKupcaIgre(igraId: string, zupanija: string, nadimak: string) {
+    const g = this.igre.get(igraId);
+    if (g) { g.zupanija = zupanija; g.nadimak = nadimak; }
+  }
+  async ligaDana(dan: number) {
+    const m = new Map<string, number[]>();
+    for (const g of this.igre.values()) if (g.gotovo && g.dan === dan && g.zupanija) m.set(g.zupanija, [...(m.get(g.zupanija) ?? []), g.ukupno]);
+    return [...m].map(([zupanija, v]) => ({ zupanija, prosjek: Math.round(v.reduce((a, b) => a + b, 0) / v.length), igara: v.length }));
+  }
+  async pogodciDana(dan: number, racun: string) {
+    return [...this.igre.values()].filter((g) => g.dan === dan && g.racun === racun).map((g) => ({ igracId: g.igracId, pogodci: [...g.pogodci] }));
+  }
+  async dodajPogodak(igraId: string, indeks: number, vrijednost: number, bodovi: number, zadnji: boolean, dupla: boolean) {
     const g = this.igre.get(igraId);
     if (!g || g.gotovo || g.pogodci.length !== indeks) return null;
+    if (dupla && g.dupla !== null) return null;
+    if (dupla) g.dupla = indeks;
     g.pogodci.push(vrijednost); g.bodovi.push(bodovi); g.ukupno += bodovi; g.gotovo = zadnji;
     return structuredClone(g);
   }
@@ -265,7 +301,7 @@ class MemorijskaPohrana implements Pohrana {
   }
   async ligaSezone(sezona: string) {
     const m = new Map<string, number[]>();
-    for (const g of this.igre.values()) if (g.gotovo && g.sezona === sezona) m.set(g.zupanija, [...(m.get(g.zupanija) ?? []), g.ukupno]);
+    for (const g of this.igre.values()) if (g.gotovo && g.sezona === sezona && g.zupanija) m.set(g.zupanija, [...(m.get(g.zupanija) ?? []), g.ukupno]);
     return [...m].map(([zupanija, v]) => ({ zupanija, prosjek: Math.round(v.reduce((a, b) => a + b, 0) / v.length), igara: v.length }));
   }
   async igreSezone(igracId: string, sezona: string) {

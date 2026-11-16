@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { DerbiDana } from "@/components/DerbiDana";
 import { Dijeli } from "@/components/Dijeli";
 import { Odbrojavanje } from "@/components/Odbrojavanje";
 import { Tablice } from "@/components/Tablice";
 import { Papir, Vrh } from "@/components/Zajednicko";
 import { adresaStranice } from "@/lib/adresa";
 import { EMOJI, eur, kune, osjecaj, post, razred, runda, tipKupca } from "@/lib/bodovanje";
-import { danBroj, danaDoKrajaSezone, danaUSezoni, datumTekst, imeSezone, prviDanSezone, sekundiDoPonoci, sezona } from "@/lib/dan";
-import { igracId, protivnikIgre } from "@/lib/igra";
+import { danBroj, danaDoKrajaSezone, datumTekst, imeSezone, sekundiDoPonoci, sezona } from "@/lib/dan";
+import { derbi } from "@/lib/derbi";
+import { igracId, mamacIgre, protivnikIgre, usporedba } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
 import { racunIgre, setRacuna, type Stavka } from "@/lib/racuni";
-import { knjizica } from "@/lib/statistika";
-import { mjestoZupanije, redoviZupanija } from "@/lib/tablice";
+import { redoviZupanija } from "@/lib/tablice";
 
 export const dynamic = "force-dynamic";
 
@@ -30,8 +31,10 @@ export default async function RacunStranica() {
   const racun = racunIgre(igra);
   const set = setRacuna(racun);
   const fin = racun.finale;
-  const [prot, liga, sveIgre, adresa, mjesto] = await Promise.all([
-    protivnikIgre(igra), db.ligaSezone(sezona()), db.sveIgre(id), adresaStranice(), db.mjestoDana(dan, igra.ukupno),
+  const [prot, liga, adresa, mjesto, sviDanas, danasDerbi, jucerDerbi, kupci] = await Promise.all([
+    protivnikIgre(igra), db.ligaSezone(sezona()), adresaStranice(), db.mjestoDana(dan, igra.ukupno), db.topDana(dan, 1000),
+    derbi(dan), dan > 1 ? derbi(dan - 1) : null,
+    Promise.all(set.map((a, i) => usporedba(dan, racun.id, i, igra.pogodci[i], a.c, id))),
   ]);
 
   const razredi = set.map((a, i) => razred(igra.pogodci[i], a.c));
@@ -46,7 +49,22 @@ export default async function RacunStranica() {
   const on = runde.filter((x) => x === -1).length;
   const dvoboj = ja > on ? `pobjeda ${ja}:${on}` : ja < on ? `poraz ${ja}:${on}` : `neriješeno ${ja}:${on}`;
 
-  const mjestoZup = mjestoZupanije(liga, igra.zupanija);
+  // Liga županija i rečenica "tvoja županija treba tebe".
+  const poredak = [...liga].sort((a, b) => b.prosjek - a.prosjek || b.igara - a.igara);
+  const k = poredak.findIndex((x) => x.zupanija === igra.zupanija);
+  const mjestoZup = Math.max(1, k + 1);
+  let trebaTe = "";
+  if (k > 0) trebaTe = `${igra.zupanija} je ${k + 1}. Do ${k}. mjesta fali ${poredak[k - 1].prosjek - poredak[k].prosjek + 1} bodova prosjeka: svaki dobar račun iz tvoje županije ga diže.`;
+  else if (k === 0 && poredak.length > 1) trebaTe = `${igra.zupanija} vodi. Druga je ${poredak[1].zupanija}, ${poredak[0].prosjek - poredak[1].prosjek} bodova iza.`;
+  else if (k === 0) trebaTe = `${igra.zupanija} je zasad sama u ligi. Pošalji izazov nekome iz druge županije.`;
+
+  // Raspodjela današnjih rezultata: deset razreda po 60 bodova.
+  const razredaka = Array.from({ length: 10 }, () => 0);
+  for (const r of sviDanas) razredaka[Math.min(9, Math.floor(r.bodovi / 60))]++;
+  const mojRazred = Math.min(9, Math.floor(igra.ukupno / 60));
+  const najviseURazredu = Math.max(1, ...razredaka);
+  const boljiOd = mjesto.igraca > 1 ? Math.round(((mjesto.igraca - mjesto.mjesto) / (mjesto.igraca - 1)) * 100) : null;
+
   const najvise = Math.max(o.ti, o.stvarno, finStv, racun.sluzbena?.p ?? 0, 0.01);
   const stupci: { kl: string; naziv: string; v: number }[] = [
     { kl: "ti", naziv: "Po tebi (ove 4 stavke)", v: o.ti },
@@ -54,23 +72,15 @@ export default async function RacunStranica() {
     ...(racun.sluzbena ? [{ kl: "sl", naziv: racun.sluzbena.t, v: racun.sluzbena.p }] : []),
     { kl: "pl", naziv: `${fin.rijec ?? fin.ime} od ${fin.god}`, v: finStv },
   ];
-
-  // Ladica: jedan pretinac po danu tekuće sezone.
-  const uSezoni = sveIgre.filter((g) => g.sezona === sezona());
-  const poDanu = new Map(uSezoni.map((g) => [g.dan, g.ukupno]));
-  const prvi = prviDanSezone();
-  const pretinci = Array.from({ length: danaUSezoni() }, (_, k) => ({ redni: k + 1, ukupno: poDanu.get(prvi + k) }));
-  const knj = knjizica(sveIgre, dan);
   const doKraja = danaDoKrajaSezone();
 
-  const godina = /\d{4}/.exec(racun.god)?.[0];
   const tekst =
     `Pošto? br. ${dan}, ${racun.naslov.toLowerCase()}\n` +
     `${razredi.map((r) => EMOJI[r]).join("")} ${igra.ukupno}/500\n` +
-    `Po meni je sve skuplje ${post(o.ti).replace("+", "")} nego ${godina ? `${godina}.` : "u kunama"}\n` +
+    `Kažem da je ${mamacIgre(igra)}. A ti?\n` +
     `Tip kupca: ${tip.ime}\n` +
     `${igra.zupanija}: ${mjestoZup}. u ligi županija\n` +
-    `Možeš li bolje? Igraj protiv mene:`;
+    `Igraj protiv mene:`;
 
   return (
     <>
@@ -96,10 +106,13 @@ export default async function RacunStranica() {
           <div className="stavka" key={a.ime}>
             <div className="red">
               <span>{a.ime}</span>
-              <span>+{igra.bodovi[i]}</span>
+              <span>
+                {igra.dupla === i ? "dupla " : ""}+{igra.bodovi[i]}
+              </span>
             </div>
             <span className="sitno">
               {a.god} {nekad(a)}, ti {eur(igra.pogodci[i], a.cijeli)}, danas {eur(a.c, a.cijeli)}
+              {kupci[i] ? `, kupci ${eur(kupci[i]!.medijan, a.cijeli)} (bliži si od ${kupci[i]!.boljiOd} %)` : ""}
             </span>
           </div>
         ))}
@@ -109,16 +122,31 @@ export default async function RacunStranica() {
           <span>{igra.ukupno} / 500</span>
         </div>
         <div className="red">
+          <span>Dvoboj</span>
+          <span>{dvoboj}</span>
+        </div>
+        <span className="sitno">protiv: {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime}, ${prot.zupanija}`}</span>
+        <hr className="crta" />
+
+        <p>TI I OSTALI KUPCI</p>
+        <div className="red">
           <span>Danas si</span>
           <span>
             {mjesto.mjesto}. od {mjesto.igraca}
           </span>
         </div>
-        <div className="red">
-          <span>Dvoboj</span>
-          <span>{dvoboj}</span>
-        </div>
-        <span className="sitno">protiv: {prot.bot ? `${prot.ime} (računalo)` : `${prot.ime}, ${prot.zupanija}`}</span>
+        {boljiOd !== null ? (
+          <>
+            <div className="raspodjela" aria-hidden="true">
+              {razredaka.map((n, i) => (
+                <i key={i} className={i === mojRazred ? "ja" : ""} style={{ height: `${Math.max(6, Math.round((n / najviseURazredu) * 100))}%` }} />
+              ))}
+            </div>
+            <span className="sitno">Raspodjela današnjih rezultata, od 0 do 600 bodova. Plavi stupac je tvoj. Bolji si od {boljiOd} % kupaca.</span>
+          </>
+        ) : (
+          <span className="sitno">Prvi si danas platio račun. Raspodjela rezultata stiže s drugim kupcima.</span>
+        )}
         <hr className="crta" />
 
         <p>KOLIKO JE POSKUPJELO</p>
@@ -148,7 +176,9 @@ export default async function RacunStranica() {
         </span>
       </Papir>
 
-      <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} napomena="Tko otvori tvoj link, igra dvoboj baš protiv tebe." />
+      <Dijeli naslov="Izazovi ekipu" tekst={tekst} link={`${adresa}/izazov/${igra.kod}`} slika={`/izazov/${igra.kod}/slika`} napomena="Na slici nema današnjih cijena, pa nikome ne kvariš igru. Tko otvori link, igra dvoboj baš protiv tebe." />
+
+      <DerbiDana danas={danasDerbi} jucer={jucerDerbi} mojaZupanija={igra.zupanija} />
 
       <Tablice
         naslov="Liga županija"
@@ -157,71 +187,31 @@ export default async function RacunStranica() {
             id: "zupanije", naziv: "Županije", stupac: "Županija (broj računa)", vrijednost: "Prosjek",
             redovi: redoviZupanija(liga, igra.zupanija, 5),
             prazno: "Tvoja županija je zasad sama u ligi.",
-            opis: `Sezona ${imeSezone()}: još ${doKraja} ${doKraja === 1 ? "dan" : "dana"} do Zlatne blagajne.`,
+            opis: `${trebaTe} Sezona ${imeSezone()}: još ${doKraja} ${doKraja === 1 ? "dan" : "dana"} do Zlatne blagajne.`,
           },
         ]}
       />
-      <p className="na-stolu">
-        <Link className="veza" href="/ljestvica">
-          Sve ljestvice
-        </Link>{" "}
-        ili{" "}
-        <Link className="veza" href="/liga">
-          osnuj ligu za svoju ekipu
-        </Link>
-        .
-      </p>
 
-      <section className="na-stolu">
-        <h2 className="naslov">Ladica računa</h2>
-        <p className="prica">
-          Skupljeno {uSezoni.length} od {pretinci.length}. Svi skupljeni računi zbrajaju se u{" "}
-          <Link className="veza" href="/veliki-racun">
-            Veliki račun sezone
+      <section className="na-stolu" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <span className="napomena">Novi račun stiže za</span>
+        <div className="odbrojavanje">
+          <Odbrojavanje sekundi={sekundiDoPonoci()} />
+        </div>
+        <p>
+          <Link className="veza" href="/ja">
+            Tvoja knjižica
+          </Link>
+          ,{" "}
+          <Link className="veza" href="/ljestvica">
+            sve ljestvice
+          </Link>{" "}
+          i{" "}
+          <Link className="veza" href="/liga">
+            lige za ekipu
           </Link>
           .
         </p>
       </section>
-      <div className="ladica" aria-hidden="true">
-        {pretinci.map((p) => (
-          <span key={p.redni} className={p.ukupno != null ? "ima" : ""}>
-            {p.ukupno ?? p.redni}
-          </span>
-        ))}
-      </div>
-
-      <Papir oznaka="Tvoja knjižica">
-        <p className="glava">
-          <b>KNJIŽICA KUPCA</b>
-        </p>
-        <div className="brojke">
-          <div>
-            <b>{knj.igara}</b>plaćenih računa
-          </div>
-          <div>
-            <b>{knj.niz}</b>
-            {knj.niz === 1 ? "dan zaredom" : "dana zaredom"}
-          </div>
-          <div>
-            <b>{knj.prosjek}</b>prosjek bodova
-          </div>
-          <div>
-            <b>{knj.najbolji}</b>najbolji račun
-          </div>
-          <div>
-            <b>{knj.uCent}</b>cijena pogođenih u cent
-          </div>
-          <div>
-            <b>{knj.najduziNiz}</b>najdulji niz
-          </div>
-        </div>
-        {knj.tip ? <span className="sitno">Najčešće si: {knj.tip}.</span> : null}
-        <hr className="crta" />
-        <div className="odbrojavanje">
-          <span className="sitno">Novi račun stiže za</span>
-          <Odbrojavanje sekundi={sekundiDoPonoci()} />
-        </div>
-      </Papir>
     </>
   );
 }

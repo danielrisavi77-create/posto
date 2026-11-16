@@ -1,10 +1,10 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
+import { DerbiDana } from "@/components/DerbiDana";
 import { Igra } from "@/components/Igra";
-import { PocetnaForma } from "@/components/PocetnaForma";
-import { Papir, StariRacun, Vrh } from "@/components/Zajednicko";
+import { StariRacun, Vrh } from "@/components/Zajednicko";
 import { danBroj } from "@/lib/dan";
-import { KOD, KOLACIC_IZAZOV, igracId, otkrivenoDoSad, protivnikIgre } from "@/lib/igra";
+import { derbi } from "@/lib/derbi";
+import { igracId, otkrivenoDoSad, protivnikIgre } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
 import { javniRacun, racunIgre, racunZaDan } from "@/lib/racuni";
 
@@ -17,28 +17,13 @@ export default async function Pocetna() {
   const igra = id ? await db.igraZaDan(id, dan) : null;
   // Započeta igra ostaje na svom računu i ako se raspored u međuvremenu promijenio.
   const racun = javniRacun(igra ? racunIgre(igra) : racunZaDan(dan));
+  const [igrac, danas, jucer, prot] = await Promise.all([
+    id ? db.igrac(id) : null, derbi(dan), dan > 1 ? derbi(dan - 1) : null, igra && !igra.gotovo ? protivnikIgre(igra) : null,
+  ]);
+  const uTijeku = !!igra && !igra.gotovo;
 
-  // Igra je u tijeku: nastavi gdje je igrač stao.
-  if (igra && !igra.gotovo) {
-    const prot = await protivnikIgre(igra);
-    return (
-      <>
-        <Vrh />
-        <Igra dan={dan} naslov={racun.naslov} set={racun.set} pocetno={otkrivenoDoSad(igra, prot)} protivnik={{ ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot }} />
-      </>
-    );
-  }
-
-  const igrac = id ? await db.igrac(id) : null;
-
-  // Izazov preko linka: prikaži tko izaziva, ali ne i njegove pogotke.
-  let izazov: { ime: string; zupanija: string; vrijedi: boolean } | null = null;
-  const kod = (await cookies()).get(KOLACIC_IZAZOV)?.value;
-  if (kod && KOD.test(kod)) {
-    const iz = await db.igraPoKodu(kod);
-    if (iz && iz.gotovo && iz.igracId !== id) izazov = { ime: iz.nadimak || "Anonimni kupac", zupanija: iz.zupanija, vrijedi: iz.dan === dan && iz.racun === racun.id };
-  }
-
+  // Raspored elemenata je isti prije i tijekom igre. Prvi odgovor otvara račun i osvježava stranicu,
+  // a <Igra> mora ostati na istom mjestu u stablu da ne izgubi stanje (zato i stalni key).
   return (
     <>
       <Vrh />
@@ -54,19 +39,6 @@ export default async function Pocetna() {
         ) : null}
       </section>
 
-      {izazov ? (
-        <div className="izazov-traka" role="status">
-          <b>
-            Izaziva te {izazov.ime} ({izazov.zupanija})
-          </b>
-          {igra?.gotovo
-            ? "Današnji račun si već platio, pa ovaj dvoboj ne vrijedi. Uzvrati svojim linkom."
-            : izazov.vrijedi
-              ? "Igrate isti račun. Tko je bliže cijeni, uzima rundu."
-              : "Taj izazov je od ranijeg dana, ali današnji račun te čeka."}
-        </div>
-      ) : null}
-
       <StariRacun racun={racun} />
 
       {igra?.gotovo ? (
@@ -77,11 +49,20 @@ export default async function Pocetna() {
           <p className="napomena na-stolu">Ovaj račun si već platio. Novi stiže u ponoć.</p>
         </>
       ) : (
-        <Papir oznaka="Podaci o kupcu">
-          <PocetnaForma zupanija={igrac?.zupanija ?? ""} nadimak={igrac?.nadimak ?? ""} />
-          <p className="sitno">Jedan račun dnevno, bez prijave. Igraš dvoboj protiv kupca iz druge županije.</p>
-        </Papir>
+        <Igra
+          key="igra"
+          dan={dan}
+          naslov={racun.naslov}
+          set={racun.set}
+          pocetno={uTijeku && prot ? otkrivenoDoSad(igra, prot) : []}
+          protivnik={prot ? { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot } : null}
+          zupanija={igra?.zupanija || igrac?.zupanija || ""}
+          nadimak={igra?.nadimak || igrac?.nadimak || ""}
+          duplaIskoristena={!!igra && igra.dupla !== null}
+        />
       )}
+
+      <DerbiDana danas={danas} jucer={jucer} mojaZupanija={igrac?.zupanija || undefined} />
     </>
   );
 }

@@ -11,7 +11,8 @@ export function Vrh() {
       </Link>
       <nav className="izbornik" aria-label="Glavni izbornik">
         <Link href="/ljestvica">Ljestvice</Link>
-        <Link href="/liga">Moje lige</Link>
+        <Link href="/liga">Lige</Link>
+        <Link href="/ja">Ja</Link>
         <ZvukGumb />
       </nav>
     </header>

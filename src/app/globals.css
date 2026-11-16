@@ -260,3 +260,32 @@ form.sakrij { display: contents; }
   .artikl { font-size: 28px; }
   .znak.velik { font-size: 44px; }
 }
+
+/* ---------- Dupla, usporedba s kupcima, reakcije ---------- */
+.dupla { display: flex; flex-direction: column; gap: 2px; text-align: left; background: var(--papir); border: 2px dashed var(--tisak); border-radius: 3px; padding: 9px 12px 10px; }
+.dupla b { font-family: var(--f-naslov); font-size: 21px; font-weight: 700; line-height: 1.1; }
+.dupla span { font-size: 14px; color: var(--blijedi-tisak); }
+.dupla.da { background: var(--naljepnica); border-style: solid; border-color: var(--crvena); }
+.dupla.da b { color: var(--crvena); }
+.dupla.da span { color: var(--tisak); }
+.kupci { font-family: var(--f-ui); font-stretch: 100%; font-size: 16px; border-top: 1.5px dashed rgba(43, 40, 50, 0.5); border-bottom: 1.5px dashed rgba(43, 40, 50, 0.5); padding: 7px 0; }
+.stanka { font-size: 30px; }
+.stanka::after { content: "..."; display: inline-block; overflow: hidden; vertical-align: bottom; width: 0; animation: tocke 0.75s steps(4, end) both; }
+@keyframes tocke { to { width: 1.1em; } }
+.ceka-te { font-size: 24px; line-height: 1.1; }
+.ispravak { position: relative; }
+/* Pogodak u cent: otisak šalice kave na papiru. */
+.ispravak.mrlja::before { content: ""; position: absolute; right: -6px; top: -34px; width: 92px; height: 92px; border-radius: 50%; border: 7px solid rgba(120, 78, 36, 0.2); box-shadow: inset 0 0 0 2px rgba(120, 78, 36, 0.1); transform: rotate(18deg) scaleY(0.94); pointer-events: none; }
+/* Promašaj: veliki crveni upitnik preko reda. */
+.ispravak.upitnik::before { content: "?"; position: absolute; right: 2px; top: -64px; font-family: var(--f-ruka); font-weight: 700; font-size: 120px; line-height: 1; color: var(--crvena); opacity: 0.22; transform: rotate(12deg); pointer-events: none; }
+.kome { border-top: 2px solid var(--tisak); padding-top: 10px; margin-top: 2px; }
+.kome > p { font-family: var(--f-naslov); font-stretch: 100%; font-weight: 700; font-size: 24px; }
+.derbi-dana { display: flex; flex-direction: column; gap: 2px; }
+.derbi-dana .par { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; align-items: baseline; font-family: var(--f-naslov); font-weight: 700; font-size: 22px; line-height: 1.1; }
+.derbi-dana .par span:last-child { text-align: right; }
+.derbi-dana .par b { font-family: var(--f-tisak); font-stretch: 82%; font-size: 22px; white-space: nowrap; }
+.raspodjela { display: flex; align-items: flex-end; gap: 3px; height: 54px; }
+.raspodjela i { flex: 1; background: repeating-linear-gradient(0deg, currentColor 0 3px, transparent 3px 5px); min-height: 3px; opacity: 0.55; }
+.raspodjela i.ja { opacity: 1; color: var(--kemijska); }
+@media (prefers-reduced-motion: reduce) { .stanka::after { animation: none; width: 1.1em; } }
+.slika-racuna { width: 100%; height: auto; display: block; border-radius: 3px; }
