@@ -25,7 +25,7 @@ export default async function MojeLige() {
       {!igrac ? (
         <>
           <p className="na-stolu">Za ligu ti treba barem jedan plaćeni račun, da znamo tko si i za koju županiju igraš.</p>
-          <Link className="tipka na-stolu-tipka" href="/">
+          <Link className="tipka na-stolu-tipka" href="/igraj">
             Odigraj današnji račun
           </Link>
         </>

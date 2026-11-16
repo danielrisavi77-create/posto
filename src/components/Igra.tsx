@@ -267,7 +267,7 @@ export function Igra(p: Props) {
               ) : (
                 <p className="rast">{Math.abs(rast) < 0.005 ? `isto kao ${a.god}` : `${post(rast)} u odnosu na ${a.god}`}</p>
               )}
-              {suparnik && faza === "pitanje" ? <p className="ruka olo ceka-te">{suparnik} je već upisao svoju cijenu.</p> : null}
+              {suparnik && faza === "pitanje" ? <p className="ruka olo ceka-te">{suparnik}: cijena je već upisana.</p> : null}
             </>
           )}
         </section>

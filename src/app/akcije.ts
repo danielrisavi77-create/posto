@@ -23,7 +23,10 @@ export async function pogodi(indeks: number, vrijednost: number, dupla: boolean,
 export async function upisiKupca(zupanija: string, nadimak: string): Promise<{ greska: string } | { ok: true }> {
   if (typeof zupanija !== "string" || typeof nadimak !== "string") return { greska: "Neispravan zahtjev." };
   const r = await postaviKupca(zupanija, nadimak);
-  if ("ok" in r) revalidatePath("/");
+  if ("ok" in r) {
+    revalidatePath("/");
+    revalidatePath("/igraj");
+  }
   return r;
 }
 

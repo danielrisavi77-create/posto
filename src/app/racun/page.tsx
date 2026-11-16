@@ -22,11 +22,11 @@ function nekad(a: Stavka): string {
 
 export default async function RacunStranica() {
   const id = await igracId();
-  if (!id) redirect("/");
+  if (!id) redirect("/igraj");
   const db = pohrana();
   const dan = danBroj();
   const igra = await db.igraZaDan(id, dan);
-  if (!igra || !igra.gotovo) redirect("/");
+  if (!igra || !igra.gotovo) redirect("/igraj");
 
   const racun = racunIgre(igra);
   const set = setRacuna(racun);

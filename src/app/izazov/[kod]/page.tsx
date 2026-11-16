@@ -36,7 +36,7 @@ export default async function Izazov({ params }: Props) {
           <h1 className="naslov">Ovaj izazov ne postoji</h1>
           <p className="prica">Link je možda krivo kopiran. Današnji račun te svejedno čeka.</p>
         </section>
-        <Link className="tipka na-stolu-tipka" href="/">
+        <Link className="tipka na-stolu-tipka" href="/igraj">
           Igraj današnji račun
         </Link>
       </>
@@ -96,14 +96,14 @@ export default async function Izazov({ params }: Props) {
       {mojaIgra ? (
         <>
           <p className="na-stolu">{vrijedi ? "Današnji račun si već otvorio, pa ovaj dvoboj ne vrijedi. Uzvrati svojim linkom." : "Taj račun je od ranijeg dana, pa dvoboj više ne vrijedi."}</p>
-          <Link className="tipka na-stolu-tipka" href={mojaIgra.gotovo ? "/racun" : "/"}>
+          <Link className="tipka na-stolu-tipka" href={mojaIgra.gotovo ? "/racun" : "/igraj"}>
             {mojaIgra.gotovo ? "Pogledaj svoj račun" : "Nastavi svoj račun"}
           </Link>
         </>
       ) : (
         <>
           <p className="na-stolu">Taj račun je od ranijeg dana, pa dvoboj više ne vrijedi. Današnji račun te čeka.</p>
-          <Link className="tipka na-stolu-tipka" href="/">
+          <Link className="tipka na-stolu-tipka" href="/igraj">
             Igraj današnji račun
           </Link>
         </>

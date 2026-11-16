@@ -27,7 +27,7 @@ export default async function Ja() {
           <h1 className="naslov">Knjižica je prazna</h1>
           <p className="prica">Ovdje se zbrajaju tvoji računi: niz, prosjek i najbolji rezultat. Prvi upis stiže s prvim plaćenim računom.</p>
         </section>
-        <Link className="tipka na-stolu-tipka" href="/">
+        <Link className="tipka na-stolu-tipka" href="/igraj">
           Odigraj današnji račun
         </Link>
       </>

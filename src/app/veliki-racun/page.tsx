@@ -29,7 +29,7 @@ export default async function VelikiRacun() {
       {!v.redovi.length ? (
         <>
           <p className="na-stolu">U ovoj sezoni još nemaš nijedan plaćeni račun.</p>
-          <Link className="tipka na-stolu-tipka" href="/">
+          <Link className="tipka na-stolu-tipka" href="/igraj">
             Odigraj današnji račun
           </Link>
         </>

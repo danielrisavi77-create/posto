@@ -68,16 +68,23 @@ async function igraj(p, zupanija, nadimak, faktor, o = {}) {
 // Igrač A: prvi dana, bez obrasca prije igre
 const a = await stranica();
 await a.goto(B);
-ok((await a.$("#klizac")) !== null && (await a.$("#zupanija")) === null, "prva stavka je odmah na početnoj, bez obrasca");
+ok((await a.$("#klizac")) === null, "početna ne sadrži igru");
 ok(/Derbi dana/.test(await tekst(a, "#app")), "početna najavljuje derbi dana");
 await slika(a, "pocetna");
+await Promise.all([a.waitForNavigation(), a.click('a.tipka[href="/igraj"]')]);
+ok(new URL(a.url()).pathname === "/igraj", "tipka s početne vodi na zasebnu stranicu igre");
+ok((await a.$("#klizac")) !== null && (await a.$("#zupanija")) === null, "prva stavka je odmah na stranici igre, bez obrasca");
+await slika(a, "igraj");
 await igraj(a, "Grad Zagreb", "Daniel", 0.4, { refreshNa: 2, bezZupanije: true, slike: true });
 ok(/Blagajnica Ruža \(računalo\)/.test(await tekst(a, RACUN)), "prvi igrač dana igra protiv označenog računala");
 const link = (await tekst(a, "pre.poruka")).trim().split("\n").pop();
 ok(/\/izazov\/[a-z0-9]{8}$/.test(link), "link izazova postoji");
 ok(/Kažem da je .+: .+€/.test(await tekst(a, "pre.poruka")), "poruka za dijeljenje ima mamac bez točne cijene");
 await a.goto(B);
-ok(/Pogledaj današnji račun/i.test(await tekst(a, "#app")), "drugi pokušaj istog dana je zaključan");
+ok(/Pogledaj svoj račun/i.test(await tekst(a, "#app")) && (await a.$('a[href="/igraj"].tipka')) === null, "početna nakon igre vodi na račun, ne na novu igru");
+await slika(a, "pocetna-nakon");
+await a.goto(B + "/igraj");
+ok(new URL(a.url()).pathname === "/racun", "drugi pokušaj istog dana je zaključan");
 
 // Slike: pregled linka i slika računa
 const put = link.replace(/^https?:\/\/[^/]+/, "");
@@ -105,7 +112,7 @@ await slika(b, "racun");
 
 // Igrač C: nepristojan nadimak, usporedba s ostalim kupcima
 const c = await stranica();
-await c.goto(B);
+await c.goto(B + "/igraj");
 await igraj(c, "Istarska", "K.u.r.4.c", 0.3);
 const rc = await tekst(c, RACUN);
 ok(/Kupac\s+Anonimni kupac/.test(rc), "nepristojan nadimak se ne prikazuje");
@@ -144,7 +151,7 @@ ok(/ne postoji/i.test(await tekst(d, "#app")), "nepostojeći izazov ima jasnu po
 await d.goto(B + "/privatnost");
 ok(/Voditelj obrade/i.test(await tekst(d, "#app")), "stranica privatnosti se otvara");
 await d.goto(B + "/racun");
-ok(new URL(d.url()).pathname === "/", "račun bez odigrane igre vraća na početnu");
+ok(new URL(d.url()).pathname === "/igraj", "račun bez odigrane igre vodi na igru");
 
 ok(greske.length === 0, "nema JS grešaka ni neuspjelih zahtjeva " + greske.join("; "));
 await br.close();
