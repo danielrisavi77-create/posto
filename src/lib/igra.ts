@@ -1,6 +1,6 @@
 // SAMO SERVER. Pravila igre: start, pogodak, otkrivanje, protivnik.
-import { cookies } from "next/headers";
-import { randomBytes, randomUUID } from "node:crypto";
+import { cookies, headers } from "next/headers";
+import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { bodovi, razred, rng, runda, zaokruzi, type Razred } from "./bodovanje";
 import { danBroj, sezona } from "./dan";
 import { pohrana, type Bot, type Igra } from "./pohrana";
@@ -29,8 +29,39 @@ export async function igracId(): Promise<string | null> {
   return v && UUID.test(v) ? v : null;
 }
 
+// Kratki popis korijena koje ne želimo na javnoj ljestvici. Nije potpun: služi kao prva crta, ne kao moderacija.
+const ZABRANJENO = ["jeb", "kurac", "kurc", "pick", "pizd", "sranj", "govn", "drolj", "kurv", "peder", "ustas", "cetnik", "hitler", "nazi", "fuck", "shit", "nigg"];
+
+function jeNepristojno(s: string): boolean {
+  const n = s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d")
+    .replace(/0/g, "o").replace(/1/g, "i").replace(/3/g, "e").replace(/4/g, "a").replace(/5/g, "s").replace(/[^a-z]/g, "");
+  return ZABRANJENO.some((z) => n.includes(z));
+}
+
+/** Dopušta slova, brojke, razmak i . _ - ; nepristojan nadimak postaje prazan (prikazuje se kao Anonimni kupac). */
 export function ocistiNadimak(s: string): string {
-  return s.replace(/[^\p{L}\p{N} ._-]/gu, "").replace(/\s+/g, " ").trim().slice(0, 16);
+  const cist = s.replace(/[^\p{L}\p{N} ._-]/gu, "").replace(/\s+/g, " ").trim().slice(0, 16);
+  return jeNepristojno(cist) ? "" : cist;
+}
+
+/** Ključ mreže za ograničenje zahtjeva: sažetak IP adrese sa solju, izvorna adresa se ne sprema. */
+async function kljucMreze(): Promise<string> {
+  const h = await headers();
+  const ip = h.get("x-nf-client-connection-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? h.get("x-real-ip") ?? "nepoznato";
+  const sol = process.env.POSTO_SOL ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? "razvoj";
+  return createHash("sha256").update(`${sol}:${ip}`).digest("hex").slice(0, 32);
+}
+
+const PREVISE = "Previše pokušaja s ove mreže. Pokušaj malo kasnije.";
+
+/** Ako sama provjera padne, igra se ne blokira: greška ide u log. */
+async function unutarGranice(vrsta: string, limit: number, sekundi: number): Promise<boolean> {
+  try {
+    return await pohrana().dopusti(`${vrsta}:${await kljucMreze()}`, limit, sekundi);
+  } catch (e) {
+    console.error("[posto] ograničenje zahtjeva nije dostupno:", e);
+    return true;
+  }
 }
 
 function noviKod(): string {
@@ -90,6 +121,9 @@ export async function zapocni(zupanija: string, nadimakSirovi: string): Promise<
   const postojeca = await db.igraZaDan(id, dan);
   if (postojeca) return { igra: postojeca };
 
+  // Najviše 30 novih računa na sat po mreži: štiti ligu od ponavljanja igre brisanjem kolačića.
+  if (!(await unutarGranice("start", 30, 3600))) return { greska: PREVISE };
+
   // Protivnik: 1) onaj tko te izazvao linkom, 2) nasumičan stvarni igrač iz druge županije, 3) računalo.
   let protivnikId: string | null = null;
   const izazov = kolacici.get(KOLACIC_IZAZOV)?.value;
@@ -113,6 +147,7 @@ export type RezultatPogotka = { greska: string } | { otkrivanje: Otkrivanje; got
 export async function pogodiRundu(indeks: number, vrijednost: number): Promise<RezultatPogotka> {
   const id = await igracId();
   if (!id) return { greska: "Igra nije pronađena. Osvježi stranicu." };
+  if (!(await unutarGranice("pogodak", 120, 60))) return { greska: PREVISE };
   const db = pohrana();
   const dan = danBroj();
   const igra = await db.igraZaDan(id, dan);
@@ -136,4 +171,24 @@ export async function pogodiRundu(indeks: number, vrijednost: number): Promise<R
     return { greska: "Ova runda nije na redu. Osvježi stranicu." };
   }
   return { otkrivanje: otkrij(a, v, prot.pogodci[indeks]), gotovo: nova.gotovo };
+}
+
+/** Javni sažetak završene igre za stranicu izazova i sliku pregleda. Ne sadrži cijene ni pogotke. */
+export type Sazetak = { ime: string; zupanija: string; ukupno: number; razredi: Razred[]; dan: number; naslov: string; danasnji: boolean };
+
+export async function sazetakIzazova(kod: string): Promise<Sazetak | null> {
+  if (!KOD.test(kod)) return null;
+  const g = await pohrana().igraPoKodu(kod);
+  if (!g || !g.gotovo) return null;
+  const racun = racunZaDan(g.dan);
+  const set = setRacuna(racun);
+  return {
+    ime: g.nadimak || "Anonimni kupac", zupanija: g.zupanija, ukupno: g.ukupno,
+    razredi: set.map((a, i) => razred(g.pogodci[i], a.c)), dan: g.dan, naslov: racun.naslov, danasnji: g.dan === danBroj(),
+  };
+}
+
+export async function zapamtiIzazov(kod: string): Promise<void> {
+  if (!KOD.test(kod)) return;
+  (await cookies()).set(KOLACIC_IZAZOV, kod, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 * 24 });
 }

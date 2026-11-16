@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.POSTO_SITE_URL ?? "http://localhost:3000"),
   title: "Pošto?",
   description: "Svaki dan jedan stari račun u kunama. Pogodi koliko iste stvari koštaju danas i izazovi drugu županiju.",
   openGraph: {
@@ -26,7 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <main id="app">{children}</main>
+        <main id="app">
+          {children}
+          <footer className="podnozje">
+            Koristimo samo kolačiće nužne za igru. <Link href="/privatnost">Privatnost</Link>
+          </footer>
+        </main>
       </body>
     </html>
   );

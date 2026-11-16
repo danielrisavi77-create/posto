@@ -38,6 +38,8 @@ export interface Pohrana {
   nasumicniProtivnik(dan: number, zupanija: string, igracId: string): Promise<Igra | null>;
   ligaSezone(sezona: string): Promise<RedLige[]>;
   igreSezone(igracId: string, sezona: string): Promise<{ dan: number; ukupno: number }[]>;
+  /** Ograničenje zahtjeva: true ako je ključ unutar granice u tekućem prozoru. */
+  dopusti(kljuc: string, limit: number, sekundi: number): Promise<boolean>;
 }
 
 /* ---------- Supabase ---------- */
@@ -126,6 +128,11 @@ class SupabasePohrana implements Pohrana {
     greska("igreSezone", error);
     return (data as { dan: number; ukupno: number }[] | null) ?? [];
   }
+  async dopusti(kljuc: string, limit: number, sekundi: number) {
+    const { data, error } = await this.db.rpc("dopusti", { p_kljuc: kljuc, p_limit: limit, p_sekundi: sekundi });
+    greska("dopusti", error);
+    return data === true;
+  }
 }
 
 /* ---------- Memorija (samo lokalni razvoj) ---------- */
@@ -169,6 +176,13 @@ class MemorijskaPohrana implements Pohrana {
   }
   async igreSezone(igracId: string, sezona: string) {
     return [...this.igre.values()].filter((g) => g.igracId === igracId && g.sezona === sezona && g.gotovo).map((g) => ({ dan: g.dan, ukupno: g.ukupno }));
+  }
+  private brojaci = new Map<string, number>();
+  async dopusti(kljuc: string, limit: number, sekundi: number) {
+    const k = `${kljuc}:${Math.floor(Date.now() / 1000 / sekundi)}`;
+    const n = (this.brojaci.get(k) ?? 0) + 1;
+    this.brojaci.set(k, n);
+    return n <= limit;
   }
 }
 

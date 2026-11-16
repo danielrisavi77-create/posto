@@ -1,7 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { pogodiRundu, zapocni, type RezultatPogotka } from "@/lib/igra";
+import { redirect } from "next/navigation";
+import { pogodiRundu, zapamtiIzazov, zapocni, type RezultatPogotka } from "@/lib/igra";
 
 export type StanjeForme = { greska: string | null };
 
@@ -18,4 +19,9 @@ export async function pogodi(indeks: number, vrijednost: number): Promise<Rezult
   // Argumenti server akcije dolaze s klijenta: provjera tipa prije svega ostalog.
   if (typeof indeks !== "number" || typeof vrijednost !== "number") return { greska: "Neispravan zahtjev." };
   return pogodiRundu(indeks, vrijednost);
+}
+
+export async function prihvatiIzazov(fd: FormData): Promise<void> {
+  await zapamtiIzazov(String(fd.get("kod") ?? ""));
+  redirect("/");
 }

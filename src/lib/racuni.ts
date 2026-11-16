@@ -102,6 +102,20 @@ export const RACUNI: Racun[] = [
     ],
     finale: { kat: "Druga strana računa", ime: "Prosječna mirovina", opis: "Mjesečno, Hrvatska", god: "2016.", kn: null, st: 355, c: 725, max: 1500, k: 5, f: 5, cijeli: true, izv: "tg", rijec: "Mirovina" },
   },
+  {
+    // Izvor za ove četiri stavke navodi cijene iz 2016. samo u eurima; kune su preračunate po fiksnom tečaju 7,5345.
+    naslov: "Ceker s placa",
+    god: "listopad 2016.",
+    prica: "Na dnu starog cekera ostao je papirić na kojem je kumica zbrojila račun. Olovkom, u kunama. Koliko bi ti danas zbrojila?",
+    sluzbena: SLUZBENA_2016,
+    stavke: [
+      { kat: "Tržnica", ime: "Crveni luk", opis: "1 kg, prosjek tržnica (TISUP), kune preračunate", god: "2016.", kn: 6.55, st: 0.87, c: 2.05, max: 5, k: 0.05, f: 0.01, izv: "tg" },
+      { kat: "Tržnica", ime: "Zeleni kupus", opis: "1 kg, prosjek tržnica (TISUP), kune preračunate", god: "2016.", kn: 5.2, st: 0.69, c: 1.93, max: 5, k: 0.05, f: 0.01, izv: "tg" },
+      { kat: "Tržnica", ime: "Češnjak", opis: "1 kg, prosjek tržnica (TISUP), kune preračunate", god: "2016.", kn: 42.87, st: 5.69, c: 8.15, max: 20, k: 0.1, f: 0.01, izv: "tg" },
+      { kat: "Tržnica", ime: "Špinat", opis: "1 kg, prosjek tržnica (TISUP), kune preračunate", god: "2016.", kn: 16.27, st: 2.16, c: 4.59, max: 10, k: 0.05, f: 0.01, izv: "tg" },
+    ],
+    finale: { kat: "Druga strana računa", ime: "Minimalna plaća", opis: "Mjesečno, Hrvatska", god: "2016.", kn: null, st: 414, c: 1050, max: 2000, k: 10, f: 5, cijeli: true, izv: "tg", rijec: "Minimalna plaća" },
+  },
 ];
 
 /** Račun za zadani dan. Dok nema više sadržaja, računi se vrte u krug. */

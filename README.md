@@ -16,8 +16,8 @@ Bez Supabase varijabli aplikacija u razvoju koristi pohranu u memoriji (podaci n
 ## Postavljanje Supabasea
 
 1. Otvori novi projekt na supabase.com (regija Frankfurt).
-2. SQL Editor: zalijepi i pokreni `supabase/migrations/0001_init.sql`.
-3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na obje tablice, bez politika (namjerno, pristup ide samo preko servera).
+2. SQL Editor: zalijepi i pokreni redom `supabase/migrations/0001_init.sql` pa `0002_ogranicenja.sql`.
+3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na sve tri tablice, bez politika (namjerno, pristup ide samo preko servera).
 4. Project Settings, API: kopiraj Project URL i `service_role` ključ.
 
 ## Varijable okruženja
@@ -30,6 +30,8 @@ Vidi `.env.example`. Lokalno ih stavi u `.env.local`.
 | `SUPABASE_SERVICE_ROLE_KEY` | tajni ključ, samo server. Nikad s prefiksom `NEXT_PUBLIC_` |
 | `POSTO_SITE_URL` | javna adresa za linkove izazova |
 | `POSTO_POCETAK` | datum računa br. 1 (zagrebačko vrijeme) |
+| `POSTO_SOL` | sol za sažetak IP adrese kod ograničenja zahtjeva |
+| `POSTO_VODITELJ`, `POSTO_KONTAKT` | podaci na stranici `/privatnost` |
 
 ## Deploy na Netlify
 
@@ -46,7 +48,12 @@ src/lib/igra.ts        pravila: start, protivnik, pogodak, otkrivanje
 src/app/akcije.ts      server akcije koje zove klijent
 src/app/page.tsx       početna i igra
 src/app/racun/         završni račun, dijeljenje, liga, ladica
-src/app/izazov/[kod]/  link izazova
+src/app/izazov/[kod]/  stranica izazova i njezina slika za pregled linka
+src/app/privatnost/    nacrt pravila privatnosti
+src/lib/og.tsx         slike za pregled linka (fontovi su u assets/fonts)
+e2e/tok.mjs            test cijelog toka s tri igrača
+docs/SADRZAJ.md        pravila za dodavanje računa i stanje provjere izvora
+prototip/              prvi prototip u jednoj HTML datoteci
 ```
 
 Ključna pravila:
@@ -55,6 +62,17 @@ Ključna pravila:
 - Jedna igra po igraču po danu: `unique (dan, igrac_id)`. Runde se upisuju atomarno funkcijom `dodaj_pogodak`, pa dvostruki klik ili dva taba ne mogu upisati istu rundu dvaput.
 - Protivnik: tko te izazvao linkom, inače nasumičan stvarni igrač iz druge županije koji je račun već završio, inače računalo (uvijek označeno kao računalo).
 - Igrač je anonimni httpOnly kolačić s nasumičnim UUID-om.
+- Ograničenje zahtjeva po mreži: 30 novih računa na sat i 120 pogodaka u minuti. IP se sprema samo kao sažetak sa solju.
+
+## Testovi
+
+```bash
+POSTO_MEMORIJA=1 npm run build
+POSTO_MEMORIJA=1 npx next start -p 3111 &
+npm run e2e
+```
+
+Treba Chrome (`CHROME_PATH`). Server mora biti svjež jer test očekuje praznu pohranu.
 
 ## Dodavanje novog računa
 
@@ -62,9 +80,9 @@ U `src/lib/racuni.ts` dodaj objekt u `RACUNI`: četiri stavke i `finale`. Svaka 
 
 ## Poznata ograničenja
 
-- Samo 3 računa: vrte se u krug. Za lansiranje treba barem 30.
-- Brisanje kolačića omogućuje ponovnu igru istog dana. Liga je prosjek, pa je korist mala, ali za nagrade treba jača zaštita.
-- Nema ograničenja broja zahtjeva (rate limiting) ni filtra nadimaka osim čišćenja znakova.
-- Nema slike za pregled linka (Open Graph). To je sljedeći korak za WhatsApp.
-- Nema obavijesti o kolačićima i pravila privatnosti: obavezno prije javne objave.
+- Samo 4 računa: vrte se u krug. Za lansiranje treba barem 30 (vidi `docs/SADRZAJ.md`).
+- Brisanje kolačića i dalje omogućuje ponovnu igru istog dana, do granice od 30 računa na sat po mreži. Za nagrade treba jača zaštita.
+- Filter nadimaka je kratak popis korijena, ne moderacija.
+- Stranica `/privatnost` je nacrt: upisati voditelja obrade i dati pravniku na provjeru.
 - Na dan pomicanja sata odbrojavanje do ponoći može odstupati do sat vremena.
+- Fontovi na stranici učitavaju se s Google Fontsa. Za strožu privatnost prebaciti ih na vlastiti poslužitelj.
