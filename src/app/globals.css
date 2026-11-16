@@ -1,0 +1,151 @@
+:root{
+  /* Layout: jedan stupac širine mobitela na žutoj podlozi; stari kunski račun (požutjeli papir) nasuprot današnjem (bijeli papir) */
+  color-scheme: light;
+  --zuta:#FFD400;
+  --zuta-tamna:#F2C200;
+  --tinta:#14110F;
+  --akcija:#E3122B;
+  --papir:#FFFBEF;
+  --stari-papir:#EFE3BE;
+  --plava:#1437C8;
+  --siva:#6B655C;
+  --dobro:#1E9E55;
+  --f-display:"Anton","Arial Narrow",Impact,sans-serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--zuta);
+  background-image:radial-gradient(var(--zuta-tamna) 1.5px,transparent 1.6px);
+  background-size:14px 14px;
+  color:var(--tinta);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+}
+#app{max-width:440px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--plava)}
+:focus-visible{outline:3px solid var(--plava);outline-offset:2px}
+
+.demo-traka{font-family:var(--f-mono);font-size:12px;background:var(--tinta);color:var(--zuta);padding:6px 10px;border-radius:6px;text-align:center}
+.zaglavlje{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-family:var(--f-display);background:var(--akcija);color:#fff;padding:2px 14px 4px;border:3px solid var(--tinta);box-shadow:4px 4px 0 var(--tinta);transform:rotate(-3deg);letter-spacing:.02em;line-height:1.15}
+.logo.velik{font-size:64px;align-self:flex-start;margin:6px 0 10px 4px}
+.logo.mali{font-size:28px;border-width:2px;box-shadow:3px 3px 0 var(--tinta)}
+.broj-dana{font-family:var(--f-mono);font-size:13px;text-align:right}
+.slogan{font-family:var(--f-display);font-size:30px;line-height:1.1;text-wrap:balance;text-transform:uppercase}
+.slogan em{font-style:normal;background:var(--tinta);color:var(--zuta);padding:0 6px}
+.prica{font-size:17px;font-weight:600;text-wrap:pretty}
+
+.kartica{background:var(--papir);border:3px solid var(--tinta);border-radius:14px;box-shadow:5px 5px 0 var(--tinta);padding:18px;display:flex;flex-direction:column;gap:14px}
+.polje{display:flex;flex-direction:column;gap:6px}
+.polje label{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+select,input[type=text]{font:inherit;padding:12px;border:2px solid var(--tinta);border-radius:10px;background:#fff;color:var(--tinta);width:100%}
+.gumb{font-family:var(--f-display);font-size:24px;text-transform:uppercase;letter-spacing:.03em;background:var(--tinta);color:var(--zuta);border:3px solid var(--tinta);border-radius:12px;padding:12px 16px;width:100%;transition:transform .08s}
+.gumb:active{transform:translate(2px,2px)}
+.gumb.crveni{background:var(--akcija);color:#fff;box-shadow:4px 4px 0 var(--tinta)}
+.gumb.sporedni{font-family:var(--f-body);font-weight:800;font-size:15px;text-transform:none;letter-spacing:0;background:transparent;color:var(--tinta);border-width:2px}
+.niz{font-family:var(--f-mono);font-size:13px}
+.greska{color:var(--akcija);font-weight:800;font-size:14px}
+.opis{color:var(--siva);font-size:15px}
+
+/* Stari račun */
+.stari{
+  background:var(--stari-papir);font-family:var(--f-mono);font-size:14px;color:#3B3426;
+  padding:16px 14px;border:1px solid #BFB088;transform:rotate(-1.2deg);
+  box-shadow:3px 4px 0 rgba(20,17,15,.35);display:flex;flex-direction:column;gap:6px;
+}
+.stari .sred{text-align:center}
+.stari .r{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.stari hr,.crta{border:0;border-top:2px dashed currentColor;margin:2px 0;width:100%;opacity:.7}
+.stari .uk{font-weight:500;font-size:16px}
+.stari .zig{align-self:flex-end;border:2px solid #8A3B2E;color:#8A3B2E;padding:1px 8px;transform:rotate(-6deg);font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+
+/* Igra */
+.napredak{display:flex;gap:6px}
+.napredak span{flex:1;height:12px;border:2px solid var(--tinta);border-radius:4px;background:var(--papir)}
+.napredak span.g{background:var(--dobro)}.napredak span.y{background:#F5B700}.napredak span.o{background:#F47B20}.napredak span.r{background:var(--akcija)}.napredak span.sad{background:var(--tinta)}
+.dvoboj{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:13px;background:var(--tinta);color:var(--zuta);border-radius:10px;padding:8px 12px}
+.dvoboj b{font-family:var(--f-display);font-size:22px;font-weight:400;letter-spacing:.04em}
+.kategorija{align-self:flex-start;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--tinta);border-radius:999px;padding:2px 10px;background:#fff}
+.artikl{font-family:var(--f-display);font-size:32px;line-height:1.08;text-transform:uppercase;text-wrap:balance}
+.nekad{background:var(--stari-papir);border:1px dashed #8C7F5A;border-radius:8px;padding:10px 12px;font-family:var(--f-mono);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nekad b{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
+.nekad span{font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.cijena{font-family:var(--f-display);font-size:64px;line-height:1;text-align:center;font-variant-numeric:tabular-nums;padding:4px 0 0}
+.rast{text-align:center;font-family:var(--f-mono);font-size:14px;min-height:20px}
+.klizac{display:flex;flex-direction:column;gap:10px}
+input[type=range]{width:100%;height:36px;accent-color:var(--akcija);margin:0}
+.fino{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fino button{font-family:var(--f-mono);font-size:16px;font-weight:500;background:#fff;border:2px solid var(--tinta);border-radius:10px;padding:10px}
+.raspon{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--siva)}
+
+.usporedba{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.usporedba div{border:2px solid var(--tinta);border-radius:10px;padding:8px 4px;text-align:center;background:#fff;min-width:0}
+.usporedba .n{background:var(--stari-papir);border-style:dashed}
+.usporedba .prava{background:var(--tinta);color:var(--zuta)}
+.usporedba b{display:block;font-family:var(--f-display);font-size:25px;font-weight:400;line-height:1.15;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.usporedba span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
+.skok{font-family:var(--f-display);font-size:30px;text-transform:uppercase;text-align:center;background:var(--akcija);color:#fff;padding:4px 8px;border:3px solid var(--tinta);transform:rotate(-1.5deg)}
+.skok.nula{background:var(--dobro)}
+.ocjena{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pecat{font-family:var(--f-display);font-size:22px;text-transform:uppercase;border:3px solid currentColor;border-radius:8px;padding:2px 10px;transform:rotate(-4deg)}
+.pecat.g{color:var(--dobro)}.pecat.y{color:#B88700}.pecat.o{color:#C85A0B}.pecat.r{color:var(--akcija)}
+.bodovi{font-family:var(--f-mono);font-size:15px}
+.dosjetka{font-weight:800;font-size:18px;text-wrap:balance}
+.protivnik{font-family:var(--f-mono);font-size:14px;border:2px solid var(--tinta);border-radius:10px;padding:8px 10px;background:#fff}
+.izvor{font-size:12px;color:var(--siva);font-family:var(--f-mono);overflow-wrap:anywhere}
+
+/* Novi račun */
+.racun{position:relative;background:var(--papir);font-family:var(--f-mono);font-size:14px;padding:20px 16px 18px;border:2px solid var(--tinta);border-bottom:0;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.racun::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-12px;height:12px;background:linear-gradient(135deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x,linear-gradient(225deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x}
+.racun h2{font-family:var(--f-display);font-size:30px;font-weight:400;text-align:center;letter-spacing:.04em}
+.racun .sred{text-align:center}
+.stavka{display:grid;grid-template-columns:1fr auto;gap:2px 10px}
+.stavka .naziv{font-weight:500}
+.stavka .detalj{grid-column:1/-1;color:var(--siva);font-size:12px;font-variant-numeric:tabular-nums}
+.ukupno{display:flex;justify-content:space-between;align-items:baseline;font-weight:500}
+.ukupno b{font-family:var(--f-display);font-size:40px;font-weight:400;line-height:1}
+.osjecaj{display:flex;flex-direction:column;gap:6px}
+.osjecaj .l{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-variant-numeric:tabular-nums}
+.osjecaj .stup{grid-column:1/-1;height:14px;border:2px solid var(--tinta);background:#fff}
+.osjecaj .stup i{display:block;height:100%;background:var(--tinta)}
+.osjecaj .ti .stup i{background:var(--akcija)}
+.osjecaj .sl .stup i{background:var(--siva)}
+.osjecaj .pl .stup i{background:var(--dobro)}
+.titula{text-align:center;font-family:var(--f-display);font-size:26px;text-transform:uppercase;background:var(--tinta);color:var(--zuta);padding:6px 8px;text-wrap:balance}
+.sitno{font-size:11px;color:var(--siva)}
+.dijeli pre{font-family:var(--f-mono);font-size:14px;white-space:pre-wrap;margin:0;background:#fff;border:2px dashed var(--tinta);border-radius:10px;padding:12px}
+.kopirano{font-size:13px;font-weight:800;color:var(--dobro);min-height:18px}
+.naslov-bloka{font-family:var(--f-display);font-size:24px;text-transform:uppercase;font-weight:400;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.oznaka-demo{font-family:var(--f-mono);font-size:11px;background:var(--zuta);border:2px solid var(--tinta);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.derbi{display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
+.red{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border:2px solid var(--tinta);border-radius:10px;background:#fff;font-size:14px}
+.red .traka{grid-column:2/-1;height:6px;background:#EDE7D6;border-radius:3px;overflow:hidden}
+.red .traka i{display:block;height:100%;background:var(--tinta)}
+.red.moj{background:var(--tinta);color:var(--zuta);font-weight:800}
+.red.moj .traka{background:#3A342C}.red.moj .traka i{background:var(--zuta)}
+.red .mj{font-family:var(--f-display);font-size:18px}
+.razmak{font-family:var(--f-mono);font-size:12px;color:var(--siva);text-align:center}
+.ladica{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.ladica span{aspect-ratio:3/4;border:2px dashed #B9B09A;border-radius:3px;font-family:var(--f-mono);font-size:10px;display:flex;align-items:center;justify-content:center;color:#B9B09A}
+.ladica span.ima{background:var(--stari-papir);border:2px solid var(--tinta);color:var(--tinta);font-weight:500;transform:rotate(-3deg)}
+.odbrojavanje{text-align:center}
+.odbrojavanje b{font-family:var(--f-display);font-size:40px;font-weight:400;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.podnozje{font-size:12px;color:var(--tinta);opacity:.75;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:360px){.cijena{font-size:52px}.logo.velik{font-size:52px}.artikl{font-size:27px}.usporedba b{font-size:21px}}
+
+/* Dodaci za produkciju */
+.izazov{background:var(--tinta);color:var(--zuta);border-radius:12px;padding:12px 14px;font-weight:600}
+.izazov b{font-family:var(--f-display);font-weight:400;font-size:20px;letter-spacing:.03em;display:block;text-transform:uppercase}
+.gumbi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gumb.wa{background:var(--dobro);color:#fff;border-color:var(--tinta);font-size:20px}
+.gumb.mali{font-size:20px}
+a.gumb{display:block;text-align:center;text-decoration:none}
+.bot{font-size:12px;color:var(--siva)}

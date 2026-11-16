@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pošto? prototip igre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: jedan stupac širine mobitela na žutoj podlozi; stari kunski račun (požutjeli papir) nasuprot današnjem (bijeli papir) */
+  color-scheme: light;
+  --zuta:#FFD400;
+  --zuta-tamna:#F2C200;
+  --tinta:#14110F;
+  --akcija:#E3122B;
+  --papir:#FFFBEF;
+  --stari-papir:#EFE3BE;
+  --plava:#1437C8;
+  --siva:#6B655C;
+  --dobro:#1E9E55;
+  --f-display:"Anton","Arial Narrow",Impact,sans-serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"DM Mono",ui-monospace,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--zuta);
+  background-image:radial-gradient(var(--zuta-tamna) 1.5px,transparent 1.6px);
+  background-size:14px 14px;
+  color:var(--tinta);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+}
+#app{max-width:440px;margin:0 auto;padding:20px 16px 40px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--plava)}
+:focus-visible{outline:3px solid var(--plava);outline-offset:2px}
+
+.demo-traka{font-family:var(--f-mono);font-size:12px;background:var(--tinta);color:var(--zuta);padding:6px 10px;border-radius:6px;text-align:center}
+.zaglavlje{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-family:var(--f-display);background:var(--akcija);color:#fff;padding:2px 14px 4px;border:3px solid var(--tinta);box-shadow:4px 4px 0 var(--tinta);transform:rotate(-3deg);letter-spacing:.02em;line-height:1.15}
+.logo.velik{font-size:64px;align-self:flex-start;margin:6px 0 10px 4px}
+.logo.mali{font-size:28px;border-width:2px;box-shadow:3px 3px 0 var(--tinta)}
+.broj-dana{font-family:var(--f-mono);font-size:13px;text-align:right}
+.slogan{font-family:var(--f-display);font-size:30px;line-height:1.1;text-wrap:balance;text-transform:uppercase}
+.slogan em{font-style:normal;background:var(--tinta);color:var(--zuta);padding:0 6px}
+.prica{font-size:17px;font-weight:600;text-wrap:pretty}
+
+.kartica{background:var(--papir);border:3px solid var(--tinta);border-radius:14px;box-shadow:5px 5px 0 var(--tinta);padding:18px;display:flex;flex-direction:column;gap:14px}
+.polje{display:flex;flex-direction:column;gap:6px}
+.polje label{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+select,input[type=text]{font:inherit;padding:12px;border:2px solid var(--tinta);border-radius:10px;background:#fff;color:var(--tinta);width:100%}
+.gumb{font-family:var(--f-display);font-size:24px;text-transform:uppercase;letter-spacing:.03em;background:var(--tinta);color:var(--zuta);border:3px solid var(--tinta);border-radius:12px;padding:12px 16px;width:100%;transition:transform .08s}
+.gumb:active{transform:translate(2px,2px)}
+.gumb.crveni{background:var(--akcija);color:#fff;box-shadow:4px 4px 0 var(--tinta)}
+.gumb.sporedni{font-family:var(--f-body);font-weight:800;font-size:15px;text-transform:none;letter-spacing:0;background:transparent;color:var(--tinta);border-width:2px}
+.niz{font-family:var(--f-mono);font-size:13px}
+.greska{color:var(--akcija);font-weight:800;font-size:14px}
+.opis{color:var(--siva);font-size:15px}
+
+/* Stari račun */
+.stari{
+  background:var(--stari-papir);font-family:var(--f-mono);font-size:14px;color:#3B3426;
+  padding:16px 14px;border:1px solid #BFB088;transform:rotate(-1.2deg);
+  box-shadow:3px 4px 0 rgba(20,17,15,.35);display:flex;flex-direction:column;gap:6px;
+}
+.stari .sred{text-align:center}
+.stari .r{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums}
+.stari hr,.crta{border:0;border-top:2px dashed currentColor;margin:2px 0;width:100%;opacity:.7}
+.stari .uk{font-weight:500;font-size:16px}
+.stari .zig{align-self:flex-end;border:2px solid #8A3B2E;color:#8A3B2E;padding:1px 8px;transform:rotate(-6deg);font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+
+/* Igra */
+.napredak{display:flex;gap:6px}
+.napredak span{flex:1;height:12px;border:2px solid var(--tinta);border-radius:4px;background:var(--papir)}
+.napredak span.g{background:var(--dobro)}.napredak span.y{background:#F5B700}.napredak span.o{background:#F47B20}.napredak span.r{background:var(--akcija)}.napredak span.sad{background:var(--tinta)}
+.dvoboj{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:13px;background:var(--tinta);color:var(--zuta);border-radius:10px;padding:8px 12px}
+.dvoboj b{font-family:var(--f-display);font-size:22px;font-weight:400;letter-spacing:.04em}
+.kategorija{align-self:flex-start;font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--tinta);border-radius:999px;padding:2px 10px;background:#fff}
+.artikl{font-family:var(--f-display);font-size:32px;line-height:1.08;text-transform:uppercase;text-wrap:balance}
+.nekad{background:var(--stari-papir);border:1px dashed #8C7F5A;border-radius:8px;padding:10px 12px;font-family:var(--f-mono);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nekad b{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}
+.nekad span{font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.cijena{font-family:var(--f-display);font-size:64px;line-height:1;text-align:center;font-variant-numeric:tabular-nums;padding:4px 0 0}
+.rast{text-align:center;font-family:var(--f-mono);font-size:14px;min-height:20px}
+.klizac{display:flex;flex-direction:column;gap:10px}
+input[type=range]{width:100%;height:36px;accent-color:var(--akcija);margin:0}
+.fino{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fino button{font-family:var(--f-mono);font-size:16px;font-weight:500;background:#fff;border:2px solid var(--tinta);border-radius:10px;padding:10px}
+.raspon{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--siva)}
+
+.usporedba{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.usporedba div{border:2px solid var(--tinta);border-radius:10px;padding:8px 4px;text-align:center;background:#fff;min-width:0}
+.usporedba .n{background:var(--stari-papir);border-style:dashed}
+.usporedba .prava{background:var(--tinta);color:var(--zuta)}
+.usporedba b{display:block;font-family:var(--f-display);font-size:25px;font-weight:400;line-height:1.15;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.usporedba span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
+.skok{font-family:var(--f-display);font-size:30px;text-transform:uppercase;text-align:center;background:var(--akcija);color:#fff;padding:4px 8px;border:3px solid var(--tinta);transform:rotate(-1.5deg)}
+.skok.nula{background:var(--dobro)}
+.ocjena{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pecat{font-family:var(--f-display);font-size:22px;text-transform:uppercase;border:3px solid currentColor;border-radius:8px;padding:2px 10px;transform:rotate(-4deg)}
+.pecat.g{color:var(--dobro)}.pecat.y{color:#B88700}.pecat.o{color:#C85A0B}.pecat.r{color:var(--akcija)}
+.bodovi{font-family:var(--f-mono);font-size:15px}
+.dosjetka{font-weight:800;font-size:18px;text-wrap:balance}
+.protivnik{font-family:var(--f-mono);font-size:14px;border:2px solid var(--tinta);border-radius:10px;padding:8px 10px;background:#fff}
+.izvor{font-size:12px;color:var(--siva);font-family:var(--f-mono);overflow-wrap:anywhere}
+
+/* Novi račun */
+.racun{position:relative;background:var(--papir);font-family:var(--f-mono);font-size:14px;padding:20px 16px 18px;border:2px solid var(--tinta);border-bottom:0;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.racun::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-12px;height:12px;background:linear-gradient(135deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x,linear-gradient(225deg,var(--papir) 50%,transparent 50%) 0 0/12px 12px repeat-x}
+.racun h2{font-family:var(--f-display);font-size:30px;font-weight:400;text-align:center;letter-spacing:.04em}
+.racun .sred{text-align:center}
+.stavka{display:grid;grid-template-columns:1fr auto;gap:2px 10px}
+.stavka .naziv{font-weight:500}
+.stavka .detalj{grid-column:1/-1;color:var(--siva);font-size:12px;font-variant-numeric:tabular-nums}
+.ukupno{display:flex;justify-content:space-between;align-items:baseline;font-weight:500}
+.ukupno b{font-family:var(--f-display);font-size:40px;font-weight:400;line-height:1}
+.osjecaj{display:flex;flex-direction:column;gap:6px}
+.osjecaj .l{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-variant-numeric:tabular-nums}
+.osjecaj .stup{grid-column:1/-1;height:14px;border:2px solid var(--tinta);background:#fff}
+.osjecaj .stup i{display:block;height:100%;background:var(--tinta)}
+.osjecaj .ti .stup i{background:var(--akcija)}
+.osjecaj .sl .stup i{background:var(--siva)}
+.osjecaj .pl .stup i{background:var(--dobro)}
+.titula{text-align:center;font-family:var(--f-display);font-size:26px;text-transform:uppercase;background:var(--tinta);color:var(--zuta);padding:6px 8px;text-wrap:balance}
+.sitno{font-size:11px;color:var(--siva)}
+.dijeli pre{font-family:var(--f-mono);font-size:14px;white-space:pre-wrap;margin:0;background:#fff;border:2px dashed var(--tinta);border-radius:10px;padding:12px}
+.kopirano{font-size:13px;font-weight:800;color:var(--dobro);min-height:18px}
+.naslov-bloka{font-family:var(--f-display);font-size:24px;text-transform:uppercase;font-weight:400;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.oznaka-demo{font-family:var(--f-mono);font-size:11px;background:var(--zuta);border:2px solid var(--tinta);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.derbi{display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
+.red{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border:2px solid var(--tinta);border-radius:10px;background:#fff;font-size:14px}
+.red .traka{grid-column:2/-1;height:6px;background:#EDE7D6;border-radius:3px;overflow:hidden}
+.red .traka i{display:block;height:100%;background:var(--tinta)}
+.red.moj{background:var(--tinta);color:var(--zuta);font-weight:800}
+.red.moj .traka{background:#3A342C}.red.moj .traka i{background:var(--zuta)}
+.red .mj{font-family:var(--f-display);font-size:18px}
+.razmak{font-family:var(--f-mono);font-size:12px;color:var(--siva);text-align:center}
+.ladica{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.ladica span{aspect-ratio:3/4;border:2px dashed #B9B09A;border-radius:3px;font-family:var(--f-mono);font-size:10px;display:flex;align-items:center;justify-content:center;color:#B9B09A}
+.ladica span.ima{background:var(--stari-papir);border:2px solid var(--tinta);color:var(--tinta);font-weight:500;transform:rotate(-3deg)}
+.odbrojavanje{text-align:center}
+.odbrojavanje b{font-family:var(--f-display);font-size:40px;font-weight:400;font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.podnozje{font-size:12px;color:var(--tinta);opacity:.75;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:360px){.cijena{font-size:52px}.logo.velik{font-size:52px}.artikl{font-size:27px}.usporedba b{font-size:21px}}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+
+<script>
+"use strict";
+
+/* ---------- Podaci: svaki par cijena ima izvor. Provjereno 16. 11. 2026. ---------- */
+var IZV = {
+  tg:   {n:"Telegram.hr, usporedba kataloga i tržnica 2016. i 2026. (21. 10. 2026.)", u:"https://www.telegram.hr/politika-kriminal/istina-o-10-godina-plenkovica-na-vlasti-place-rasle-108-posto-stanovi-poskupili-dva-i-pol-puta-krumpir-160-posto/"},
+  pl:   {n:"Total Croatia News (cjenik 2017./2018.) i vodič s cjenikom NP-a za 2026.", u:"https://total-croatia-news.com/news/higher-ticket-prices-for-all-visitor-categories-for-plitvice-lakes/"},
+  zid:  {n:"Dnevnik.hr, ulaznice za zidine (200 kn, potom 40 eura)", u:"https://dnevnik.hr/vijesti/hrvatska/novo-poskupljenje-ulaznica-za-dubrovacke-zidine---893078.html"},
+  hrt:  {n:"HRT, tumačenje o mjesečnoj pristojbi", u:"https://visitlosinj.hr/EasyEdit/UserFiles/kutak-za-iznajmljivace/propisi/2025/tumacenje-hrt-vezano-za-placanje-mjesecne-pristojbe-za-iznajmljivace.pdf"}
+};
+/* st = cijena nekad u eurima, kn = ista cijena u kunama (ako ju izvor navodi), c = cijena danas
+   max = gornja granica klizača, k = korak klizača, f = fini korak, cijeli = prikaz bez centi */
+var DANI = [
+  {
+    naslov:"Račun iz zimske jakne", god:"listopad 2016.",
+    prica:"Našao si ga u džepu jakne koju nisi obukao od 2016. Plaćeno u kunama. Koliko bi iste stvari platio danas?",
+    sluzbena:{p:0.421, t:"Službena inflacija, 10/2016. do 9/2026. (DZS)"},
+    stavke:[
+      {kat:"Dućan", ime:"Svježe mlijeko", opis:"1 litra, katalog trgovačkog lanca", god:"2016.", kn:4.99, st:0.66, c:1.19, max:3, k:0.02, f:0.01, izv:"tg"},
+      {kat:"Dućan", ime:"Nutella", opis:"Staklenka od 400 g", god:"2016.", kn:20, st:2.65, c:4.99, max:10, k:0.05, f:0.01, izv:"tg"},
+      {kat:"Tržnica", ime:"Krumpir", opis:"1 kg, prosjek tržnica (TISUP)", god:"2016.", kn:4.17, st:0.55, c:1.46, max:3, k:0.02, f:0.01, izv:"tg"},
+      {kat:"Dućan", ime:"Keks Domaćica", opis:"Pakiranje od 300 g", god:"2016.", kn:10.99, st:1.46, c:3.49, max:6, k:0.05, f:0.01, izv:"tg"}
+    ],
+    finale:{kat:"Druga strana računa", ime:"Prosječna neto plaća", opis:"Mjesečno, Hrvatska (2026.: lipanj, DZS)", god:"2016.", kn:null, st:749, c:1555, max:3000, k:10, f:5, cijeli:true, izv:"tg", rijec:"Plaća"}
+  },
+  {
+    naslov:"Ulaznice iz pretinca auta", god:"kunski dani",
+    prica:"Iz pretinca za rukavice ispale su stare ulaznice i jedna uplatnica. Sve plaćeno u kunama. Pošto je to danas?",
+    sluzbena:null,
+    stavke:[
+      {kat:"Izlet", ime:"Plitvička jezera", opis:"Ulaznica za odrasle, srpanj i kolovoz", god:"2017.", kn:180, st:23.89, c:40, max:80, k:1, f:1, izv:"pl"},
+      {kat:"Izlet", ime:"Dubrovačke zidine", opis:"Ulaznica za odrasle u sezoni", god:"2019.", kn:200, st:26.54, c:40, max:80, k:1, f:1, izv:"zid"},
+      {kat:"Režije", ime:"HRT pristojba", opis:"Mjesečni iznos za kućanstvo", god:"2010.", kn:80, st:10.62, c:10.62, max:40, k:0.1, f:0.01, izv:"hrt"},
+      {kat:"Tržnica", ime:"Mandarine", opis:"1 kg, prosjek tržnica (TISUP)", god:"2016.", kn:5.98, st:0.79, c:3.02, max:5, k:0.05, f:0.01, izv:"tg"}
+    ],
+    finale:{kat:"Druga strana računa", ime:"Kvadrat novog stana", opis:"Prosjek Hrvatske, 1 m² (2026.: prvo polugodište)", god:"2016.", kn:null, st:1332, c:3012, max:6000, k:50, f:10, cijeli:true, izv:"tg", rijec:"Kvadrat stana"}
+  },
+  {
+    naslov:"Račun iz bakine ladice", god:"listopad 2016.",
+    prica:"Baka čuva sve račune. Ovaj je iz 2016. i još se vidi svaka kuna. Reci joj koliko to košta danas, ali nježno.",
+    sluzbena:{p:0.421, t:"Službena inflacija, 10/2016. do 9/2026. (DZS)"},
+    stavke:[
+      {kat:"Dućan", ime:"Kruh, pola kile", opis:"Fini domaći 2016., bakin miješani 2026.", god:"2016.", kn:6.99, st:0.93, c:1.99, max:4, k:0.05, f:0.01, izv:"tg"},
+      {kat:"Dućan", ime:"Koncentrat rajčice Mutti", opis:"Tuba od 130 g", god:"2016.", kn:5.99, st:0.80, c:1.79, max:4, k:0.05, f:0.01, izv:"tg"},
+      {kat:"Dućan", ime:"Sredstvo za stakla", opis:"Boca od 750 ml", god:"2016.", kn:12.90, st:1.71, c:2.75, max:7, k:0.05, f:0.01, izv:"tg"},
+      {kat:"Dućan", ime:"Trajno mlijeko", opis:"1 litra, ista marka", god:"2016.", kn:4.99, st:0.66, c:0.94, max:3, k:0.02, f:0.01, izv:"tg"}
+    ],
+    finale:{kat:"Druga strana računa", ime:"Prosječna mirovina", opis:"Mjesečno, Hrvatska", god:"2016.", kn:null, st:355, c:725, max:1500, k:5, f:5, cijeli:true, izv:"tg", rijec:"Mirovina"}
+  }
+];
+var ZUPANIJE = ["Grad Zagreb","Zagrebačka","Krapinsko-zagorska","Sisačko-moslavačka","Karlovačka","Varaždinska","Koprivničko-križevačka","Bjelovarsko-bilogorska","Primorsko-goranska","Ličko-senjska","Virovitičko-podravska","Požeško-slavonska","Brodsko-posavska","Zadarska","Osječko-baranjska","Šibensko-kninska","Vukovarsko-srijemska","Splitsko-dalmatinska","Istarska","Dubrovačko-neretvanska","Međimurska"];
+var IMENA = ["Ante","Ivana","Marko","Lucija","Stipe","Petra","Dario","Maja","Luka","Ana"];
+
+/* ---------- Čiste funkcije ---------- */
+function pogreska(p, prava){ return Math.abs(p - prava) / prava; }
+function bodovi(p, prava){ var e = Math.min(pogreska(p, prava), 0.5); return Math.round(100 * (1 - e / 0.5)); }
+function razred(p, prava){ var e = pogreska(p, prava); return e <= 0.05 ? "g" : e <= 0.15 ? "y" : e <= 0.30 ? "o" : "r"; }
+var EMOJI = {g:"🟩", y:"🟨", o:"🟧", r:"🟥"};
+var PECAT = {g:"U cent", y:"Blizu", o:"Onako", r:"Promašaj"};
+function zaokruzi(n){ return Math.round(n * 100) / 100; }
+function zbroj(a){ return a.reduce(function(x, y){ return x + y; }, 0); }
+/* Osjećaj inflacije: tvoj rast košarice (4 artikla) naspram stvarnog rasta iste košarice */
+function osjecaj(stavke, pogodci){
+  var staro = zbroj(stavke.map(function(s){ return s.st; }));
+  var novo = zbroj(stavke.map(function(s){ return s.c; }));
+  var moje = zbroj(pogodci.slice(0, stavke.length));
+  return {ti: moje / staro - 1, stvarno: novo / staro - 1, staro: staro, novo: novo, moje: moje};
+}
+function tip(o){
+  var d = o.ti - o.stvarno;
+  if (d > 0.20) return {ime:"Crnogledi kupac", op:"Misliš da je skuplje nego što jest."};
+  if (d < -0.20) return {ime:"Još živi u kunama", op:"Misliš da je jeftinije nego što jest."};
+  return {ime:"Hodajući cjenik", op:"Tvoj osjećaj za cijene je točan."};
+}
+function dosjetka(r, p, prava, i){
+  var d = {
+    g:["U cent. Radiš na blagajni?","Ovo se ne pogađa, ovo se zna.","Tebi račun ne treba, ti si račun."],
+    y:["Blizu. Vidi se da sam ideš u dućan.","Solidno. Falilo je malo sitniša.","Skoro. Blagajnica bi ti progledala kroz prste."],
+    o:["Onako. Kao kad procjenjuješ račun prije blagajne.","Ni vrit ni mimo.","Može proći, ali ne kod bake."],
+    lo:["Probudi se, kuna više nema.","Te cijene pamti još samo tvoja stara jakna.","Lijepo bi bilo. Nije."],
+    hi:["Polako, nije sve Dubrovnik.","Tebe su već previše puta oderali.","Čak ni na moru u kolovozu."]
+  };
+  var k = r === "r" ? (p < prava ? "lo" : "hi") : r;
+  return d[k][i % d[k].length];
+}
+function eur(n, cijeli){
+  if (cijeli) return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+  return n.toFixed(2).replace(".", ",") + " €";
+}
+function kune(n){ return n.toFixed(2).replace(".", ",") + " kn"; }
+function post(x){ var p = Math.round(x * 100); return (p > 0 ? "+" : "") + p + " %"; }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function rng(seed){ var s = seed >>> 0; return function(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+/* Simulirani protivnik: u produkciji stvarni igrač koji je danas već odigrao isti račun */
+function demoProtivnik(dan, zupanija, set){
+  var r = rng(dan * 104729 + 7);
+  var ime = IMENA[Math.floor(r() * IMENA.length)], z;
+  do { z = ZUPANIJE[Math.floor(r() * ZUPANIJE.length)]; } while (z === zupanija);
+  var p = set.map(function(a){
+    var v = a.c * (1 + (r() - 0.45) * 0.7);
+    return a.cijeli ? Math.round(v / a.f) * a.f : zaokruzi(v);
+  });
+  return {ime:ime, zup:z, p:p};
+}
+function runda(moj, njegov, prava){
+  var a = pogreska(moj, prava), b = pogreska(njegov, prava);
+  return Math.abs(a - b) < 1e-9 ? 0 : (a < b ? 1 : -1);
+}
+function demoLiga(dan, zupanija, moj){
+  var r = rng(dan * 7919 + 13);
+  var l = ZUPANIJE.map(function(z){
+    var prosjek = 245 + r() * 110, igraci = Math.round(40 + r() * 900);
+    if (z === zupanija) prosjek = (prosjek * igraci + moj) / (igraci + 1);
+    return {z:z, p:prosjek, n:igraci};
+  });
+  l.sort(function(a, b){ return b.p - a.p; });
+  return l;
+}
+
+if (typeof module !== "undefined") { module.exports = {bodovi:bodovi, razred:razred, osjecaj:osjecaj, tip:tip, demoProtivnik:demoProtivnik, runda:runda, demoLiga:demoLiga, DANI:DANI, eur:eur, post:post, IZV:IZV}; }
+
+/* ---------- Aplikacija ---------- */
+if (typeof document !== "undefined") (function(){
+  var KLJUC = "posto-v2";
+  var app = document.getElementById("app");
+  var POCETAK = Date.UTC(2026, 10, 16);
+  var demoPomak = 0, stanje = ucitaj(), igra = null, sat = null;
+
+  function ucitaj(){
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(KLJUC)); } catch (e) {}
+    if (!s || typeof s !== "object") s = {};
+    if (!s.rez) s.rez = {};
+    return s;
+  }
+  function spremi(){ try { localStorage.setItem(KLJUC, JSON.stringify(stanje)); } catch (e) {} }
+  function danBroj(){
+    var d = new Date();
+    return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - POCETAK) / 864e5) + 1 + demoPomak;
+  }
+  function danas(){ var n = danBroj() - 1; return DANI[((n % DANI.length) + DANI.length) % DANI.length]; }
+  function setDana(){ var d = danas(); return d.stavke.concat([d.finale]); }
+  function datumTekst(){ var d = new Date(); d.setDate(d.getDate() + demoPomak); return d.getDate() + ". " + (d.getMonth() + 1) + ". " + d.getFullYear() + "."; }
+  function traka(){ return '<div class="demo-traka">Prototip. Protivnik i liga su simulirani. Cijene su stvarne i imaju izvor.</div>'; }
+  function zaglavlje(){ return '<div class="zaglavlje"><div class="logo mali">POŠTO?</div><div class="broj-dana">Račun br. ' + danBroj() + '<br>' + datumTekst() + '</div></div>'; }
+  function stopSat(){ if (sat) { clearInterval(sat); sat = null; } }
+  function nekad(a){ return a.kn != null ? kune(a.kn) : eur(a.st, a.cijeli); }
+
+  function stariRacun(d){
+    var redovi = d.stavke.map(function(a){
+      return '<div class="r"><span>' + esc(a.ime) + (d.sluzbena ? "" : " (" + a.god + ")") + '</span><span>' + kune(a.kn) + '</span></div>';
+    }).join("");
+    var uk = zbroj(d.stavke.map(function(a){ return a.kn; }));
+    return '<div class="stari" aria-label="Stari račun">' +
+      '<p class="sred">*** RAČUN ***<br>' + esc(d.god) + '</p><hr>' + redovi + '<hr>' +
+      '<div class="r uk"><span>UKUPNO</span><span>' + kune(uk) + '</span></div>' +
+      '<span class="zig">plaćeno u kunama</span></div>';
+  }
+
+  /* ----- Početni ekran ----- */
+  function pocetna(poruka){
+    stopSat(); igra = null;
+    var d = danas(), odigrano = stanje.rez[danBroj()];
+    var opcije = '<option value="">Odaberi županiju</option>' + ZUPANIJE.map(function(z){
+      return '<option' + (stanje.zup === z ? " selected" : "") + '>' + esc(z) + '</option>';
+    }).join("");
+    app.innerHTML = traka() +
+      '<div class="logo velik">POŠTO?</div>' +
+      '<h1 class="slogan">' + esc(d.naslov) + '. <em>Pošto je to danas?</em></h1>' +
+      '<p class="prica">' + esc(d.prica) + '</p>' +
+      stariRacun(d) +
+      '<section class="kartica">' +
+        '<div class="polje"><label for="zup">Za koga igraš</label><select id="zup">' + opcije + '</select></div>' +
+        '<div class="polje"><label for="nad">Nadimak (nije obavezno)</label><input type="text" id="nad" maxlength="16" autocomplete="off" placeholder="npr. Kralj akcija" value="' + esc(stanje.nad || "") + '"></div>' +
+        (poruka ? '<p class="greska" role="alert">' + esc(poruka) + '</p>' : '') +
+        (odigrano
+          ? '<button class="gumb crveni" data-a="racun">Pogledaj današnji račun</button><p class="niz">Ovaj račun si već platio. Novi stiže u ponoć.</p>'
+          : '<button class="gumb crveni" data-a="kreni">Plati današnjim cijenama</button>') +
+        '<p class="opis">Četiri cijene i jedno pitanje s druge strane računa. Igraš dvoboj protiv kupca iz druge županije.</p>' +
+        (stanje.niz ? '<p class="niz">Tvoj niz: ' + stanje.niz + (stanje.niz === 1 ? " dan" : " dana") + ' zaredom</p>' : '') +
+      '</section>' +
+      '<p class="podnozje">Jedan račun dnevno. Bez prijave. Traje oko minute.</p>';
+  }
+
+  /* ----- Igra ----- */
+  function kreni(){
+    var zup = document.getElementById("zup").value, nad = document.getElementById("nad").value.trim();
+    if (!zup) { stanje.nad = nad; pocetna("Odaberi županiju da znamo za koga navijaš."); return; }
+    stanje.zup = zup; stanje.nad = nad; spremi();
+    var set = setDana();
+    igra = {i:0, pogodci:[], razredi:[], bod:[], runde:[], set:set, prot:demoProtivnik(danBroj(), zup, set)};
+    pitanje();
+  }
+  function napredak(){
+    var h = '<div class="napredak" aria-label="Napredak">';
+    for (var j = 0; j < 5; j++) h += '<span class="' + (j < igra.razredi.length ? igra.razredi[j] : (j === igra.i ? "sad" : "")) + '"></span>';
+    return h + '</div>';
+  }
+  function semafor(){
+    var ja = igra.runde.filter(function(x){ return x === 1; }).length, on = igra.runde.filter(function(x){ return x === -1; }).length;
+    return '<div class="dvoboj"><span>Ti (' + esc(stanje.zup) + ')</span><b>' + ja + ' : ' + on + '</b><span>' + esc(igra.prot.ime) + ' (' + esc(igra.prot.zup) + ')</span></div>';
+  }
+  function osvjeziCijenu(){
+    var a = igra.set[igra.i];
+    document.getElementById("cij").textContent = eur(igra.pogodak, a.cijeli);
+    var x = igra.pogodak / a.st - 1;
+    document.getElementById("rast").textContent = Math.abs(x) < 0.005 ? "isto kao " + a.god : post(x) + " u odnosu na " + a.god;
+  }
+  function pitanje(){
+    var a = igra.set[igra.i];
+    igra.pogodak = a.st;
+    app.innerHTML = zaglavlje() + napredak() + semafor() +
+      '<section class="kartica">' +
+        '<span class="kategorija">' + esc(a.kat) + '</span>' +
+        '<h2 class="artikl">' + esc(a.ime) + '</h2>' +
+        '<p class="opis">' + esc(a.opis) + '</p>' +
+        '<div class="nekad"><span>Cijena ' + esc(a.god) + '</span><b>' + nekad(a) + (a.kn != null ? ' <small>(' + eur(a.st) + ')</small>' : '') + '</b></div>' +
+        '<div class="cijena" id="cij" aria-live="off"></div>' +
+        '<div class="rast" id="rast"></div>' +
+        '<div class="klizac">' +
+          '<label for="kl" class="opis">Povuci na današnju cijenu</label>' +
+          '<input type="range" id="kl" min="0" max="' + a.max + '" step="' + a.k + '" value="' + a.st + '">' +
+          '<div class="raspon"><span>' + eur(0, a.cijeli) + '</span><span>' + eur(a.max, a.cijeli) + '</span></div>' +
+          '<div class="fino"><button data-a="minus" aria-label="Smanji za ' + eur(a.f, a.cijeli) + '">− ' + eur(a.f, a.cijeli) + '</button><button data-a="plus" aria-label="Povećaj za ' + eur(a.f, a.cijeli) + '">+ ' + eur(a.f, a.cijeli) + '</button></div>' +
+        '</div>' +
+        '<button class="gumb" data-a="zakljucaj">Zaključaj cijenu</button>' +
+      '</section>' +
+      '<p class="podnozje">' + (igra.i < 4 ? "Cijena " + (igra.i + 1) + " od 4" : "Zadnje pitanje: druga strana računa") + '</p>';
+    osvjeziCijenu();
+    document.getElementById("kl").addEventListener("input", function(e){ igra.pogodak = zaokruzi(parseFloat(e.target.value)); osvjeziCijenu(); });
+  }
+  function pomak(smjer){
+    var a = igra.set[igra.i];
+    igra.pogodak = zaokruzi(Math.max(0, Math.min(a.max, igra.pogodak + smjer * a.f)));
+    document.getElementById("kl").value = igra.pogodak;
+    osvjeziCijenu();
+  }
+  function zakljucaj(){
+    var a = igra.set[igra.i], p = igra.pogodak, njegov = igra.prot.p[igra.i];
+    var r = razred(p, a.c), b = bodovi(p, a.c), ishod = runda(p, njegov, a.c);
+    igra.pogodci.push(p); igra.razredi.push(r); igra.bod.push(b); igra.runde.push(ishod);
+    var skok = a.c / a.st - 1, izv = IZV[a.izv];
+    var skokTekst = Math.abs(skok) < 0.005 ? "Ista cijena od " + a.god : post(skok) + " od " + a.god;
+    var rundaTekst = ishod === 1 ? "Runda tebi." : ishod === -1 ? "Runda ide u " + igra.prot.zup + "." : "Neriješeno.";
+    app.innerHTML = zaglavlje() + napredak() + semafor() +
+      '<section class="kartica">' +
+        '<span class="kategorija">' + esc(a.kat) + '</span>' +
+        '<h2 class="artikl">' + esc(a.ime) + '</h2>' +
+        '<div class="usporedba">' +
+          '<div class="n"><span>' + esc(a.god) + '</span><b>' + nekad(a) + '</b></div>' +
+          '<div><span>Ti kažeš</span><b>' + eur(p, a.cijeli) + '</b></div>' +
+          '<div class="prava"><span>Danas</span><b id="prava">' + eur(a.c, a.cijeli) + '</b></div>' +
+        '</div>' +
+        '<div class="skok' + (Math.abs(skok) < 0.005 ? " nula" : "") + '">' + esc(skokTekst) + '</div>' +
+        '<div class="ocjena"><span class="pecat ' + r + '">' + PECAT[r] + '</span><span class="bodovi">+' + b + ' / 100</span></div>' +
+        '<p class="dosjetka">' + esc(dosjetka(r, p, a.c, danBroj() + igra.i)) + '</p>' +
+        '<p class="protivnik">' + esc(igra.prot.ime) + ' kaže ' + eur(njegov, a.cijeli) + '. ' + esc(rundaTekst) + '</p>' +
+        '<p class="izvor">' + esc(a.opis) + '. Izvor: <a href="' + izv.u + '" target="_blank" rel="noopener">' + esc(izv.n) + '</a></p>' +
+        '<button class="gumb" data-a="dalje">' + (igra.i === 4 ? "Izdaj račun" : igra.i === 3 ? "Okreni račun" : "Sljedeća cijena") + '</button>' +
+      '</section>';
+    brojalica(document.getElementById("prava"), a.c, a.cijeli);
+  }
+  function brojalica(el, cilj, cijeli){
+    if (!el || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var t0 = performance.now();
+    (function korak(t){
+      var u = Math.min(1, (t - t0) / 600);
+      el.textContent = eur(u === 1 ? cilj : cilj * (1 - Math.pow(1 - u, 3)), cijeli);
+      if (u < 1) requestAnimationFrame(korak);
+    })(t0);
+  }
+  function dalje(){
+    if (igra.i < 4) { igra.i++; pitanje(); return; }
+    var dan = danBroj();
+    if (!stanje.rez[dan]) { stanje.niz = stanje.zadnji === dan - 1 ? (stanje.niz || 0) + 1 : 1; stanje.zadnji = dan; }
+    stanje.rez[dan] = {p:igra.pogodci, r:igra.razredi, b:igra.bod, n:igra.runde, uk:zbroj(igra.bod)};
+    spremi(); racun();
+  }
+
+  /* ----- Račun, dijeljenje, liga, ladica ----- */
+  function racun(){
+    stopSat(); igra = null;
+    var dan = danBroj(), rez = stanje.rez[dan], d = danas(), set = setDana();
+    if (!rez) { pocetna(); return; }
+    var prot = demoProtivnik(dan, stanje.zup, set);
+    var o = osjecaj(d.stavke, rez.p), t = tip(o), fin = d.finale;
+    var finTi = rez.p[4] / fin.st - 1, finStv = fin.c / fin.st - 1;
+    var ja = rez.n.filter(function(x){ return x === 1; }).length, on = rez.n.filter(function(x){ return x === -1; }).length;
+    var liga = demoLiga(dan, stanje.zup, rez.uk), mjesto = 1;
+    liga.forEach(function(x, i){ if (x.z === stanje.zup) mjesto = i + 1; });
+
+    var stavke = set.map(function(a, i){
+      return '<div class="stavka"><span class="naziv">' + esc(a.ime) + '</span><span>' + EMOJI[rez.r[i]] + ' ' + rez.b[i] + '</span>' +
+        '<span class="detalj">' + a.god + ' ' + nekad(a) + ' / ti ' + eur(rez.p[i], a.cijeli) + ' / danas ' + eur(a.c, a.cijeli) + '</span></div>';
+    }).join("");
+    var najvise = Math.max(o.ti, o.stvarno, finStv, d.sluzbena ? d.sluzbena.p : 0, 0.01);
+    function stup(kl, naziv, v){
+      return '<div class="l ' + kl + '"><span>' + esc(naziv) + '</span><b>' + post(v) + '</b><span class="stup"><i style="width:' + Math.max(0, Math.round(v / najvise * 100)) + '%"></i></span></div>';
+    }
+    var redovi = [];
+    liga.forEach(function(x, i){
+      var moj = x.z === stanje.zup;
+      if (i < 5 || moj) {
+        if (moj && i > 5) redovi.push('<div class="razmak">· · ·</div>');
+        redovi.push('<div class="red' + (moj ? " moj" : "") + '"><span class="mj">' + (i + 1) + '.</span><span>' + esc(x.z) + '</span><span>' + Math.round(x.p) + '</span><span class="traka"><i style="width:' + Math.round(x.p / 5) + '%"></i></span></div>');
+      }
+    });
+    var kraj = new Date(); kraj.setDate(kraj.getDate() + demoPomak);
+    var doKraja = new Date(kraj.getFullYear(), kraj.getMonth() + 1, 0).getDate() - kraj.getDate();
+    var ladica = "";
+    for (var s = 1; s <= 30; s++) ladica += '<span class="' + (stanje.rez[s] ? "ima" : "") + '">' + (stanje.rez[s] ? stanje.rez[s].uk : s) + '</span>';
+    var skupljeno = Object.keys(stanje.rez).length;
+    var dvobojTekst = ja > on ? "pobjeda " + ja + ":" + on : ja < on ? "poraz " + ja + ":" + on : "neriješeno " + ja + ":" + on;
+    var dijeli = "Pošto? br. " + dan + ", " + d.naslov.toLowerCase() + "\n" +
+      rez.r.map(function(x){ return EMOJI[x]; }).join("") + " " + rez.uk + "/500\n" +
+      "Po meni je sve skuplje " + post(o.ti).replace("+", "") + " nego " + (d.sluzbena ? "2016." : "u kunama") + "\n" +
+      "Tip kupca: " + t.ime + "\n" +
+      "Dvoboj: " + dvobojTekst + " (" + prot.zup + ")\n" +
+      stanje.zup + ": " + mjesto + ". u ligi\n" +
+      "A po tebi?";
+
+    app.innerHTML = traka() + zaglavlje() +
+      '<section class="racun" aria-label="Tvoj račun">' +
+        '<h2>POŠTO?</h2>' +
+        '<p class="sred">' + esc(d.naslov) + '<br>Račun br. ' + dan + ' / ' + datumTekst() + '</p><hr class="crta">' +
+        '<p>Kupac: ' + esc(stanje.nad || "Anonimni kupac") + '<br>Blagajna: ' + esc(stanje.zup) + '</p><hr class="crta">' +
+        stavke + '<hr class="crta">' +
+        '<div class="ukupno"><span>UKUPNO BODOVA</span><span><b>' + rez.uk + '</b> / 500</span></div>' +
+        '<p>Dvoboj protiv kupca ' + esc(prot.ime) + ' (' + esc(prot.zup) + '): ' + esc(dvobojTekst) + '</p><hr class="crta">' +
+        '<p class="sred">KOLIKO JE POSKUPJELO</p>' +
+        '<div class="osjecaj">' +
+          stup("ti", "Po tebi (ova 4 artikla)", o.ti) +
+          stup("st", "Stvarno (ova 4 artikla)", o.stvarno) +
+          (d.sluzbena ? stup("sl", d.sluzbena.t, d.sluzbena.p) : "") +
+          stup("pl", fin.rijec + " od " + fin.god, finStv) +
+        '</div>' +
+        '<p>Košarica: ' + eur(o.staro) + ' nekad, ' + eur(o.novo) + ' danas, ' + eur(o.moje) + ' po tebi.<br>' + esc(fin.rijec) + ': rekao si ' + post(finTi) + ', stvarno ' + post(finStv) + '.</p>' +
+        '<div class="titula">' + esc(t.ime) + '</div>' +
+        '<p class="sred">' + esc(t.op) + '</p>' +
+        '<p class="sitno">Četiri artikla nisu statistička košarica. Služe za usporedbu tvog osjećaja i stvarnih cijena, ne kao mjera inflacije.</p>' +
+      '</section>' +
+      '<section class="kartica dijeli">' +
+        '<h3 class="naslov-bloka">Pošalji u grupu</h3>' +
+        '<pre id="dijeli">' + esc(dijeli) + '</pre>' +
+        '<button class="gumb crveni" data-a="kopiraj">Kopiraj i izazovi ekipu</button>' +
+        '<p class="kopirano" id="kop" role="status"></p>' +
+      '</section>' +
+      '<section class="kartica">' +
+        '<h3 class="naslov-bloka">Liga županija <span class="oznaka-demo">simulacija</span></h3>' +
+        '<p class="opis">Prosjek bodova za današnji račun. Sezona traje do kraja mjeseca (još ' + doKraja + (doKraja === 1 ? " dan" : " dana") + '). Najbolja županija osvaja Zlatnu blagajnu.</p>' +
+        '<div class="derbi">' + redovi.join("") + '</div>' +
+      '</section>' +
+      '<section class="kartica">' +
+        '<h3 class="naslov-bloka">Ladica računa <span class="oznaka-demo">' + skupljeno + ' / 30</span></h3>' +
+        '<p class="opis">Svaki dan jedan pronađeni račun. Skupi svih 30 u sezoni i otključaj Veliki račun: cijelo desetljeće na jednom papiru.</p>' +
+        '<div class="ladica">' + ladica + '</div>' +
+      '</section>' +
+      '<section class="kartica odbrojavanje">' +
+        '<p class="opis">Novi račun stiže za</p><b id="odb">00:00:00</b>' +
+        '<p class="niz">Tvoj niz: ' + (stanje.niz || 1) + ((stanje.niz || 1) === 1 ? " dan" : " dana") + ' zaredom</p>' +
+        '<button class="gumb sporedni" data-a="sutra">Demo: odigraj sutrašnji račun</button>' +
+        '<button class="gumb sporedni" data-a="reset">Demo: obriši sve i kreni ispočetka</button>' +
+      '</section>';
+    otkucaj(); sat = setInterval(otkucaj, 1000);
+  }
+  function otkucaj(){
+    var el = document.getElementById("odb"); if (!el) { stopSat(); return; }
+    var sad = new Date(), ponoc = new Date(sad.getFullYear(), sad.getMonth(), sad.getDate() + 1);
+    var s = Math.max(0, Math.floor((ponoc - sad) / 1000));
+    function dv(n){ return (n < 10 ? "0" : "") + n; }
+    el.textContent = dv(Math.floor(s / 3600)) + ":" + dv(Math.floor(s % 3600 / 60)) + ":" + dv(s % 60);
+  }
+  function kopiraj(){
+    var t = document.getElementById("dijeli").textContent, kop = document.getElementById("kop");
+    function rucno(){
+      var r = document.createRange(); r.selectNodeContents(document.getElementById("dijeli"));
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      kop.textContent = "Tekst je označen. Kopiraj ga ručno i zalijepi u grupu.";
+    }
+    try { navigator.clipboard.writeText(t).then(function(){ kop.textContent = "Kopirano. Zalijepi u WhatsApp grupu."; }, rucno); } catch (e) { rucno(); }
+  }
+
+  app.addEventListener("click", function(e){
+    var g = e.target.closest("[data-a]"); if (!g) return;
+    var a = g.getAttribute("data-a");
+    if (a === "kreni") kreni();
+    else if (a === "racun") racun();
+    else if (a === "minus") pomak(-1);
+    else if (a === "plus") pomak(1);
+    else if (a === "zakljucaj") zakljucaj();
+    else if (a === "dalje") dalje();
+    else if (a === "kopiraj") kopiraj();
+    else if (a === "sutra") { demoPomak++; pocetna(); }
+    else if (a === "reset") { demoPomak = 0; stanje = {rez:{}}; spremi(); pocetna(); }
+    if (a !== "minus" && a !== "plus" && a !== "kopiraj") window.scrollTo(0, 0);
+  });
+
+  pocetna();
+})();
+</script>
+</body>
+</html>
