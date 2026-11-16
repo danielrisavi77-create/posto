@@ -6,16 +6,17 @@ import { StariRacun, Zaglavlje } from "@/components/Zajednicko";
 import { danBroj, datumTekst } from "@/lib/dan";
 import { KOD, KOLACIC_IZAZOV, igracId, otkrivenoDoSad, protivnikIgre } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
-import { javniRacun, racunZaDan } from "@/lib/racuni";
+import { javniRacun, racunIgre, racunZaDan } from "@/lib/racuni";
 
 export const dynamic = "force-dynamic";
 
 export default async function Pocetna() {
   const dan = danBroj();
-  const racun = javniRacun(racunZaDan(dan));
   const db = pohrana();
   const id = await igracId();
   const igra = id ? await db.igraZaDan(id, dan) : null;
+  // Započeta igra ostaje na svom računu i ako se raspored u međuvremenu promijenio.
+  const racun = javniRacun(igra ? racunIgre(igra) : racunZaDan(dan));
 
   // Igra je u tijeku: nastavi gdje je igrač stao.
   if (igra && !igra.gotovo) {

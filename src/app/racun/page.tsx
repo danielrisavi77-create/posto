@@ -7,7 +7,7 @@ import { EMOJI, eur, kune, osjecaj, post, razred, runda, tipKupca } from "@/lib/
 import { danBroj, danaDoKrajaSezone, danaUSezoni, datumTekst, imeSezone, prviDanSezone, sekundiDoPonoci, sezona } from "@/lib/dan";
 import { igracId, protivnikIgre } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
-import { racunZaDan, setRacuna, type Stavka } from "@/lib/racuni";
+import { racunIgre, setRacuna, type Stavka } from "@/lib/racuni";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +32,7 @@ export default async function RacunStranica() {
   const igra = await db.igraZaDan(id, dan);
   if (!igra || !igra.gotovo) redirect("/");
 
-  const racun = racunZaDan(dan);
+  const racun = racunIgre(igra);
   const set = setRacuna(racun);
   const fin = racun.finale;
   const [prot, liga, mojeIgre, adresa] = await Promise.all([protivnikIgre(igra), db.ligaSezone(sezona()), db.igreSezone(id, sezona()), adresaStranice()]);

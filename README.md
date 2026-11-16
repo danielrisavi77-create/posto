@@ -16,7 +16,7 @@ Bez Supabase varijabli aplikacija u razvoju koristi pohranu u memoriji (podaci n
 ## Postavljanje Supabasea
 
 1. Otvori novi projekt na supabase.com (regija Frankfurt).
-2. SQL Editor: zalijepi i pokreni redom `supabase/migrations/0001_init.sql` pa `0002_ogranicenja.sql`.
+2. SQL Editor: zalijepi i pokreni redom sve datoteke iz `supabase/migrations/` (0001, 0002, 0003).
 3. Advisors, Security: pokreni provjeru. Očekivano stanje: RLS uključen na sve tri tablice, bez politika (namjerno, pristup ide samo preko servera).
 4. Project Settings, API: kopiraj Project URL i `service_role` ključ.
 
@@ -62,7 +62,7 @@ Ključna pravila:
 - Jedna igra po igraču po danu: `unique (dan, igrac_id)`. Runde se upisuju atomarno funkcijom `dodaj_pogodak`, pa dvostruki klik ili dva taba ne mogu upisati istu rundu dvaput.
 - Protivnik: tko te izazvao linkom, inače nasumičan stvarni igrač iz druge županije koji je račun već završio, inače računalo (uvijek označeno kao računalo).
 - Igrač je anonimni httpOnly kolačić s nasumičnim UUID-om.
-- Ograničenje zahtjeva po mreži: 30 novih računa na sat i 120 pogodaka u minuti. IP se sprema samo kao sažetak sa solju.
+- Ograničenje zahtjeva po mreži: 30 novih računa na sat i 120 pogodaka u minuti. IP se sprema samo kao sažetak sa solju i briše se nakon jednog dana (pri svakom pozivu i satnim pg_cron poslom).
 
 ## Testovi
 
@@ -76,7 +76,7 @@ Treba Chrome (`CHROME_PATH`). Server mora biti svjež jer test očekuje praznu p
 
 ## Dodavanje novog računa
 
-U `src/lib/racuni.ts` dodaj objekt u `RACUNI`: četiri stavke i `finale`. Svaka stavka mora imati izvor u `IZVORI`. Dan N dobiva račun `(N - 1) mod broj_računa`, pa se dodavanjem na kraj ne mijenjaju već odigrani dani dok god je broj dana manji od broja računa.
+U `src/lib/racuni.ts` dodaj objekt u `RACUNI`: četiri stavke i `finale`. Svaka stavka mora imati izvor u `IZVORI`. Svaki račun ima stabilan `id` koji se sprema uz igru, pa stare igre ostaju na svom računu i kad se raspored promijeni. Postojeći `id` se nikad ne mijenja i ne koristi ponovno. Nova igra na dan N dobiva račun `(N - 1) mod broj_računa`, zato novi sadržaj objavljuj oko ponoći: igrači koji su taj dan već igrali ostaju na starom računu.
 
 ## Poznata ograničenja
 

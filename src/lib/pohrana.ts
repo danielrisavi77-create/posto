@@ -8,6 +8,8 @@ export type Igra = {
   id: string;
   kod: string;
   dan: number;
+  /** oznaka računa po kojem se igra (vidi racuni.ts) */
+  racun: string;
   sezona: string;
   igracId: string;
   nadimak: string;
@@ -23,7 +25,7 @@ export type Igra = {
 export type Igrac = { id: string; nadimak: string; zupanija: string };
 export type RedLige = { zupanija: string; prosjek: number; igara: number };
 
-export type NovaIgra = Pick<Igra, "kod" | "dan" | "sezona" | "igracId" | "nadimak" | "zupanija" | "protivnikId" | "protivnikBot">;
+export type NovaIgra = Pick<Igra, "kod" | "dan" | "racun" | "sezona" | "igracId" | "nadimak" | "zupanija" | "protivnikId" | "protivnikBot">;
 
 export interface Pohrana {
   igrac(id: string): Promise<Igrac | null>;
@@ -45,14 +47,14 @@ export interface Pohrana {
 /* ---------- Supabase ---------- */
 
 type Red = {
-  id: string; kod: string; dan: number; sezona: string; igrac_id: string; nadimak: string; zupanija: string;
+  id: string; kod: string; dan: number; racun: string; sezona: string; igrac_id: string; nadimak: string; zupanija: string;
   pogodci: (number | string)[]; bodovi: number[]; ukupno: number; gotovo: boolean;
   protivnik_id: string | null; protivnik_bot: Bot | null;
 };
 
 function izReda(r: Red): Igra {
   return {
-    id: r.id, kod: r.kod, dan: r.dan, sezona: r.sezona, igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija,
+    id: r.id, kod: r.kod, dan: r.dan, racun: r.racun ?? "", sezona: r.sezona, igracId: r.igrac_id, nadimak: r.nadimak, zupanija: r.zupanija,
     pogodci: (r.pogodci ?? []).map(Number), bodovi: r.bodovi ?? [], ukupno: r.ukupno, gotovo: r.gotovo,
     protivnikId: r.protivnik_id, protivnikBot: r.protivnik_bot,
   };
@@ -91,7 +93,7 @@ class SupabasePohrana implements Pohrana {
   }
   async stvoriIgru(n: NovaIgra) {
     const { data, error } = await this.db.from("igre").insert({
-      kod: n.kod, dan: n.dan, sezona: n.sezona, igrac_id: n.igracId, nadimak: n.nadimak, zupanija: n.zupanija,
+      kod: n.kod, dan: n.dan, racun: n.racun, sezona: n.sezona, igrac_id: n.igracId, nadimak: n.nadimak, zupanija: n.zupanija,
       protivnik_id: n.protivnikId, protivnik_bot: n.protivnikBot,
     }).select("*").single();
     if (error) {

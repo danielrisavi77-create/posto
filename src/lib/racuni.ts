@@ -28,6 +28,8 @@ export type Stavka = {
 export type JavnaStavka = Omit<Stavka, "c" | "izv">;
 
 export type Racun = {
+  /** Stabilna oznaka: sprema se uz igru i nikad se ne mijenja ni ne koristi ponovno. */
+  id: string;
   naslov: string;
   god: string;
   prica: string;
@@ -64,6 +66,7 @@ const SLUZBENA_2016 = { p: 0.421, t: "Službena inflacija, 10/2016. do 9/2026. (
 
 export const RACUNI: Racun[] = [
   {
+    id: "jakna-2016",
     naslov: "Račun iz zimske jakne",
     god: "listopad 2016.",
     prica: "Našao si ga u džepu jakne koju nisi obukao od 2016. Plaćeno u kunama. Koliko bi iste stvari platio danas?",
@@ -77,6 +80,7 @@ export const RACUNI: Racun[] = [
     finale: { kat: "Druga strana računa", ime: "Prosječna neto plaća", opis: "Mjesečno, Hrvatska (2026.: lipanj, DZS)", god: "2016.", kn: null, st: 749, c: 1555, max: 3000, k: 10, f: 5, cijeli: true, izv: "tg", rijec: "Plaća" },
   },
   {
+    id: "pretinac-auta",
     naslov: "Ulaznice iz pretinca auta",
     god: "kunski dani",
     prica: "Iz pretinca za rukavice ispale su stare ulaznice i jedna uplatnica. Sve plaćeno u kunama. Pošto je to danas?",
@@ -90,6 +94,7 @@ export const RACUNI: Racun[] = [
     finale: { kat: "Druga strana računa", ime: "Kvadrat novog stana", opis: "Prosjek Hrvatske, 1 m² (2026.: prvo polugodište)", god: "2016.", kn: null, st: 1332, c: 3012, max: 6000, k: 50, f: 10, cijeli: true, izv: "tg", rijec: "Kvadrat stana" },
   },
   {
+    id: "bakina-ladica",
     naslov: "Račun iz bakine ladice",
     god: "listopad 2016.",
     prica: "Baka čuva sve račune. Ovaj je iz 2016. i još se vidi svaka kuna. Reci joj koliko to košta danas, ali nježno.",
@@ -104,6 +109,7 @@ export const RACUNI: Racun[] = [
   },
   {
     // Izvor za ove četiri stavke navodi cijene iz 2016. samo u eurima; kune su preračunate po fiksnom tečaju 7,5345.
+    id: "ceker-plac",
     naslov: "Ceker s placa",
     god: "listopad 2016.",
     prica: "Na dnu starog cekera ostao je papirić na kojem je kumica zbrojila račun. Olovkom, u kunama. Koliko bi ti danas zbrojila?",
@@ -118,10 +124,16 @@ export const RACUNI: Racun[] = [
   },
 ];
 
-/** Račun za zadani dan. Dok nema više sadržaja, računi se vrte u krug. */
+/** Račun koji NOVA igra dobiva na zadani dan. Dok nema više sadržaja, računi se vrte u krug.
+ *  Za već započetu igru uvijek koristi racunIgre(): raspored se mijenja kad se doda sadržaj. */
 export function racunZaDan(dan: number): Racun {
   const n = RACUNI.length;
   return RACUNI[(((dan - 1) % n) + n) % n];
+}
+
+/** Račun po kojem je igra stvarno odigrana (spremljena oznaka), neovisno o današnjem rasporedu. */
+export function racunIgre(igra: { dan: number; racun: string }): Racun {
+  return RACUNI.find((r) => r.id === igra.racun) ?? racunZaDan(igra.dan);
 }
 
 export function setRacuna(r: Racun): Stavka[] {
@@ -134,5 +146,5 @@ function javna(s: Stavka): JavnaStavka {
 }
 
 export function javniRacun(r: Racun): JavniRacun {
-  return { naslov: r.naslov, god: r.god, prica: r.prica, mjesovit: r.sluzbena === null, set: setRacuna(r).map(javna) };
+  return { id: r.id, naslov: r.naslov, god: r.god, prica: r.prica, mjesovit: r.sluzbena === null, set: setRacuna(r).map(javna) };
 }

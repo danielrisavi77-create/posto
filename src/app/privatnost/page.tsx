@@ -28,7 +28,7 @@ export default function Privatnost() {
         </p>
 
         <h2 className="naslov-bloka">IP adresa</h2>
-        <p>Radi zaštite od zlouporabe brojimo zahtjeve po mreži. IP adresu ne spremamo u izvornom obliku, nego samo njezin sažetak, i brišemo ga unutar jednog dana.</p>
+        <p>Radi zaštite od zlouporabe brojimo zahtjeve po mreži. IP adresu ne spremamo u izvornom obliku, nego samo njezin sažetak, i brišemo ga najkasnije unutar dva dana.</p>
 
         <h2 className="naslov-bloka">Tvoja prava</h2>
         <p>

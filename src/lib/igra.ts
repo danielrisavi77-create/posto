@@ -4,7 +4,7 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { bodovi, razred, rng, runda, zaokruzi, type Razred } from "./bodovanje";
 import { danBroj, sezona } from "./dan";
 import { pohrana, type Bot, type Igra } from "./pohrana";
-import { IZVORI, racunZaDan, setRacuna, type Izvor, type Stavka } from "./racuni";
+import { IZVORI, racunIgre, racunZaDan, setRacuna, type Izvor, type Stavka } from "./racuni";
 import { jeZupanija } from "./zupanije";
 
 export const KOLACIC_IGRAC = "posto_id";
@@ -48,7 +48,8 @@ export function ocistiNadimak(s: string): string {
 async function kljucMreze(): Promise<string> {
   const h = await headers();
   const ip = h.get("x-nf-client-connection-ip") ?? h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? h.get("x-real-ip") ?? "nepoznato";
-  const sol = process.env.POSTO_SOL ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? "razvoj";
+  // || umjesto ??: prazna varijabla (POSTO_SOL= u .env) mora se ponašati kao da je nema.
+  const sol = process.env.POSTO_SOL || process.env.SUPABASE_SERVICE_ROLE_KEY || "razvoj";
   return createHash("sha256").update(`${sol}:${ip}`).digest("hex").slice(0, 32);
 }
 
@@ -84,11 +85,11 @@ function bot(dan: number, set: Stavka[]): Bot {
 export async function protivnikIgre(igra: Igra): Promise<Protivnik> {
   if (igra.protivnikId) {
     const p = await pohrana().igraPoId(igra.protivnikId);
-    if (p && p.gotovo) return { ime: p.nadimak || "Anonimni kupac", zupanija: p.zupanija, bot: false, pogodci: p.pogodci };
+    if (p && p.gotovo && p.racun === igra.racun) return { ime: p.nadimak || "Anonimni kupac", zupanija: p.zupanija, bot: false, pogodci: p.pogodci };
   }
   if (igra.protivnikBot) return { ime: igra.protivnikBot.ime, zupanija: "računalo", bot: true, pogodci: igra.protivnikBot.pogodci };
   // Protivnik je obrisan, a bota nema: deterministički zamjenski bot da igra ne pukne.
-  const set = setRacuna(racunZaDan(igra.dan));
+  const set = setRacuna(racunIgre(igra));
   const r = rng(igra.dan * 7919 + 1);
   return { ime: "Blagajnica Ruža", zupanija: "računalo", bot: true, pogodci: set.map((a) => (a.cijeli ? Math.round(a.c * (0.8 + r() * 0.4)) : zaokruzi(a.c * (0.8 + r() * 0.4)))) };
 }
@@ -98,7 +99,7 @@ export function otkrij(a: Stavka, moj: number, njegov: number): Otkrivanje {
 }
 
 export function otkrivenoDoSad(igra: Igra, prot: Protivnik): Otkrivanje[] {
-  const set = setRacuna(racunZaDan(igra.dan));
+  const set = setRacuna(racunIgre(igra));
   return igra.pogodci.map((p, i) => otkrij(set[i], p, prot.pogodci[i]));
 }
 
@@ -110,33 +111,40 @@ export async function zapocni(zupanija: string, nadimakSirovi: string): Promise<
   const db = pohrana();
   const kolacici = await cookies();
 
+  const dan = danBroj();
   let id = await igracId();
+  if (id) {
+    const postojeca = await db.igraZaDan(id, dan);
+    if (postojeca) return { igra: postojeca };
+  }
+
+  // Najviše 30 novih računa na sat po mreži: štiti ligu od ponavljanja igre brisanjem kolačića.
+  // Provjera ide prije ikakvog upisa, pa odbijeni zahtjev ne ostavlja ni red u tablici igrača.
+  if (!(await unutarGranice("start", 30, 3600))) return { greska: PREVISE };
+
   if (!id) {
     id = randomUUID();
     kolacici.set(KOLACIC_IGRAC, id, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 * 24 * 400 });
   }
   await db.spremiIgraca({ id, nadimak, zupanija });
-
-  const dan = danBroj();
-  const postojeca = await db.igraZaDan(id, dan);
-  if (postojeca) return { igra: postojeca };
-
-  // Najviše 30 novih računa na sat po mreži: štiti ligu od ponavljanja igre brisanjem kolačića.
-  if (!(await unutarGranice("start", 30, 3600))) return { greska: PREVISE };
+  const racun = racunZaDan(dan);
 
   // Protivnik: 1) onaj tko te izazvao linkom, 2) nasumičan stvarni igrač iz druge županije, 3) računalo.
   let protivnikId: string | null = null;
   const izazov = kolacici.get(KOLACIC_IZAZOV)?.value;
   if (izazov && KOD.test(izazov)) {
     const iz = await db.igraPoKodu(izazov);
-    if (iz && iz.gotovo && iz.dan === dan && iz.igracId !== id) protivnikId = iz.id;
+    if (iz && iz.gotovo && iz.dan === dan && iz.racun === racun.id && iz.igracId !== id) protivnikId = iz.id;
     kolacici.delete(KOLACIC_IZAZOV);
   }
-  if (!protivnikId) protivnikId = (await db.nasumicniProtivnik(dan, zupanija, id))?.id ?? null;
+  if (!protivnikId) {
+    const p = await db.nasumicniProtivnik(dan, zupanija, id);
+    if (p && p.racun === racun.id) protivnikId = p.id;
+  }
 
-  const set = setRacuna(racunZaDan(dan));
+  const set = setRacuna(racun);
   const igra = await db.stvoriIgru({
-    kod: noviKod(), dan, sezona: sezona(), igracId: id, nadimak, zupanija,
+    kod: noviKod(), dan, racun: racun.id, sezona: sezona(), igracId: id, nadimak, zupanija,
     protivnikId, protivnikBot: protivnikId ? null : bot(dan, set),
   });
   return { igra };
@@ -153,7 +161,7 @@ export async function pogodiRundu(indeks: number, vrijednost: number): Promise<R
   const igra = await db.igraZaDan(id, dan);
   if (!igra) return { greska: "Današnji račun još nisi otvorio. Osvježi stranicu." };
 
-  const set = setRacuna(racunZaDan(dan));
+  const set = setRacuna(racunIgre(igra));
   if (!Number.isInteger(indeks) || indeks < 0 || indeks >= set.length) return { greska: "Neispravna runda." };
   const a = set[indeks];
   if (!Number.isFinite(vrijednost) || vrijednost < 0 || vrijednost > a.max) return { greska: "Cijena je izvan raspona." };
@@ -180,7 +188,7 @@ export async function sazetakIzazova(kod: string): Promise<Sazetak | null> {
   if (!KOD.test(kod)) return null;
   const g = await pohrana().igraPoKodu(kod);
   if (!g || !g.gotovo) return null;
-  const racun = racunZaDan(g.dan);
+  const racun = racunIgre(g);
   const set = setRacuna(racun);
   return {
     ime: g.nadimak || "Anonimni kupac", zupanija: g.zupanija, ukupno: g.ukupno,
