@@ -167,17 +167,11 @@ export function Igra(p: Props) {
 
           {otkriveno.slice(0, i).map((x, j) => (
             <div className="proslo" key={set[j].ime}>
-              <div className="red">
-                <span>{set[j].ime}</span>
-                <span>
-                  {x.dupla ? "dupla " : ""}+{x.bodovi}
-                </span>
-              </div>
-              <div className="trag">
-                <span>{nekad(set[j])}</span>
-                <span className={"ruka" + (x.razred === "g" ? "" : " krizano")}>{eur(x.moj, set[j].cijeli)}</span>
-                <span className="ruka crv">{eur(x.prava, set[j].cijeli)}</span>
-              </div>
+              <span className="ime">{set[j].ime}</span>
+              <span className="ruka crv">{eur(x.prava, set[j].cijeli)}</span>
+              <span className="bod">
+                {x.dupla ? "×2 " : ""}+{x.bodovi}
+              </span>
             </div>
           ))}
           {i > 0 ? <hr className="crta" /> : null}
@@ -268,66 +262,57 @@ export function Igra(p: Props) {
                 <p className="rast">{Math.abs(rast) < 0.005 ? `isto kao ${a.god}` : `${post(rast)} u odnosu na ${a.god}`}</p>
               )}
               {suparnik && faza === "pitanje" ? <p className="ruka olo ceka-te">{suparnik}: cijena je već upisana.</p> : null}
+              {prot?.bot && i === 1 ? <p className="sitno">Danas si među prvima, pa igraš protiv računala. Čim netko drugi završi račun, dvoboji su stvarni.</p> : null}
             </>
           )}
         </section>
       </div>
 
-      {o ? (
-        <>
-          {greska ? (
-            <p className="greska na-stolu" role="alert">
-              {greska}
-            </p>
-          ) : null}
-          <button className="tipka na-stolu-tipka" onClick={dalje} disabled={ceka}>
+      <div className="traka-dolje">
+        {greska ? (
+          <p className="greska" role="alert">
+            {greska}
+          </p>
+        ) : null}
+        {o ? (
+          <button className="tipka" onClick={dalje} disabled={ceka}>
             {ceka ? "Upisujem" : trebaZupaniju ? "Upiši i nastavi" : i === zadnja ? "Izdaj račun" : i === zadnja - 1 ? "Okreni račun" : "Sljedeća stavka"}
           </button>
-        </>
-      ) : (
-        <div className="alat">
-          <div className="klizac">
-            <label htmlFor="klizac">Povuci na današnju cijenu</label>
-            <input
-              type="range"
-              id="klizac"
-              min={0}
-              max={a.max}
-              step={a.k}
-              value={pogodak}
-              onChange={(e) => setPogodak(zaokruzi(parseFloat(e.target.value)))}
-              disabled={ceka || faza !== "pitanje"}
-            />
-            <div className="raspon">
-              <span>{eur(0, a.cijeli)}</span>
-              <span>{eur(a.max, a.cijeli)}</span>
-            </div>
-            <div className="fino">
-              <button type="button" onClick={() => pomak(-1)} disabled={ceka || faza !== "pitanje"} aria-label={`Smanji za ${eur(a.f, a.cijeli)}`}>
-                − {eur(a.f, a.cijeli)}
+        ) : (
+          <>
+            <div className="klizac">
+              <button type="button" className="korak" onClick={() => pomak(-1)} disabled={ceka || faza !== "pitanje"} aria-label={`Smanji za ${eur(a.f, a.cijeli)}`}>
+                −
               </button>
-              <button type="button" onClick={() => pomak(1)} disabled={ceka || faza !== "pitanje"} aria-label={`Povećaj za ${eur(a.f, a.cijeli)}`}>
-                + {eur(a.f, a.cijeli)}
+              <input
+                type="range"
+                id="klizac"
+                aria-label="Današnja cijena"
+                min={0}
+                max={a.max}
+                step={a.k}
+                value={pogodak}
+                onChange={(e) => setPogodak(zaokruzi(parseFloat(e.target.value)))}
+                disabled={ceka || faza !== "pitanje"}
+              />
+              <button type="button" className="korak" onClick={() => pomak(1)} disabled={ceka || faza !== "pitanje"} aria-label={`Povećaj za ${eur(a.f, a.cijeli)}`}>
+                +
               </button>
             </div>
-          </div>
-          {!duplaIskoristena ? (
-            <button type="button" className={"dupla" + (dupla ? " da" : "")} aria-pressed={dupla} onClick={() => setDupla(!dupla)} disabled={ceka || faza !== "pitanje"}>
-              <b>{dupla ? "Dupla je na ovoj stavci" : "Igraj duplu na ovu stavku"}</b>
-              <span>Jednom po računu. Unutar 15 % cijene bodovi se udvostruče, inače nula.</span>
-            </button>
-          ) : null}
-          {greska ? (
-            <p className="greska na-stolu" role="alert">
-              {greska}
-            </p>
-          ) : null}
-          <button className="tipka na-stolu-tipka" onClick={zakljucaj} disabled={ceka || faza !== "pitanje"}>
-            {ceka || faza === "stanka" ? "Provjeravam" : "Zaključaj cijenu"}
-          </button>
-          {prot?.bot && i === 1 ? <p className="napomena na-stolu">Danas si među prvima, pa igraš protiv računala. Čim netko drugi završi račun, dvoboji su stvarni.</p> : null}
-        </div>
-      )}
+            {dupla ? <p className="dupla-opis">Dupla: unutar 15 % cijene bodovi se udvostruče, inače nula.</p> : null}
+            <div className="potvrda">
+              {!duplaIskoristena ? (
+                <button type="button" className={"dupla" + (dupla ? " da" : "")} aria-pressed={dupla} onClick={() => setDupla(!dupla)} disabled={ceka || faza !== "pitanje"}>
+                  Dupla ×2
+                </button>
+              ) : null}
+              <button className="tipka" onClick={zakljucaj} disabled={ceka || faza !== "pitanje"}>
+                {ceka || faza === "stanka" ? "Provjeravam" : "Zaključaj cijenu"}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }

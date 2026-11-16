@@ -60,6 +60,7 @@ export default async function Pocetna() {
             <li>Na računu su četiri stvari sa starim cijenama u kunama, a peta je na poleđini.</li>
             <li>Za svaku povučeš klizač na cijenu koju misliš da ima danas.</li>
             <li>Što si bliže, to više bodova. Jedan pokušaj dnevno, novi račun u ponoć.</li>
+            <li>Jednom po računu možeš igrati duplu: dvostruki bodovi ako si unutar 15 % cijene, inače nula.</li>
           </ol>
         </section>
       ) : null}

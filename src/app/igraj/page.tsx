@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Igra } from "@/components/Igra";
-import { StariRacun, Vrh } from "@/components/Zajednicko";
+import { Vrh } from "@/components/Zajednicko";
 import { danBroj } from "@/lib/dan";
 import { igracId, otkrivenoDoSad, protivnikIgre } from "@/lib/igra";
 import { pohrana } from "@/lib/pohrana";
@@ -26,12 +26,9 @@ export default async function Igraj() {
     <>
       <Vrh />
       <section className="na-stolu uvod-igre">
-        <span className="napomena">Račun br. {dan}</span>
         <h1 className="naslov">{racun.naslov}</h1>
-        <p className="prica">{racun.prica}</p>
+        {!igra ? <p className="prica">{racun.prica}</p> : null}
       </section>
-
-      <StariRacun racun={racun} />
 
       <Igra
         key="igra"

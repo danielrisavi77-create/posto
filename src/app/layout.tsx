@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import { ZvukGumb } from "@/components/ZvukGumb";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,7 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="app">
           {children}
           <footer className="podnozje">
-            Koristimo samo kolačiće nužne za igru. <Link href="/privatnost">Privatnost</Link>. Cijene: <Link href="/izvori">izvori i metoda</Link>.
+            <p>
+              Koristimo samo kolačiće nužne za igru. <Link href="/privatnost">Privatnost</Link>. Cijene: <Link href="/izvori">izvori i metoda</Link>.
+            </p>
+            <ZvukGumb />
           </footer>
         </main>
       </body>

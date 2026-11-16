@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { kune, zbroj } from "@/lib/bodovanje";
 import type { JavniRacun } from "@/lib/racuni";
-import { ZvukGumb } from "./ZvukGumb";
 
 export function Vrh() {
   return (
@@ -10,11 +9,9 @@ export function Vrh() {
         Pošto?
       </Link>
       <nav className="izbornik" aria-label="Glavni izbornik">
-        <Link href="/igraj">Igraj</Link>
         <Link href="/ljestvica">Ljestvice</Link>
         <Link href="/liga">Lige</Link>
         <Link href="/ja">Ja</Link>
-        <ZvukGumb />
       </nav>
     </header>
   );

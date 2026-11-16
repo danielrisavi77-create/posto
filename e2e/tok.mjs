@@ -18,13 +18,13 @@ const greske = [];
 async function stranica() {
   const ctx = await br.createBrowserContext();
   const p = await ctx.newPage();
-  await p.setViewport({ width: 420, height: 900 });
+  await p.setViewport({ width: 390, height: 780 });
   p.on("pageerror", (e) => greske.push(String(e)));
   p.on("response", (r) => r.status() >= 400 && greske.push(`HTTP ${r.status()} ${r.url()}`));
   return p;
 }
 const tekst = (p, sel) => p.$eval(sel, (e) => e.innerText);
-const slika = (p, ime) => (SLIKE ? p.screenshot({ path: `${SLIKE}/${ime}.png`, fullPage: true }) : null);
+const slika = (p, ime) => (SLIKE ? p.screenshot({ path: `${SLIKE}/${ime}.png`, fullPage: !process.env.POSTO_E2E_EKRAN }) : null);
 
 async function igraj(p, zupanija, nadimak, faktor, o = {}) {
   for (let i = 0; i < 5; i++) {
@@ -44,11 +44,11 @@ async function igraj(p, zupanija, nadimak, faktor, o = {}) {
     }, faktor);
     if (i === o.duplaNa) await p.click("button.dupla");
     if (i === 1 && o.slike) await slika(p, "pitanje");
-    await p.click(".alat > button.tipka");
+    await p.click(".traka-dolje button.tipka");
     await p.waitForSelector(".ispravak");
     if (i === 0) {
       if (o.bezZupanije) {
-        await p.click("#app > button.tipka");
+        await p.click(".traka-dolje button.tipka");
         await p.waitForSelector(".greska");
         ok(/županij/i.test(await tekst(p, ".greska")), "bez županije se ne može na drugu stavku");
       }
@@ -60,7 +60,7 @@ async function igraj(p, zupanija, nadimak, faktor, o = {}) {
       await new Promise((r) => setTimeout(r, 900));
       await slika(p, "otkrivanje");
     }
-    await p.click("#app > button.tipka");
+    await p.click(".traka-dolje button.tipka");
   }
   await p.waitForSelector(RACUN);
 }
