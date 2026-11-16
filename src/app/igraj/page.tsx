@@ -25,15 +25,12 @@ export default async function Igraj() {
   return (
     <>
       <Vrh />
-      <section className="na-stolu uvod-igre">
-        <h1 className="naslov">{racun.naslov}</h1>
-        {!igra ? <p className="prica">{racun.prica}</p> : null}
-      </section>
-
       <Igra
         key="igra"
         dan={dan}
         naslov={racun.naslov}
+        prica={racun.prica}
+        god={racun.god}
         set={racun.set}
         pocetno={igra && prot ? otkrivenoDoSad(igra, prot) : []}
         protivnik={prot ? { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot } : null}

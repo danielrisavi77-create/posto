@@ -27,6 +27,8 @@ const tekst = (p, sel) => p.$eval(sel, (e) => e.innerText);
 const slika = (p, ime) => (SLIKE ? p.screenshot({ path: `${SLIKE}/${ime}.png`, fullPage: !process.env.POSTO_E2E_EKRAN }) : null);
 
 async function igraj(p, zupanija, nadimak, faktor, o = {}) {
+  const pocni = await p.$("button.pocni");
+  if (pocni) await pocni.click();
   for (let i = 0; i < 5; i++) {
     await p.waitForSelector("#klizac:not([disabled])");
     if (i === o.refreshNa) {
@@ -70,8 +72,12 @@ ok(/Derbi dana/.test(await tekst(a, "#app")), "početna najavljuje derbi dana");
 await slika(a, "pocetna");
 await Promise.all([a.waitForNavigation(), a.click('a.tipka[href="/igraj"]')]);
 ok(new URL(a.url()).pathname === "/igraj", "tipka s početne vodi na zasebnu stranicu igre");
-ok((await a.$("#klizac")) !== null && (await a.$("#zupanija")) === null, "prva stavka je odmah na stranici igre, bez obrasca");
+ok((await a.$("button.pocni")) !== null && (await a.$("#zupanija")) === null, "igra počinje pričom o računu, bez obrasca");
 await slika(a, "igraj");
+await a.click("button.pocni");
+await a.waitForSelector("#klizac:not([disabled])");
+ok((await a.$(".vinjeta")) !== null, "stavka ima vinjetu");
+await slika(a, "prva");
 ok((await a.$(".mjerilo")) !== null && (await a.$$(".skokovi button")).length === 5, "cijena se bira mjernom trakom i brzim skokovima");
 await a.click(".skokovi button:nth-child(3)");
 ok(/\+(49|50|51)\s%/.test(await tekst(a, ".rast")), "brzi skok postavlja cijenu u odnosu na staru");

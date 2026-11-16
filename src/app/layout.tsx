@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#C9D6EA" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#E6ECE1" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -24,9 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=Caveat:wght@600;700&family=Inconsolata:wdth,wght@75..100,400..700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600..900;1,600..900&family=Instrument+Sans:wght@400..700&display=swap"
           rel="stylesheet"
         />
+        {/* Vinjete: bolje kratko prazno mjesto nego šareni sistemski emoji dok se font ne učita. */}
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Emoji:wght@400&display=block" rel="stylesheet" />
       </head>
       <body>
         <main id="app">

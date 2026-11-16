@@ -6,12 +6,16 @@ import { pogodi } from "@/app/akcije";
 import { PECAT, dosjetka, eur, kune, post, zaokruzi } from "@/lib/bodovanje";
 import type { JavniProtivnik, Otkrivanje } from "@/lib/igra";
 import type { JavnaStavka } from "@/lib/racuni";
+import { slicica } from "@/lib/slicice";
 import { Mjerilo } from "./Mjerilo";
 import { sviraj } from "./zvuk";
 
 type Props = {
   dan: number;
   naslov: string;
+  /** uvodna priča računa; bez nje (izazov) igra kreće odmah od prve stavke */
+  prica?: string;
+  god?: string;
   set: JavnaStavka[];
   /** runde koje su već odigrane (refresh usred igre nastavlja gdje je stao) */
   pocetno: Otkrivanje[];
@@ -27,7 +31,8 @@ function nekad(a: JavnaStavka): string {
   return a.kn != null ? kune(a.kn) : eur(a.st, a.cijeli);
 }
 
-const STANKA_MS = 750;
+// Najkraće trajanje "blagajna provjerava": teče od klika, usporedno sa zahtjevom, pa ne produljuje čekanje.
+const STANKA_MS = 400;
 
 export function Igra(p: Props) {
   const { dan, naslov, set } = p;
@@ -40,6 +45,7 @@ export function Igra(p: Props) {
   const [faza, setFaza] = useState<"pitanje" | "stanka" | "otkriveno">("pitanje");
   const [i, setI] = useState(pocetniIndeks);
   const [pogodak, setPogodak] = useState(set[pocetniIndeks].st);
+  const [uvod, setUvod] = useState(!!p.prica && p.pocetno.length === 0 && !p.protivnik);
   const [dupla, setDupla] = useState(false);
   const [duplaIskoristena, setDuplaIskoristena] = useState(p.duplaIskoristena);
   const [prot, setProt] = useState<JavniProtivnik | null>(p.protivnik);
@@ -68,26 +74,28 @@ export function Igra(p: Props) {
   function zakljucaj() {
     if (ceka || faza !== "pitanje") return;
     setGreska(null);
+    const kliknuto = Date.now();
+    setFaza("stanka");
+    sviraj("pisac");
     startTransition(async () => {
       try {
         const r = await pogodi(i, pogodak, dupla, i === 0 ? p.izazov : undefined);
         if ("greska" in r) {
           setGreska(r.greska);
+          setFaza("pitanje");
           return;
         }
         setOtkriveno((stari) => (stari.length > i ? stari : [...stari, r.otkrivanje]));
         setProt(r.protivnik);
         if (r.otkrivanje.dupla) setDuplaIskoristena(true);
-        // Kratka stanka prije ispravka: napetost, i vrijeme da "blagajna provjeri".
-        setFaza("stanka");
-        sviraj("pisac");
         const smanjeno = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
         stanka.current = setTimeout(() => {
           setFaza("otkriveno");
           sviraj(r.otkrivanje.razred === "g" || r.otkrivanje.razred === "y" ? "kasa" : r.otkrivanje.razred === "r" ? "promasaj" : "pisac");
-        }, smanjeno ? 0 : STANKA_MS);
+        }, smanjeno ? 0 : Math.max(0, STANKA_MS - (Date.now() - kliknuto)));
       } catch {
         setGreska("Veza je pukla. Provjeri internet pa pokušaj ponovno.");
+        setFaza("pitanje");
       }
     });
   }
@@ -111,6 +119,50 @@ export function Igra(p: Props) {
   const isto = Math.abs(skok) < 0.005;
   const rast = pogodak / a.st - 1;
   const rundaTekst = !o ? "" : o.ishod === 1 ? "Runda tebi." : o.ishod === -1 ? (prot?.bot ? "Runda Ruži." : "Runda njemu.") : "Neriješeno.";
+
+  if (uvod) {
+    const stare = set.slice(0, zadnja);
+    return (
+      <>
+        <div className="list">
+          <section className="papir stari" aria-label="Pronađeni račun">
+            <div className="stavka-glava">
+              <div className="vinjeta" aria-hidden="true">
+                <span>🧾</span>
+              </div>
+              <div>
+                <span className="kat">
+                  Račun br. {dan}
+                  {p.god ? `, ${p.god}` : ""}
+                </span>
+                <h1 className="artikl">{naslov}</h1>
+              </div>
+            </div>
+            <p className="prica">{p.prica}</p>
+            <hr className="crta" />
+            {stare.map((x) => (
+              <div className="red" key={x.ime}>
+                <span>
+                  <span className="mala-slicica" aria-hidden="true">
+                    {slicica(x.ime)}
+                  </span>
+                  {x.ime}
+                </span>
+                <span>{nekad(x)}</span>
+              </div>
+            ))}
+            <hr className="crta" />
+            <p className="sitno">Četiri stavke i jedno pitanje na poleđini. Za svaku kažeš koliko košta danas, u eurima.</p>
+          </section>
+        </div>
+        <div className="traka-dolje">
+          <button className="tipka pocni" onClick={() => setUvod(false)}>
+            Otvori račun
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -149,17 +201,24 @@ export function Igra(p: Props) {
           {i > 0 ? <hr className="crta" /> : null}
 
           <div ref={sidro} className="sidro" />
-          <span className="kat">
-            {i < zadnja ? `Stavka ${i + 1} od ${zadnja}` : "Poleđina računa"}, {a.kat.toLowerCase()}
-          </span>
-          <h2 className="artikl">{a.ime}</h2>
-          <p className="sitno">{a.opis}</p>
-          <div className="red">
-            <span>Cijena {a.god}</span>
+          <div className="stavka-glava">
+            <div className="vinjeta" aria-hidden="true">
+              <span>{slicica(a.ime)}</span>
+            </div>
+            <div>
+              <span className="kat">
+                {i < zadnja ? `Stavka ${i + 1} od ${zadnja}` : "Poleđina računa"}, {a.kat.toLowerCase()}
+              </span>
+              <h2 className="artikl">{a.ime}</h2>
+              <p className="sitno">{a.opis}</p>
+            </div>
+          </div>
+          <div className="red nekad">
             <span>
-              {nekad(a)}
-              {a.kn != null ? ` (${eur(a.st)})` : ""}
+              Plaćeno {a.god}
+              {a.kn != null ? <small>to je {eur(a.st)}</small> : null}
             </span>
+            <b>{nekad(a)}</b>
           </div>
 
           {o ? (
@@ -170,6 +229,11 @@ export function Igra(p: Props) {
                 <span className={"naljepnica lupi" + (isto ? " isto" : "")}>{isto ? "ista cijena" : post(skok)}</span>
               </div>
               <p className="ruka crv komentar">{dosjetka(o.razred, o.moj, o.prava, dan + i)}</p>
+              {a.kn != null && o.prava > 0 ? (
+                <p className="kupovna">
+                  {a.st >= o.prava ? `Tvojih ${kune(a.kn)} i danas plati cijelu stavku.` : `Tvojih ${kune(a.kn)} danas plati ${Math.round((a.st / o.prava) * 100)} % ove stavke.`}
+                </p>
+              ) : null}
               {prot ? (
                 <p className="ruka olo suparnik">
                   {prot.ime}: {eur(o.njegov, a.cijeli)}. {rundaTekst}
@@ -201,7 +265,7 @@ export function Igra(p: Props) {
           ) : (
             <>
               <div className="upis">
-                <span className="sitno">{a.procjena ? "Danas (procjena)" : "Danas"}</span>
+                <span>{a.kn != null ? "Koliko danas?" : "Koliko je danas?"}</span>
                 <span className="ruka" aria-live="off">
                   {eur(pogodak, a.cijeli)}
                 </span>

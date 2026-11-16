@@ -170,11 +170,9 @@ export async function zapocni(opcije: { zupanija?: string; nadimak?: string; iza
 
   const dan = danBroj();
   let id = await igracId();
-  const postojeci = id ? await db.igrac(id) : null;
-  if (id) {
-    const postojeca = await db.igraZaDan(id, dan);
-    if (postojeca) return { igra: postojeca };
-  }
+  // Upiti koji ne ovise jedan o drugom idu usporedno: svaki je jedan put do baze.
+  const [postojeci, postojeca] = id ? await Promise.all([db.igrac(id), db.igraZaDan(id, dan)]) : [null, null];
+  if (postojeca) return { igra: postojeca };
 
   // Najviše 30 novih računa na sat po mreži: štiti ligu od ponavljanja igre brisanjem kolačića.
   // Provjera ide prije ikakvog upisa, pa odbijeni zahtjev ne ostavlja ni red u tablici igrača.
@@ -186,22 +184,21 @@ export async function zapocni(opcije: { zupanija?: string; nadimak?: string; iza
   }
   const zupanija = opcije.zupanija && jeZupanija(opcije.zupanija) ? opcije.zupanija : (postojeci?.zupanija ?? "");
   const nadimak = opcije.nadimak !== undefined ? ocistiNadimak(opcije.nadimak) : (postojeci?.nadimak ?? "");
-  await db.spremiIgraca({ id, nadimak, zupanija });
   const racun = racunZaDan(dan);
+  const izazovKod = opcije.izazov ?? kolacici.get(KOLACIC_IZAZOV)?.value;
+  const noviId = id;
+  const [, iz, nasumicni] = await Promise.all([
+    db.spremiIgraca({ id: noviId, nadimak, zupanija }),
+    izazovKod && KOD.test(izazovKod) ? db.igraPoKodu(izazovKod) : null,
+    // Bez županije protivnik može biti bilo tko; "-" nije ničija županija.
+    db.nasumicniProtivnik(dan, zupanija || "-", noviId),
+  ]);
 
   // Protivnik: 1) onaj tko te izazvao linkom, 2) nasumičan stvarni igrač iz druge županije, 3) računalo.
   let protivnikId: string | null = null;
-  const izazov = opcije.izazov ?? kolacici.get(KOLACIC_IZAZOV)?.value;
-  if (izazov && KOD.test(izazov)) {
-    const iz = await db.igraPoKodu(izazov);
-    if (iz && iz.gotovo && iz.dan === dan && iz.racun === racun.id && iz.igracId !== id) protivnikId = iz.id;
-    if (kolacici.has(KOLACIC_IZAZOV)) kolacici.delete(KOLACIC_IZAZOV);
-  }
-  if (!protivnikId) {
-    // Bez županije protivnik može biti bilo tko; "-" nije ničija županija.
-    const p = await db.nasumicniProtivnik(dan, zupanija || "-", id);
-    if (p && p.racun === racun.id) protivnikId = p.id;
-  }
+  if (iz && iz.gotovo && iz.dan === dan && iz.racun === racun.id && iz.igracId !== id) protivnikId = iz.id;
+  if (kolacici.has(KOLACIC_IZAZOV)) kolacici.delete(KOLACIC_IZAZOV);
+  if (!protivnikId && nasumicni && nasumicni.racun === racun.id) protivnikId = nasumicni.id;
 
   const set = setRacuna(racun);
   const igra = await db.stvoriIgru({
@@ -214,14 +211,20 @@ export async function zapocni(opcije: { zupanija?: string; nadimak?: string; iza
 export type JavniProtivnik = { ime: string; zupanija: string; bot: boolean };
 export type RezultatPogotka = { greska: string } | { otkrivanje: Otkrivanje; gotovo: boolean; protivnik: JavniProtivnik };
 
-export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boolean): Promise<RezultatPogotka> {
-  const id = await igracId();
-  if (!id) return { greska: "Igra nije pronađena. Osvježi stranicu." };
-  if (!(await unutarGranice("pogodak", 120, 60))) return { greska: PREVISE };
+export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boolean, otvorena?: Igra): Promise<RezultatPogotka> {
   const db = pohrana();
   const dan = danBroj();
-  const igra = await db.igraZaDan(id, dan);
+  let igra = otvorena ?? null;
+  // Tek otvoren račun (prvi odgovor) već je prošao ograničenje u zapocni() i ne čita se ponovno.
+  if (!igra) {
+    const idIzKolacica = await igracId();
+    if (!idIzKolacica) return { greska: "Igra nije pronađena. Osvježi stranicu." };
+    const [smije, nadjena] = await Promise.all([unutarGranice("pogodak", 120, 60), db.igraZaDan(idIzKolacica, dan)]);
+    if (!smije) return { greska: PREVISE };
+    igra = nadjena;
+  }
   if (!igra) return { greska: "Današnji račun još nisi otvorio. Osvježi stranicu." };
+  const id = igra.igracId;
 
   const set = setRacuna(racunIgre(igra));
   if (!Number.isInteger(indeks) || indeks < 0 || indeks >= set.length) return { greska: "Neispravna runda." };
@@ -231,10 +234,16 @@ export async function pogodiRundu(indeks: number, vrijednost: number, dupla: boo
   if (dupla && igra.dupla !== null) return { greska: "Duplu si na ovom računu već iskoristio." };
   const v = zaokruzi(vrijednost);
 
-  const prot = await protivnikIgre(igra);
-  const javni = { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot };
   const zadnji = indeks === set.length - 1;
-  const nova = await db.dodajPogodak(igra.id, indeks, v, bodoviRunde(v, a.c, dupla), zadnji, dupla);
+  // Upis odgovora, protivnik i odgovori ostalih kupaca (za usporedbu) dohvaćaju se usporedno.
+  const [prot, nova] = await Promise.all([
+    protivnikIgre(igra),
+    db.dodajPogodak(igra.id, indeks, v, bodoviRunde(v, a.c, dupla), zadnji, dupla),
+    odgovoriDana(dan, igra.racun).catch(() => null),
+  ]);
+  const javni = { ime: prot.ime, zupanija: prot.zupanija, bot: prot.bot };
+  // Plaćen račun mora se odmah vidjeti u usporedbama, pa se predmemorija odgovora za taj račun prazni.
+  if (nova && zadnji) predmemorija.delete(`${dan}:${igra.racun}`);
   if (!nova) {
     // Runda je već upisana (dvostruki klik ili drugi tab): vrati ono što je spremljeno, bez novog pokušaja.
     const svjeza = await db.igraZaDan(id, dan);
@@ -253,7 +262,7 @@ export async function prviPogodak(vrijednost: number, dupla: boolean, izazov?: s
   const start = await zapocni({ izazov });
   if ("greska" in start) return { greska: start.greska };
   if (start.igra.pogodci.length > 0) return { greska: "Ovaj račun si već započeo. Osvježi stranicu." };
-  return pogodiRundu(0, vrijednost, dupla);
+  return pogodiRundu(0, vrijednost, dupla, start.igra);
 }
 
 /**
