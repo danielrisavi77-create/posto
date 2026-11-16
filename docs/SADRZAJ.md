@@ -27,9 +27,11 @@ Kad Eurostat objavi novi mjesec: preuzeti indekse (skup `prc_hicp_minr`, geo=HR,
 | Račun | Izvor | Napomena |
 |---|---|---|
 | Račun iz zimske jakne | Telegram.hr, 21. 10. 2026. | plaća za 2026. potvrđena DZS-om (lipanj) |
-| Ulaznice iz pretinca auta | TCN, Dnevnik.hr, HRT | godina cijene zidina (2019.) izvedena, članak nema datum; cijena Plitvica za 2026. iz vodiča, ne sa stranice NP-a |
-| Račun iz bakine ladice | Telegram.hr | kruh: različite vrste 2016. i 2026. |
-| Ceker s placa | Telegram.hr (TISUP) | kune preračunate; minimalna plaća nije neovisno provjerena |
+| Ulaznice iz pretinca auta | NP Plitvička jezera (službeni cjenik 2026.), TCN, Dnevnik.hr, HRT | godina cijene zidina (2019.) izvedena je iz rednog broja članka, jer članak nema datum |
+| Račun iz bakine ladice | Telegram.hr | kruh: različite vrste 2016. i 2026., piše u opisu stavke |
+| Ceker s placa | Telegram.hr (TISUP), Narodne novine | kune za tržnicu preračunate po fiksnom tečaju; minimalna plaća iz uredbi (NN 140/15 i NN 132/25) |
+
+Imena brendova nisu u igri: stavke se zovu generički ("Lješnjak-namaz", "Čajni keks s čokoladom"), a u opisu piše da je riječ o istoj marki u obje godine.
 
 ## Pravila za novi račun
 
@@ -42,5 +44,4 @@ Kad Eurostat objavi novi mjesec: preuzeti indekse (skup `prc_hicp_minr`, geo=HR,
 ## Otvoreno
 
 - Fali jedan račun do pune sezone od 30 dana (30. dan ponavlja prvi račun).
-- Stavke s napomenom u tablici provjeriti na izvornom cjeniku.
-- Imena brendova u ručnim računima (Nutella, Domaćica, Mutti): odluka s pravnikom.
+- Godina cijene dubrovačkih zidina (2019.) nije potvrđena iz datiranog izvora.

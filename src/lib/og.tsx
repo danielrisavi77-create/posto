@@ -82,7 +82,7 @@ export type PodaciIzazova = {
   dan: number;
   ukupno: number;
   razredi: Razred[];
-  /** npr. "Nutella: 4,00 €" (igračev odgovor, ne cijena) */
+  /** npr. "Krumpir: 1,20 €" (igračev odgovor, ne cijena) */
   mamac: string;
   stavke: { ime: string; razred: Razred; bodovi: number }[];
   tip: string;
